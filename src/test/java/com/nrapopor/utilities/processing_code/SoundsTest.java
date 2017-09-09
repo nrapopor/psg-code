@@ -15,7 +15,7 @@ import org.junit.Test;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>Tests for the Sounds class</DD>
  * <DT>Date:</DT>
  * <DD>Sep 4, 2017</DD>
  * </DL>
@@ -30,7 +30,7 @@ public class SoundsTest extends BasePDETestingAncestor {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add setUpBeforeClass description</DD>
+     * <DD>initialize the data directory for testing</DD>
      * <DT>Date:</DT>
      * <DD>Sep 2, 2017</DD>
      * </DL>
@@ -46,7 +46,7 @@ public class SoundsTest extends BasePDETestingAncestor {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add tearDownAfterClass description</DD>
+     * <DD>Tear down after all the tests in the class Class completed</DD>
      * <DT>Date:</DT>
      * <DD>Sep 4, 2017</DD>
      * </DL>
@@ -60,7 +60,7 @@ public class SoundsTest extends BasePDETestingAncestor {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add setUp description</DD>
+     * <DD>SetUp before each test</DD>
      * <DT>Date:</DT>
      * <DD>Sep 4, 2017</DD>
      * </DL>
@@ -74,7 +74,7 @@ public class SoundsTest extends BasePDETestingAncestor {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add tearDown description</DD>
+     * <DD>Teardown after each test</DD>
      * <DT>Date:</DT>
      * <DD>Sep 4, 2017</DD>
      * </DL>
@@ -113,10 +113,7 @@ public class SoundsTest extends BasePDETestingAncestor {
             sounds.playSound(3);
             Thread.sleep(3000); // time to p[lay the sound
         } catch (final InterruptedException ex) {
-            // TODO Auto-generated catch block
             log.info("done waiting ... "); //$NON-NLS-1$
-            //System.err.println("caught InterruptedException :"+ex.toString()); //$NON-NLS-1$
-            //ex.printStackTrace(System.err);
         }
         try {
             sounds.close();
@@ -138,10 +135,7 @@ public class SoundsTest extends BasePDETestingAncestor {
             sounds.randomIdleSound();
             Thread.sleep(3000); // time to p[lay the sound
         } catch (final InterruptedException ex) {
-            // TODO Auto-generated catch block
             log.info("done waiting ... "); //$NON-NLS-1$
-            //System.err.println("caught InterruptedException :"+ex.toString()); //$NON-NLS-1$
-            //ex.printStackTrace(System.err);
         }
         try {
             sounds.close();
@@ -162,15 +156,13 @@ public class SoundsTest extends BasePDETestingAncestor {
         final int size = sounds.getPlayers().size();
         for (int i = 1; i <= size; i++) {
             try {
+                log.info("Playing sound {}", i);
                 sounds.playSound(i);
-                Thread.sleep(3000); // time to p[lay the sound
+                Thread.sleep(3000L); // time to p[lay the sound
             } catch (final InterruptedException ex) {
-                // TODO Auto-generated catch block
                 log.info("done waiting ... "); //$NON-NLS-1$
-                //System.err.println("caught InterruptedException :"+ex.toString()); //$NON-NLS-1$
-                //ex.printStackTrace(System.err);
             }
-            log.info("Palying sound {}", i);
+            log.info("Done Playing sound {}", i);
         }
 
         try {

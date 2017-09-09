@@ -4,6 +4,9 @@
  */
 package com.nrapopor.utilities.processing_code;
 
+import com.nrapopor.utilities.processing_code.config.RuntimeSettings;
+import com.nrapopor.utilities.processing_code.config.Settings;
+
 import processing.core.PApplet;
 
 /**

@@ -9,6 +9,11 @@ import org.gamecontrolplus.ControlDevice;
 import org.gamecontrolplus.ControlIO;
 import org.gamecontrolplus.ControlSlider;
 
+import com.nrapopor.utilities.processing_code.config.ControlMode;
+import com.nrapopor.utilities.processing_code.config.Controls;
+import com.nrapopor.utilities.processing_code.config.RuntimeSettings;
+import com.nrapopor.utilities.processing_code.config.Settings;
+
 import processing.core.PApplet;
 
 /**

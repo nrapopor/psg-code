@@ -8,6 +8,14 @@ import java.io.IOException;
 
 import org.gamecontrolplus.ControlIO;
 
+import com.nrapopor.utilities.processing_code.config.ControlMode;
+import com.nrapopor.utilities.processing_code.config.Controls;
+import com.nrapopor.utilities.processing_code.config.Effects;
+import com.nrapopor.utilities.processing_code.config.IRuntimeSettingsAware;
+import com.nrapopor.utilities.processing_code.config.ISettingsAware;
+import com.nrapopor.utilities.processing_code.config.RuntimeSettings;
+import com.nrapopor.utilities.processing_code.config.Settings;
+
 import JMyron.JMyron;
 import blobDetection.Blob;
 import blobDetection.BlobDetection;

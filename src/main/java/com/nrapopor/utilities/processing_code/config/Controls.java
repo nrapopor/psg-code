@@ -2,7 +2,7 @@
  * @author ubuntu - Nick Rapoport
  * @copyright Copyright 2017 ( Sep 3, 2017 ) Nick Rapoport all rights reserved.
  */
-package com.nrapopor.utilities.processing_code;
+package com.nrapopor.utilities.processing_code.config;
 
 import java.util.List;
 

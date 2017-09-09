@@ -1,4 +1,4 @@
-package com.nrapopor.utilities.processing_code;
+package com.nrapopor.utilities.processing_code.config;
 
 import java.util.List;
 

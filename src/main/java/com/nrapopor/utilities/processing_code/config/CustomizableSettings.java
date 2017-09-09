@@ -2,7 +2,7 @@
  * @author ubuntu - Nick Rapoport
  * @copyright Copyright 2017 ( Sep 4, 2017 ) Nick Rapoport all rights reserved.
  */
-package com.nrapopor.utilities.processing_code;
+package com.nrapopor.utilities.processing_code.config;
 
 import com.google.gson.annotations.Expose;
 
@@ -28,6 +28,8 @@ public class CustomizableSettings {
     private @Expose int camHeight = 240; //   camera height (pixels),  usually 120*n
 
     private @Expose ConfigurationColor diffPixelsColor = new ConfigurationColor(255, 255, 0); // Red, green, blue values (0-255)  to show pixel as marked as target
+
+    private @Expose RunType runType = RunType.Minimal;
 
     /**
      * <DL>
@@ -94,6 +96,20 @@ public class CustomizableSettings {
      */
     public int[] getDiffPixelsColorArray() {
         return diffPixelsColor.asArray();
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the runType property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 9, 2017</DD>
+     * </DL>
+     * 
+     * @return the value of runType field
+     */
+    public RunType getRunType() {
+        return runType;
     }
 
     /**
@@ -183,6 +199,21 @@ public class CustomizableSettings {
      */
     public void setPrintFrameRate(final boolean aPrintFrameRate) {
         printFrameRate = aPrintFrameRate;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Setter for the runType property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 9, 2017</DD>
+     * </DL>
+     * 
+     * @param aRunType
+     *            new value for the runType property
+     */
+    public void setRunType(final RunType aRunType) {
+        runType = aRunType;
     }
 
 }

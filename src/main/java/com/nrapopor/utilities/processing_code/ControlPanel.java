@@ -6,6 +6,15 @@ package com.nrapopor.utilities.processing_code;
 
 import java.io.IOException;
 
+import com.nrapopor.utilities.processing_code.config.ControlMode;
+import com.nrapopor.utilities.processing_code.config.Controls;
+import com.nrapopor.utilities.processing_code.config.Effects;
+import com.nrapopor.utilities.processing_code.config.FiringMode;
+import com.nrapopor.utilities.processing_code.config.IRuntimeSettingsAware;
+import com.nrapopor.utilities.processing_code.config.ISettingsAware;
+import com.nrapopor.utilities.processing_code.config.RuntimeSettings;
+import com.nrapopor.utilities.processing_code.config.Settings;
+
 import JMyron.JMyron;
 import guicomponents.G4P;
 import guicomponents.GButton;

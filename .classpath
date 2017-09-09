@@ -27,12 +27,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/Minim"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/prodoc"/>
-	<classpathentry kind="lib" path="src/main/resources/lib/GameControlPlus.jar"/>
-	<classpathentry kind="lib" path="src/main/resources/lib/blobDetection.jar"/>
-	<classpathentry kind="lib" path="src/main/resources/lib/guicomponents.jar"/>
-	<classpathentry kind="lib" path="src/main/resources/lib/JMyron.jar"/>
 	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>

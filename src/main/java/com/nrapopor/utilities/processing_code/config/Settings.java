@@ -2,7 +2,7 @@
  * @author ubuntu - Nick Rapoport
  * @copyright Copyright 2017 ( Sep 1, 2017 ) Nick Rapoport all rights reserved.
  */
-package com.nrapopor.utilities.processing_code;
+package com.nrapopor.utilities.processing_code.config;
 
 import java.beans.Transient;
 import java.io.FileNotFoundException;
@@ -24,6 +24,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.Expose;
+import com.nrapopor.utilities.processing_code.AbstractPDE;
 
 import processing.core.PApplet;
 
@@ -134,7 +135,7 @@ public class Settings extends AbstractPDE {
      * <DD>Sep 4, 2017</DD>
      * </DL>
      *
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#flipControlMode()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#flipControlMode()
      */
     public void flipControlMode() {
         configuration.flipControlMode();
@@ -148,7 +149,7 @@ public class Settings extends AbstractPDE {
      * <DD>Sep 4, 2017</DD>
      * </DL>
      *
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#flipControls()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#flipControls()
      */
     public void flipControls() {
         configuration.flipControls();
@@ -162,7 +163,7 @@ public class Settings extends AbstractPDE {
      * <DD>Sep 4, 2017</DD>
      * </DL>
      *
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#flipxMinxMax()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#flipxMinxMax()
      */
     public void flipxMinxMax() {
         configuration.flipxMinxMax();
@@ -176,7 +177,7 @@ public class Settings extends AbstractPDE {
      * <DD>Sep 4, 2017</DD>
      * </DL>
      *
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#flipyMinyMax()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#flipyMinyMax()
      */
     public void flipyMinyMax() {
         configuration.flipyMinyMax();
@@ -191,7 +192,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getAntSens()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getAntSens()
      */
     public int getAntSens() {
         return configuration.getAntSens();
@@ -206,7 +207,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getCamHeight()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getCamHeight()
      */
     public int getCamHeight() {
         return configuration.getCamHeight();
@@ -221,7 +222,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getCamWidth()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getCamWidth()
      */
     public int getCamWidth() {
         return configuration.getCamWidth();
@@ -250,7 +251,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getControlMode()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getControlMode()
      */
     public ControlMode getControlMode() {
         return configuration.getControlMode();
@@ -265,7 +266,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getControlModeInt()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getControlModeInt()
      */
     public int getControlModeInt() {
         return configuration.getControlModeInt();
@@ -280,7 +281,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getControls()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getControls()
      */
     public Controls getControls() {
         return configuration.getControls();
@@ -295,7 +296,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getCustomizable()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getCustomizable()
      */
     public CustomizableSettings getCustomizable() {
         return configuration.getCustomizable();
@@ -310,7 +311,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getDiffPixelsColorArray()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getDiffPixelsColorArray()
      */
     public int[] getDiffPixelsColor() {
         return configuration.getDiffPixelsColorArray();
@@ -325,7 +326,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getDiffPixelsColorArray()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getDiffPixelsColorArray()
      */
     public int[] getDiffPixelsColorArray() {
         return configuration.getDiffPixelsColorArray();
@@ -340,7 +341,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getDisplayX()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getDisplayX()
      */
     public int getDisplayX() {
         return configuration.getDisplayX();
@@ -355,7 +356,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getDisplayY()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getDisplayY()
      */
     public int getDisplayY() {
         return configuration.getDisplayY();
@@ -370,7 +371,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getEffect()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getEffect()
      */
     public Effects getEffect() {
         return configuration.getEffect();
@@ -385,7 +386,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getEffectInt()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getEffectInt()
      */
     public int getEffectInt() {
         return configuration.getEffectInt();
@@ -400,7 +401,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getFiringMode()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getFiringMode()
      */
     public FiringMode getFiringMode() {
         return configuration.getFiringMode();
@@ -415,7 +416,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getFiringModeIndex()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getFiringModeIndex()
      */
     public int getFiringModeIndex() {
         return configuration.getFiringModeIndex();
@@ -430,7 +431,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getFiringModeInt()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getFiringModeInt()
      */
     public int getFiringModeInt() {
         return configuration.getFiringModeInt();
@@ -459,7 +460,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getIdleTime()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getIdleTime()
      */
     public int getIdleTime() {
         return configuration.getIdleTime();
@@ -488,7 +489,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getMinBlobArea()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getMinBlobArea()
      */
     public int getMinBlobArea() {
         return configuration.getMinBlobArea();
@@ -503,10 +504,25 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getNbDot()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getNbDot()
      */
     public int getNbDot() {
         return configuration.getNbDot();
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>A delegate method for the getNumberOfVoices method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 6, 2017</DD>
+     * </DL>
+     *
+     * @return
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getNumberOfVoices()
+     */
+    public int getNumberOfVoices() {
+        return configuration.getNumberOfVoices();
     }
 
     /**
@@ -518,7 +534,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getPropX()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getPropX()
      */
     public float getPropX() {
         return configuration.getPropX();
@@ -533,7 +549,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getPropY()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getPropY()
      */
     public float getPropY() {
         return configuration.getPropY();
@@ -548,10 +564,25 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getRendererType()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getRendererType()
      */
     public Renderers getRendererType() {
         return configuration.getRendererType();
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>A delegate method for the getRunType method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 9, 2017</DD>
+     * </DL>
+     * 
+     * @return
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getRunType()
+     */
+    public RunType getRunType() {
+        return configuration.getRunType();
     }
 
     /**
@@ -563,7 +594,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getSafeColor()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getSafeColor()
      */
     public ColorManagement getSafeColor() {
         return configuration.getSafeColor();
@@ -578,7 +609,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getSafeColorBlue()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getSafeColorBlue()
      */
     public int getSafeColorBlue() {
         return configuration.getSafeColorBlue();
@@ -593,7 +624,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getSafeColorGreen()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getSafeColorGreen()
      */
     public int getSafeColorGreen() {
         return configuration.getSafeColorGreen();
@@ -608,7 +639,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getSafeColorMinSize()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getSafeColorMinSize()
      */
     public int getSafeColorMinSize() {
         return configuration.getSafeColorMinSize();
@@ -623,7 +654,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getSafeColorRed()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getSafeColorRed()
      */
     public int getSafeColorRed() {
         return configuration.getSafeColorRed();
@@ -638,10 +669,25 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getSafeColorTolerance()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getSafeColorTolerance()
      */
     public int getSafeColorTolerance() {
         return configuration.getSafeColorTolerance();
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>A delegate method for the getSamplerDelay method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 6, 2017</DD>
+     * </DL>
+     *
+     * @return
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getSamplerDelay()
+     */
+    public long getSamplerDelay() {
+        return configuration.getSamplerDelay();
     }
 
     /**
@@ -653,7 +699,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getSmoothingFactor()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getSmoothingFactor()
      */
     public float getSmoothingFactor() {
         return configuration.getSmoothingFactor();
@@ -668,7 +714,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getSoundFiles()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getSoundFiles()
      */
     public List<String> getSoundFiles() {
         return configuration.getSoundFiles();
@@ -683,7 +729,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getSoundInterval()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getSoundInterval()
      */
     public int getSoundInterval() {
         return configuration.getSoundInterval();
@@ -698,7 +744,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getTolerance()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getTolerance()
      */
     public int getTolerance() {
         return configuration.getTolerance();
@@ -713,7 +759,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getTrackColor()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getTrackColor()
      */
     public ColorManagement getTrackColor() {
         return configuration.getTrackColor();
@@ -728,7 +774,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getTrackColorBlue()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getTrackColorBlue()
      */
     public int getTrackColorBlue() {
         return configuration.getTrackColorBlue();
@@ -743,7 +789,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getTrackColorGreen()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getTrackColorGreen()
      */
     public int getTrackColorGreen() {
         return configuration.getTrackColorGreen();
@@ -758,7 +804,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getTrackColorRed()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getTrackColorRed()
      */
     public int getTrackColorRed() {
         return configuration.getTrackColorRed();
@@ -773,7 +819,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getTrackColorTolerance()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getTrackColorTolerance()
      */
     public int getTrackColorTolerance() {
         return configuration.getTrackColorTolerance();
@@ -803,7 +849,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getWebsite()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getWebsite()
      */
     public String getWebsite() {
         return configuration.getWebsite();
@@ -818,7 +864,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getxMax()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getxMax()
      */
     public float getxMax() {
         return configuration.getxMax();
@@ -833,7 +879,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getxMin()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getxMin()
      */
     public float getxMin() {
         return configuration.getxMin();
@@ -848,7 +894,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getxRatio()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getxRatio()
      */
     public float getxRatio() {
         return configuration.getxRatio();
@@ -863,7 +909,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getyMax()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getyMax()
      */
     public float getyMax() {
         return configuration.getyMax();
@@ -878,7 +924,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getyMin()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getyMin()
      */
     public float getyMin() {
         return configuration.getyMin();
@@ -893,7 +939,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#getyRatio()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#getyRatio()
      */
     public float getyRatio() {
         return configuration.getyRatio();
@@ -908,7 +954,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isActiveSmoothing()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isActiveSmoothing()
      */
     public boolean isActiveSmoothing() {
         return configuration.isActiveSmoothing();
@@ -923,7 +969,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isLeadTarget()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isLeadTarget()
      */
     public boolean isLeadTarget() {
         return configuration.isLeadTarget();
@@ -938,7 +984,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isMirrorCam()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isMirrorCam()
      */
     public boolean isMirrorCam() {
         return configuration.isMirrorCam();
@@ -953,7 +999,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isPrintFrameRate()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isPrintFrameRate()
      */
     public boolean isPrintFrameRate() {
         return configuration.isPrintFrameRate();
@@ -968,7 +1014,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isRunWithoutArduino()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isRunWithoutArduino()
      */
     public boolean isRunWithoutArduino() {
         return configuration.isRunWithoutArduino();
@@ -983,7 +1029,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isSafeColor()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isSafeColor()
      */
     public boolean isSafeColor() {
         return configuration.isUseSafeColor();
@@ -998,7 +1044,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isSafety()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isSafety()
      */
     public boolean isSafety() {
         return configuration.isSafety();
@@ -1013,7 +1059,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isScanWhenIdle()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isScanWhenIdle()
      */
     public boolean isScanWhenIdle() {
         return configuration.isScanWhenIdle();
@@ -1028,7 +1074,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isShowCameraView()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isShowCameraView()
      */
     public boolean isShowCameraView() {
         return configuration.isShowCameraView();
@@ -1043,7 +1089,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isShowDifferentPixels()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isShowDifferentPixels()
      */
     public boolean isShowDifferentPixels() {
         return configuration.isShowDifferentPixels();
@@ -1058,7 +1104,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isShowRestrictedZones()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isShowRestrictedZones()
      */
     public boolean isShowRestrictedZones() {
         return configuration.isShowRestrictedZones();
@@ -1073,7 +1119,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isShowTargetBox()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isShowTargetBox()
      */
     public boolean isShowTargetBox() {
         return configuration.isShowTargetBox();
@@ -1088,7 +1134,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isSoundEffects()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isSoundEffects()
      */
     public boolean isSoundEffects() {
         return configuration.isSoundEffects();
@@ -1117,7 +1163,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isTrackingColor()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isTrackingColor()
      */
     public boolean isTrackingColor() {
         return configuration.isTrackingColor();
@@ -1132,7 +1178,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isTrackingMotion()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isTrackingMotion()
      */
     public boolean isTrackingMotion() {
         return configuration.isTrackingMotion();
@@ -1147,7 +1193,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isUseArrowKeys()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isUseArrowKeys()
      */
     public boolean isUseArrowKeys() {
         return configuration.isUseArrowKeys();
@@ -1162,7 +1208,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#isUseSafeColor()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#isUseSafeColor()
      */
     public boolean isUseSafeColor() {
         return configuration.isUseSafeColor();
@@ -1309,7 +1355,7 @@ public class Settings extends AbstractPDE {
      * <DD>Sep 4, 2017</DD>
      * </DL>
      *
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#radioEffect()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#radioEffect()
      */
     public void radioEffect() {
         configuration.radioEffect();
@@ -1417,7 +1463,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aActiveSmoothing
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setActiveSmoothing(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setActiveSmoothing(boolean)
      */
     public void setActiveSmoothing(final boolean aActiveSmoothing) {
         configuration.setActiveSmoothing(aActiveSmoothing);
@@ -1432,7 +1478,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aAntSens
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setAntSens(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setAntSens(int)
      */
     public void setAntSens(final int aAntSens) {
         configuration.setAntSens(aAntSens);
@@ -1447,7 +1493,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aCamHeight
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setCamHeight(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setCamHeight(int)
      */
     public void setCamHeight(final int aCamHeight) {
         configuration.setCamHeight(aCamHeight);
@@ -1462,7 +1508,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aCamWidth
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setCamWidth(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setCamWidth(int)
      */
     public void setCamWidth(final int aCamWidth) {
         configuration.setCamWidth(aCamWidth);
@@ -1492,7 +1538,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aControlMode
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setControlMode(com.nrapopor.utilities.processing_code.ControlMode)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setControlMode(com.nrapopor.utilities.processing_code.config.ControlMode)
      */
     public void setControlMode(final ControlMode aControlMode) {
         configuration.setControlMode(aControlMode);
@@ -1507,7 +1553,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aControls
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setControls(com.nrapopor.utilities.processing_code.Controls)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setControls(com.nrapopor.utilities.processing_code.config.Controls)
      */
     public void setControls(final Controls aControls) {
         configuration.setControls(aControls);
@@ -1522,7 +1568,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aCustomizable
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setCustomizable(com.nrapopor.utilities.processing_code.CustomizableSettings)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setCustomizable(com.nrapopor.utilities.processing_code.config.CustomizableSettings)
      */
     public void setCustomizable(final CustomizableSettings aCustomizable) {
         configuration.setCustomizable(aCustomizable);
@@ -1537,7 +1583,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aDiffPixelsColor
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setDiffPixelsColor(com.nrapopor.utilities.processing_code.ConfigurationColor)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setDiffPixelsColor(com.nrapopor.utilities.processing_code.config.ConfigurationColor)
      */
     public void setDiffPixelsColor(final ConfigurationColor aDiffPixelsColor) {
         configuration.setDiffPixelsColor(aDiffPixelsColor);
@@ -1552,7 +1598,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aDiffPixelsColor
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setDiffPixelsColorFromArray(int[])
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setDiffPixelsColorFromArray(int[])
      */
     public void setDiffPixelsColor(final int[] aDiffPixelsColor) {
         configuration.setDiffPixelsColorFromArray(aDiffPixelsColor);
@@ -1567,7 +1613,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aDiffPixelsColor
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setDiffPixelsColorFromArray(int[])
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setDiffPixelsColorFromArray(int[])
      */
     public void setDiffPixelsColorFromArray(final int[] aDiffPixelsColor) {
         configuration.setDiffPixelsColorFromArray(aDiffPixelsColor);
@@ -1582,7 +1628,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aEffect
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setEffect(com.nrapopor.utilities.processing_code.Effects)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setEffect(com.nrapopor.utilities.processing_code.config.Effects)
      */
     public void setEffect(final Effects aEffect) {
         configuration.setEffect(aEffect);
@@ -1597,7 +1643,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aFiringMode
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setFiringMode(com.nrapopor.utilities.processing_code.FiringMode)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setFiringMode(com.nrapopor.utilities.processing_code.config.FiringMode)
      */
     public void setFiringMode(final FiringMode aFiringMode) {
         configuration.setFiringMode(aFiringMode);
@@ -1612,7 +1658,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aIdleTime
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setIdleTime(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setIdleTime(int)
      */
     public void setIdleTime(final int aIdleTime) {
         configuration.setIdleTime(aIdleTime);
@@ -1642,7 +1688,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aLeadTarget
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setLeadTarget(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setLeadTarget(boolean)
      */
     public void setLeadTarget(final boolean aLeadTarget) {
         configuration.setLeadTarget(aLeadTarget);
@@ -1657,7 +1703,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aMinBlobArea
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setMinBlobArea(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setMinBlobArea(int)
      */
     public void setMinBlobArea(final int aMinBlobArea) {
         configuration.setMinBlobArea(aMinBlobArea);
@@ -1672,7 +1718,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aMirrorCam
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setMirrorCam(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setMirrorCam(boolean)
      */
     public void setMirrorCam(final boolean aMirrorCam) {
         configuration.setMirrorCam(aMirrorCam);
@@ -1687,10 +1733,25 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aNbDot
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setNbDot(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setNbDot(int)
      */
     public void setNbDot(final int aNbDot) {
         configuration.setNbDot(aNbDot);
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>A delegate method for the setNumberOfVoices method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 6, 2017</DD>
+     * </DL>
+     *
+     * @param aNumberOfVoices
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setNumberOfVoices(int)
+     */
+    public void setNumberOfVoices(final int aNumberOfVoices) {
+        configuration.setNumberOfVoices(aNumberOfVoices);
     }
 
     /**
@@ -1702,7 +1763,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aPrintFrameRate
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setPrintFrameRate(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setPrintFrameRate(boolean)
      */
     public void setPrintFrameRate(final boolean aPrintFrameRate) {
         configuration.setPrintFrameRate(aPrintFrameRate);
@@ -1717,7 +1778,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aPropX
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setPropX(float)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setPropX(float)
      */
     public void setPropX(final float aPropX) {
         configuration.setPropX(aPropX);
@@ -1732,7 +1793,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aPropY
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setPropY(float)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setPropY(float)
      */
     public void setPropY(final float aPropY) {
         configuration.setPropY(aPropY);
@@ -1747,10 +1808,25 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aRendererType
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setRendererType(com.nrapopor.utilities.processing_code.Renderers)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setRendererType(com.nrapopor.utilities.processing_code.config.Renderers)
      */
     public void setRendererType(final Renderers aRendererType) {
         configuration.setRendererType(aRendererType);
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>A delegate method for the setRunType method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 9, 2017</DD>
+     * </DL>
+     * 
+     * @param aRunType
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setRunType(com.nrapopor.utilities.processing_code.config.RunType)
+     */
+    public void setRunType(final RunType aRunType) {
+        configuration.setRunType(aRunType);
     }
 
     /**
@@ -1762,7 +1838,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aRunWithoutArduino
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setRunWithoutArduino(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setRunWithoutArduino(boolean)
      */
     public void setRunWithoutArduino(final boolean aRunWithoutArduino) {
         configuration.setRunWithoutArduino(aRunWithoutArduino);
@@ -1777,7 +1853,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aSafeColor
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setSafeColor(com.nrapopor.utilities.processing_code.ColorManagement)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setSafeColor(com.nrapopor.utilities.processing_code.config.ColorManagement)
      */
     public void setSafeColor(final ColorManagement aSafeColor) {
         configuration.setSafeColor(aSafeColor);
@@ -1792,7 +1868,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aSafeColorBlue
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setSafeColorBlue(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setSafeColorBlue(int)
      */
     public void setSafeColorBlue(final int aSafeColorBlue) {
         configuration.setSafeColorBlue(aSafeColorBlue);
@@ -1807,7 +1883,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aSafeColorGreen
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setSafeColorGreen(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setSafeColorGreen(int)
      */
     public void setSafeColorGreen(final int aSafeColorGreen) {
         configuration.setSafeColorGreen(aSafeColorGreen);
@@ -1822,7 +1898,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aSafeColorMinSize
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setSafeColorMinSize(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setSafeColorMinSize(int)
      */
     public void setSafeColorMinSize(final int aSafeColorMinSize) {
         configuration.setSafeColorMinSize(aSafeColorMinSize);
@@ -1837,7 +1913,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aSafeColorRed
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setSafeColorRed(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setSafeColorRed(int)
      */
     public void setSafeColorRed(final int aSafeColorRed) {
         configuration.setSafeColorRed(aSafeColorRed);
@@ -1852,7 +1928,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aSafeColorTolerance
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setSafeColorTolerance(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setSafeColorTolerance(int)
      */
     public void setSafeColorTolerance(final int aSafeColorTolerance) {
         configuration.setSafeColorTolerance(aSafeColorTolerance);
@@ -1867,10 +1943,25 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aSafety
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setSafety(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setSafety(boolean)
      */
     public void setSafety(final boolean aSafety) {
         configuration.setSafety(aSafety);
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>A delegate method for the setSamplerDelay method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 6, 2017</DD>
+     * </DL>
+     *
+     * @param aSamplerDelay
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setSamplerDelay(long)
+     */
+    public void setSamplerDelay(final long aSamplerDelay) {
+        configuration.setSamplerDelay(aSamplerDelay);
     }
 
     /**
@@ -1882,7 +1973,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aScanWhenIdle
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setScanWhenIdle(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setScanWhenIdle(boolean)
      */
     public void setScanWhenIdle(final boolean aScanWhenIdle) {
         configuration.setScanWhenIdle(aScanWhenIdle);
@@ -1897,7 +1988,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aShowCameraView
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setShowCameraView(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setShowCameraView(boolean)
      */
     public void setShowCameraView(final boolean aShowCameraView) {
         configuration.setShowCameraView(aShowCameraView);
@@ -1912,7 +2003,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aShowDifferentPixels
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setShowDifferentPixels(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setShowDifferentPixels(boolean)
      */
     public void setShowDifferentPixels(final boolean aShowDifferentPixels) {
         configuration.setShowDifferentPixels(aShowDifferentPixels);
@@ -1927,7 +2018,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aShowRestrictedZones
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setShowRestrictedZones(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setShowRestrictedZones(boolean)
      */
     public void setShowRestrictedZones(final boolean aShowRestrictedZones) {
         configuration.setShowRestrictedZones(aShowRestrictedZones);
@@ -1942,7 +2033,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aShowTargetBox
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setShowTargetBox(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setShowTargetBox(boolean)
      */
     public void setShowTargetBox(final boolean aShowTargetBox) {
         configuration.setShowTargetBox(aShowTargetBox);
@@ -1957,7 +2048,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aSmoothingFactor
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setSmoothingFactor(float)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setSmoothingFactor(float)
      */
     public void setSmoothingFactor(final float aSmoothingFactor) {
         configuration.setSmoothingFactor(aSmoothingFactor);
@@ -1972,7 +2063,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aSoundEffects
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setSoundEffects(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setSoundEffects(boolean)
      */
     public void setSoundEffects(final boolean aSoundEffects) {
         configuration.setSoundEffects(aSoundEffects);
@@ -1987,7 +2078,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aSoundFiles
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setSoundFiles(java.util.List)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setSoundFiles(java.util.List)
      */
     public void setSoundFiles(final List<String> aSoundFiles) {
         configuration.setSoundFiles(aSoundFiles);
@@ -2002,7 +2093,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aSoundInterval
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setSoundInterval(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setSoundInterval(int)
      */
     public void setSoundInterval(final int aSoundInterval) {
         configuration.setSoundInterval(aSoundInterval);
@@ -2032,7 +2123,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aTolerance
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setTolerance(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setTolerance(int)
      */
     public void setTolerance(final int aTolerance) {
         configuration.setTolerance(aTolerance);
@@ -2047,7 +2138,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aTrackColor
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setTrackColor(com.nrapopor.utilities.processing_code.ColorManagement)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setTrackColor(com.nrapopor.utilities.processing_code.config.ColorManagement)
      */
     public void setTrackColor(final ColorManagement aTrackColor) {
         configuration.setTrackColor(aTrackColor);
@@ -2062,7 +2153,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aTrackColorBlue
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setTrackColorBlue(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setTrackColorBlue(int)
      */
     public void setTrackColorBlue(final int aTrackColorBlue) {
         configuration.setTrackColorBlue(aTrackColorBlue);
@@ -2077,7 +2168,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aTrackColorGreen
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setTrackColorGreen(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setTrackColorGreen(int)
      */
     public void setTrackColorGreen(final int aTrackColorGreen) {
         configuration.setTrackColorGreen(aTrackColorGreen);
@@ -2094,7 +2185,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aTrackColorRed
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setTrackColorRed(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setTrackColorRed(int)
      */
     public void setTrackColorRed(final int aTrackColorRed) {
         configuration.setTrackColorRed(aTrackColorRed);
@@ -2109,7 +2200,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aTrackColorTolerance
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setTrackColorTolerance(int)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setTrackColorTolerance(int)
      */
     public void setTrackColorTolerance(final int aTrackColorTolerance) {
         configuration.setTrackColorTolerance(aTrackColorTolerance);
@@ -2124,7 +2215,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aTrackingColor
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setTrackingColor(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setTrackingColor(boolean)
      */
     public void setTrackingColor(final boolean aTrackingColor) {
         configuration.setTrackingColor(aTrackingColor);
@@ -2139,7 +2230,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aTrackingMotion
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setTrackingMotion(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setTrackingMotion(boolean)
      */
     public void setTrackingMotion(final boolean aTrackingMotion) {
         configuration.setTrackingMotion(aTrackingMotion);
@@ -2314,7 +2405,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aUseArrowKeys
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setUseArrowKeys(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setUseArrowKeys(boolean)
      */
     public void setUseArrowKeys(final boolean aUseArrowKeys) {
         configuration.setUseArrowKeys(aUseArrowKeys);
@@ -2462,7 +2553,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aSafeColor
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setUseSafeColor(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setUseSafeColor(boolean)
      */
     public void setUseSafeColor(final boolean aSafeColor) {
         configuration.setUseSafeColor(aSafeColor);
@@ -2477,7 +2568,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aWebsite
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setWebsite(java.lang.String)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setWebsite(java.lang.String)
      */
     public void setWebsite(final String aWebsite) {
         configuration.setWebsite(aWebsite);
@@ -2492,7 +2583,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aXMax
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setxMax(float)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setxMax(float)
      */
     public void setxMax(final float aXMax) {
         configuration.setxMax(aXMax);
@@ -2507,7 +2598,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aXMin
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setxMin(float)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setxMin(float)
      */
     public void setxMin(final float aXMin) {
         configuration.setxMin(aXMin);
@@ -2522,7 +2613,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aYMax
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setyMax(float)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setyMax(float)
      */
     public void setyMax(final float aYMax) {
         configuration.setyMax(aYMax);
@@ -2537,7 +2628,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aYMin
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#setyMin(float)
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#setyMin(float)
      */
     public void setyMin(final float aYMin) {
         configuration.setyMin(aYMin);
@@ -2551,7 +2642,7 @@ public class Settings extends AbstractPDE {
      * <DD>Sep 4, 2017</DD>
      * </DL>
      *
-     * @see com.nrapopor.utilities.processing_code.ConfigurationSettings#toggleUseArrowKeys()
+     * @see com.nrapopor.utilities.processing_code.config.ConfigurationSettings#toggleUseArrowKeys()
      */
     public void toggleUseArrowKeys() {
         configuration.toggleUseArrowKeys();

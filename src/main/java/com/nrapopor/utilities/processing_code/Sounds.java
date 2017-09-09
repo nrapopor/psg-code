@@ -3,8 +3,11 @@ package com.nrapopor.utilities.processing_code;
 import java.util.ArrayList;
 import java.util.List;
 
-import ddf.minim.AudioSample;
+import com.nrapopor.utilities.processing_code.config.Settings;
+
+import ddf.minim.AudioOutput;
 import ddf.minim.Minim;
+import ddf.minim.ugens.Sampler;
 
 public class Sounds extends AbstractPDE implements AutoCloseable {
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Sounds.class);
@@ -15,20 +18,25 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
 
     private int soundInterval = 1000;
 
+    private int numberOfVoices = 4;
+
     private boolean soundEffects = false; // set to true to enable sound effects by default
 
-    Minim minim;
+    private Minim minim;
+
+    private volatile AudioOutput out;
 
     final Settings settings;
 
-    final List<AudioSample> players = new ArrayList<>(NUMBER_OF_SOUNDS);
+    final List<Sampler> players = new ArrayList<>(NUMBER_OF_SOUNDS);
 
     public Sounds(final PSGProcessingCode aParent) {
         super(aParent);
-        minim = new Minim(aParent);
-        //int seq = 1; //the old naming scheme started with 1
         settings = aParent.getSettings();
         resetSettingsManagedFields(true);
+        log.debug("Using Sounds {}", soundEffects);
+        initMinim();
+        //int seq = 1; //the old naming scheme started with 1
     }
 
     /**
@@ -44,7 +52,9 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
     @Override
     public void close() throws Exception {
         closePlayers();
-        getMinim().stop();
+        if (getMinim() != null) {
+            getMinim().stop();
+        }
     }
 
     /**
@@ -57,13 +67,13 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
      */
     private void closePlayers() {
         if (!players.isEmpty()) {
-            for (final AudioSample audioSample : players) {
-                try {
-                    audioSample.close();
-                } catch (final Exception ex) {
-                    log.error("caught Exception while closing a player :", ex); //$NON-NLS-1$
-                }
-            }
+            //            for (final AudioSample audioSample : players) {
+            //                try {
+            //                    audioSample.close();
+            //                } catch (final Exception ex) {
+            //                    log.error("caught Exception while closing a player :", ex); //$NON-NLS-1$
+            //                }
+            //            }
             players.clear();
         }
     }
@@ -80,7 +90,7 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
      * @return
      * @see java.util.List#get(int)
      */
-    protected AudioSample get(final int index) {
+    protected Sampler get(final int index) {
         int idx = index;
         if (idx == 0) {
             idx = 1;
@@ -112,10 +122,10 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
      * <DT>Date:</DT>
      * <DD>Sep 5, 2017</DD>
      * </DL>
-     * 
+     *
      * @return the value of players field
      */
-    public List<AudioSample> getPlayers() {
+    public List<Sampler> getPlayers() {
         return players;
     }
 
@@ -176,6 +186,26 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
     /**
      * <DL>
      * <DT>Description:</DT>
+     * <DD>TODO add initMinim description</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 9, 2017</DD>
+     * </DL>
+     *
+     * @param aParent
+     */
+    private void initMinim() {
+        if (soundEffects) {
+            minim = new Minim(getParent());
+            out = minim.getLineOut();
+        } else {
+            minim = null;
+            out = null;
+        }
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
      * <DD>Test to see if it's time to make sounds ...</DD>
      * <DT>Date:</DT>
      * <DD>Sep 3, 2017</DD>
@@ -215,8 +245,26 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
     public void playSound(final int sound) {
         resetSettingsManagedFields(false);
         if (soundEffects) {
-            final AudioSample player = get(sound);
-            player.trigger();
+            final Sampler sampler = get(sound);
+            sampler.patch(out);
+            sampler.trigger();
+            new Thread(() -> {
+                try {
+                    Thread.sleep(getSettings().getSamplerDelay());
+                } catch (final InterruptedException ex) {
+                    Sounds.log.debug("caught InterruptedException :", ex); //$NON-NLS-1$
+                } finally {
+                    synchronized (sampler) {
+                        sampler.unpatch(out);
+                    }
+                }
+            }).start();
+            //            try {
+            //                Thread.sleep(2000);
+            //            } catch (final InterruptedException ex) {
+            //                log.debug("caught InterruptedException :", ex); //$NON-NLS-1$
+            //            }
+            //            player.unpatch(out);
         }
     }
 
@@ -245,7 +293,7 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
      * <DD>Sep 4, 2017</DD>
      * </DL>
      *
-     * @param force
+     * @param init
      *            <DL>
      *            <DT><code>true</code></DT>
      *            <DD>force the reset</DD>
@@ -253,17 +301,22 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
      *            <DD>do not force the reset. it may still happen</DD>
      *            </DL>
      */
-    private void resetSettingsManagedFields(final boolean force) {
-
-        if (getSettings().isSoundsUpdate() || force || players.isEmpty()) {
+    private void resetSettingsManagedFields(final boolean init) {
+        soundInterval = settings.getSoundInterval();
+        soundEffects = settings.isSoundEffects() && settings.getRunType().isSoundsAvailable();
+        numberOfVoices = settings.getNumberOfVoices();
+        if (soundEffects && (getSettings().isSoundsUpdate() || init || players.isEmpty())) {
+            if (soundEffects && getMinim() == null) {
+                //we must have turned on sounds mid run
+                initMinim();
+            }
             closePlayers();
             for (final String sound : settings.getSoundFiles()) {
-                players.add(minim.loadSample(sound));
+                //players.add(minim.loadSample(sound));
+                players.add(new Sampler(sound, numberOfVoices, minim));
             }
             getSettings().setSoundsUpdate(false);
         }
-        soundInterval = settings.getSoundInterval();
-        soundEffects = settings.isSoundEffects();
     }
 
 }

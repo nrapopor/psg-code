@@ -2,7 +2,7 @@
  * @author ubuntu - Nick Rapoport
  * @copyright Copyright 2017 ( Sep 4, 2017 ) Nick Rapoport all rights reserved.
  */
-package com.nrapopor.utilities.processing_code;
+package com.nrapopor.utilities.processing_code.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,11 +30,12 @@ public class ConfigurationSettings {
     //   Begin custom values - change these camera dimensions to work with your turret
     //   <===============================================================================================>
 
-    private String comments_default = ""//
+    private final String comments_default = ""//
         + "printFrameRate=set to true to print the framerate at the bottom of the IDE window, default: false;" //$NON-NLS-1$
         + "camWidth=camera width (pixels),   usually 160*n, default: 320;" //$NON-NLS-1$
         + "camHeight=camera height (pixels),  usually 120*n, default: 240;" //$NON-NLS-1$
         + "diffPixelsColor=Red, green, blue values (0-255) to show pixel as marked as target, default: {255, 255, 0};" //$NON-NLS-1$
+        + "runtType=the level of resouces to use for this run: one of Full, Minimal, MinimalWithSounds. default: Minimal;" //$NON-NLS-1$
         + "effect=one of Opaque, Transparent, Negative, NegativeAndTransparent, default: Opaque;" //$NON-NLS-1$
         + "mirrorCam=set true to mirror camera image;" //$NON-NLS-1$
         + "xMin=calibration default: 0.0;" //$NON-NLS-1$
@@ -44,7 +45,7 @@ public class ConfigurationSettings {
         + "minBlobArea=minimum target size (pixels) default: 30;" //$NON-NLS-1$
         + "tolerance=sensitivity to motion default: 100;" //$NON-NLS-1$
         + "runWithoutArduino=If Arduino board is not available default: false;" //$NON-NLS-1$
-        + "rendererType=one of P2D, P3D, OPENGL, FX2D, PDF, SVG, DXF default: P2D;" //$NON-NLS-1$
+        + "rendererType=The type of render to use (this is a Processing display option). One of P2D, P3D, OPENGL, FX2D, PDF, SVG, DXF default: P2D;" //$NON-NLS-1$
         + "smoothingFactor=smoothing factor, default: 0.8f;" //$NON-NLS-1$
         + "firingMode=One of Automatic, SemiAuto default: SemiAuto;" //$NON-NLS-1$
         + "safety=Enable the weapon (allow to fire), default: true;" //$NON-NLS-1$
@@ -61,11 +62,13 @@ public class ConfigurationSettings {
         + "propX=proportionality of anticipation 1 is Width / more is Less, default:0.67;" //$NON-NLS-1$
         + "propY=proportionality of anticipation 1 is Hight / more is Less, default: 0.11;" //$NON-NLS-1$
         + "soundInterval=simple counter limit that will determine how often to play a random sound (if enabled) default: 1000;" //$NON-NLS-1$
+        + "numberOfVoices=The number of voices passed to the Sampler (see Minim documentation) , default: 4;" //$NON-NLS-1$
+        + "samplerDelay=Time (in milliseconds) to wait to unpatch a Sampler (see Minim documentation), default: 2500;" //$NON-NLS-1$
         + "soundFiles=list of sound files that will play sounds for both random and as a response to activity if sounds are enabled, order is important;" //$NON-NLS-1$
     ;
 
-    private @Expose Map<String, String> comments = Arrays.stream(comments_default.split(";")).map(s -> s.split("="))
-        .collect(Collectors.toMap( //
+    private final @Expose Map<String, String> comments = Arrays.stream(comments_default.split(";"))
+        .map(s -> s.split("=")).collect(Collectors.toMap( //
             a -> a[0], //key
             a -> a[1], //value
             (u, v) -> {
@@ -176,6 +179,10 @@ public class ConfigurationSettings {
 
     private @Expose int soundInterval = 1000;
 
+    private @Expose int numberOfVoices = 4;
+
+    private @Expose long samplerDelay = 2500;
+
     private @Expose List<String> soundFiles = new ArrayList<>(Arrays.asList( //
         "data/your business is appreciated.wav", //$NON-NLS-1$
         "data/who's there.wav", //$NON-NLS-1$
@@ -227,22 +234,6 @@ public class ConfigurationSettings {
         setControlMode(ControlMode.flip(getControlMode()));
     }
 
-    //    private @Expose int trackColorRed = 255;
-
-    //    private @Expose int trackColorGreen = 255;
-
-    //    private @Expose int trackColorBlue = 255;
-
-    //    private @Expose int safeColorMinSize = 500;
-
-    //    private @Expose int safeColorTolerance = 100;
-
-    //    private @Expose int safeColorRed = 0;
-
-    //   private @Expose int safeColorGreen = 255;
-
-    //    private @Expose int safeColorBlue = 0;
-
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -285,8 +276,6 @@ public class ConfigurationSettings {
         setyMax(oldyMin);
     }
 
-    //private @Expose boolean useInputDevice = false; // use a joystick or game Controller as input (in manual mode) now it's controls enum
-
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -301,6 +290,22 @@ public class ConfigurationSettings {
         return antSens;
     }
 
+    //    private @Expose int trackColorRed = 255;
+
+    //    private @Expose int trackColorGreen = 255;
+
+    //    private @Expose int trackColorBlue = 255;
+
+    //    private @Expose int safeColorMinSize = 500;
+
+    //    private @Expose int safeColorTolerance = 100;
+
+    //    private @Expose int safeColorRed = 0;
+
+    //   private @Expose int safeColorGreen = 255;
+
+    //    private @Expose int safeColorBlue = 0;
+
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -310,7 +315,7 @@ public class ConfigurationSettings {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.CustomizableSettings#getCamHeight()
+     * @see com.nrapopor.utilities.processing_code.config.CustomizableSettings#getCamHeight()
      */
     public int getCamHeight() {
         return customizable.getCamHeight();
@@ -325,7 +330,7 @@ public class ConfigurationSettings {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.CustomizableSettings#getCamWidth()
+     * @see com.nrapopor.utilities.processing_code.config.CustomizableSettings#getCamWidth()
      */
     public int getCamWidth() {
         return customizable.getCamWidth();
@@ -344,6 +349,8 @@ public class ConfigurationSettings {
     public ControlMode getControlMode() {
         return controlMode;
     }
+
+    //private @Expose boolean useInputDevice = false; // use a joystick or game Controller as input (in manual mode) now it's controls enum
 
     /**
      * <DL>
@@ -387,8 +394,6 @@ public class ConfigurationSettings {
         return customizable;
     }
 
-    //private int soundTimer = 0;
-
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -398,7 +403,7 @@ public class ConfigurationSettings {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.CustomizableSettings#getDiffPixelsColor()
+     * @see com.nrapopor.utilities.processing_code.config.CustomizableSettings#getDiffPixelsColor()
      */
     public ConfigurationColor getDiffPixelsColor() {
         return customizable.getDiffPixelsColor();
@@ -413,7 +418,7 @@ public class ConfigurationSettings {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.CustomizableSettings#getDiffPixelsColorArray()
+     * @see com.nrapopor.utilities.processing_code.config.CustomizableSettings#getDiffPixelsColorArray()
      */
     public int[] getDiffPixelsColorArray() {
         return customizable.getDiffPixelsColorArray();
@@ -431,6 +436,64 @@ public class ConfigurationSettings {
      */
     public int getDisplayX() {
         return getCamWidth() / 2;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the displayY property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 1, 2017</DD>
+     * </DL>
+     *
+     * @return the value of displayY field
+     */
+    public int getDisplayY() {
+        return getCamHeight() / 2;
+    }
+
+    //private int soundTimer = 0;
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the effect property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 4, 2017</DD>
+     * </DL>
+     *
+     * @return the value of effect field
+     */
+    public Effects getEffect() {
+        return effect;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the effect property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 1, 2017</DD>
+     * </DL>
+     *
+     * @return the value of effect field
+     */
+    public int getEffectInt() {
+        return getEffect().getId();
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the firingMode property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 4, 2017</DD>
+     * </DL>
+     *
+     * @return the value of firingMode field
+     */
+    public FiringMode getFiringMode() {
+        return firingMode;
     }
 
     //    /**
@@ -508,62 +571,6 @@ public class ConfigurationSettings {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>Getter for the displayY property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 1, 2017</DD>
-     * </DL>
-     *
-     * @return the value of displayY field
-     */
-    public int getDisplayY() {
-        return getCamHeight() / 2;
-    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
-     * <DD>Getter for the effect property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 4, 2017</DD>
-     * </DL>
-     *
-     * @return the value of effect field
-     */
-    public Effects getEffect() {
-        return effect;
-    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
-     * <DD>Getter for the effect property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 1, 2017</DD>
-     * </DL>
-     *
-     * @return the value of effect field
-     */
-    public int getEffectInt() {
-        return getEffect().getId();
-    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
-     * <DD>Getter for the firingMode property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 4, 2017</DD>
-     * </DL>
-     *
-     * @return the value of firingMode field
-     */
-    public FiringMode getFiringMode() {
-        return firingMode;
-    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
      * <DD>Getter for the firingMode index property (used with the drop down in the ControlPanel</DD>
      * <DT>Date:</DT>
      * <DD>Sep 1, 2017</DD>
@@ -634,6 +641,20 @@ public class ConfigurationSettings {
     /**
      * <DL>
      * <DT>Description:</DT>
+     * <DD>Getter for the numberOfVoices property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 6, 2017</DD>
+     * </DL>
+     *
+     * @return the value of numberOfVoices field
+     */
+    public int getNumberOfVoices() {
+        return numberOfVoices;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
      * <DD>Getter for the propX property</DD>
      * <DT>Date:</DT>
      * <DD>Sep 4, 2017</DD>
@@ -671,6 +692,21 @@ public class ConfigurationSettings {
      */
     public Renderers getRendererType() {
         return rendererType;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>A delegate method for the getRunType method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 9, 2017</DD>
+     * </DL>
+     *
+     * @return
+     * @see com.nrapopor.utilities.processing_code.config.CustomizableSettings#getRunType()
+     */
+    public RunType getRunType() {
+        return customizable.getRunType();
     }
 
     /**
@@ -755,6 +791,20 @@ public class ConfigurationSettings {
      */
     public int getSafeColorTolerance() {
         return getSafeColor().getTolerance();
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the samplerDelay property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 6, 2017</DD>
+     * </DL>
+     *
+     * @return the value of samplerDelay field
+     */
+    public long getSamplerDelay() {
+        return samplerDelay;
     }
 
     /**
@@ -1032,7 +1082,7 @@ public class ConfigurationSettings {
      * </DL>
      *
      * @return
-     * @see com.nrapopor.utilities.processing_code.CustomizableSettings#isPrintFrameRate()
+     * @see com.nrapopor.utilities.processing_code.config.CustomizableSettings#isPrintFrameRate()
      */
     public boolean isPrintFrameRate() {
         return customizable.isPrintFrameRate();
@@ -1259,7 +1309,7 @@ public class ConfigurationSettings {
      * </DL>
      *
      * @param aCamHeight
-     * @see com.nrapopor.utilities.processing_code.CustomizableSettings#setCamHeight(int)
+     * @see com.nrapopor.utilities.processing_code.config.CustomizableSettings#setCamHeight(int)
      */
     public void setCamHeight(final int aCamHeight) {
         customizable.setCamHeight(aCamHeight);
@@ -1274,7 +1324,7 @@ public class ConfigurationSettings {
      * </DL>
      *
      * @param aCamWidth
-     * @see com.nrapopor.utilities.processing_code.CustomizableSettings#setCamWidth(int)
+     * @see com.nrapopor.utilities.processing_code.config.CustomizableSettings#setCamWidth(int)
      */
     public void setCamWidth(final int aCamWidth) {
         customizable.setCamWidth(aCamWidth);
@@ -1334,7 +1384,7 @@ public class ConfigurationSettings {
      * </DL>
      *
      * @param aDiffPixelsColor
-     * @see com.nrapopor.utilities.processing_code.CustomizableSettings#setDiffPixelsColor(com.nrapopor.utilities.processing_code.ConfigurationColor)
+     * @see com.nrapopor.utilities.processing_code.config.CustomizableSettings#setDiffPixelsColor(com.nrapopor.utilities.processing_code.config.ConfigurationColor)
      */
     public void setDiffPixelsColor(final ConfigurationColor aDiffPixelsColor) {
         customizable.setDiffPixelsColor(aDiffPixelsColor);
@@ -1349,7 +1399,7 @@ public class ConfigurationSettings {
      * </DL>
      *
      * @param aDiffPixelsColor
-     * @see com.nrapopor.utilities.processing_code.CustomizableSettings#setDiffPixelsColorFromArray(int[])
+     * @see com.nrapopor.utilities.processing_code.config.CustomizableSettings#setDiffPixelsColorFromArray(int[])
      */
     public void setDiffPixelsColorFromArray(final int[] aDiffPixelsColor) {
         customizable.setDiffPixelsColorFromArray(aDiffPixelsColor);
@@ -1463,13 +1513,28 @@ public class ConfigurationSettings {
     /**
      * <DL>
      * <DT>Description:</DT>
+     * <DD>Setter for the numberOfVoices property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 6, 2017</DD>
+     * </DL>
+     *
+     * @param aNumberOfVoices
+     *            new value for the numberOfVoices property
+     */
+    public void setNumberOfVoices(final int aNumberOfVoices) {
+        numberOfVoices = aNumberOfVoices;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
      * <DD>A delegate method for the setPrintFrameRate method</DD>
      * <DT>Date:</DT>
      * <DD>Sep 4, 2017</DD>
      * </DL>
      *
      * @param aPrintFrameRate
-     * @see com.nrapopor.utilities.processing_code.CustomizableSettings#setPrintFrameRate(boolean)
+     * @see com.nrapopor.utilities.processing_code.config.CustomizableSettings#setPrintFrameRate(boolean)
      */
     public void setPrintFrameRate(final boolean aPrintFrameRate) {
         customizable.setPrintFrameRate(aPrintFrameRate);
@@ -1518,6 +1583,21 @@ public class ConfigurationSettings {
      */
     public void setRendererType(final Renderers aRendererType) {
         rendererType = aRendererType;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>A delegate method for the setRunType method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 9, 2017</DD>
+     * </DL>
+     *
+     * @param aRunType
+     * @see com.nrapopor.utilities.processing_code.config.CustomizableSettings#setRunType(com.nrapopor.utilities.processing_code.config.RunType)
+     */
+    public void setRunType(final RunType aRunType) {
+        customizable.setRunType(aRunType);
     }
 
     /**
@@ -1638,6 +1718,21 @@ public class ConfigurationSettings {
      */
     public void setSafety(final boolean aSafety) {
         safety = aSafety;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Setter for the samplerDelay property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 6, 2017</DD>
+     * </DL>
+     *
+     * @param aSamplerDelay
+     *            new value for the samplerDelay property
+     */
+    public void setSamplerDelay(final long aSamplerDelay) {
+        samplerDelay = aSamplerDelay;
     }
 
     /**

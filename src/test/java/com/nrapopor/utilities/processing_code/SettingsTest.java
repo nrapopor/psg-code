@@ -14,6 +14,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.nrapopor.utilities.processing_code.config.Settings;
+
 /**
  * <DL>
  * <DT>Description:</DT>
@@ -88,7 +90,7 @@ public class SettingsTest extends BasePDETestingAncestor {
     }
 
     /**
-     * Test method for {@link com.nrapopor.utilities.processing_code.Settings#LoadSettings()}.
+     * Test method for {@link com.nrapopor.utilities.processing_code.config.Settings#LoadSettings()}.
      */
     @Test
     public void testLoadSettingsWhenFileEmpty() {
@@ -115,7 +117,7 @@ public class SettingsTest extends BasePDETestingAncestor {
     }
 
     /**
-     * Test method for {@link com.nrapopor.utilities.processing_code.Settings#LoadSettings()}.
+     * Test method for {@link com.nrapopor.utilities.processing_code.config.Settings#LoadSettings()}.
      */
     @Test
     public void testLoadSettingsWhenFileMissing() {
@@ -141,7 +143,7 @@ public class SettingsTest extends BasePDETestingAncestor {
     }
 
     /**
-     * Test method for {@link com.nrapopor.utilities.processing_code.Settings#saveSettings(java.lang.String)}.
+     * Test method for {@link com.nrapopor.utilities.processing_code.config.Settings#saveSettings(java.lang.String)}.
      */
     @Test
     public void testSaveSettingsString() { //TODO Start Here extract the ConfigurationSettings object mark it exportable
