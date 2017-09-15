@@ -19,6 +19,9 @@ public void retryArduinoConnect() {
       println("no Arduino detected. Will run without Arduino. Cheers");
     }
     for (i = 0; i < len; i++) {
+      if (Serial.list()[i].equalsIgnoreCase("/dev/ttyS0")) {
+          continue;
+      }
       println("Testing port " + Serial.list()[i]);
       arduinoPort = new Serial(this, Serial.list()[i], 4800);      // Open 1st port in list
       millisStart = millis();
@@ -36,8 +39,8 @@ public void retryArduinoConnect() {
           break;        //leave for loop
         }
       }
-			else
-			arduinoPort.stop();      //if no 'T', stop port
+      else 
+        arduinoPort.stop();      //if no 'T', stop port
       if (i == len - 1) {
         runWithoutArduino = true;
         println("no Arduino detected. Will run without Arduino. Cheers");

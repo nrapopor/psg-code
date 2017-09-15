@@ -1,35 +1,45 @@
+
+//import guicomponents.*;
+
+
+
 /*
  -------------------- Project Sentry Gun --------------------
  ============================================================
  ----- An Open-Source Project, initiated by Bob Rudolph -----
-
-
+ 
+ 
  Help & Reference: http://projectsentrygun.rudolphlabs.com/make-your-own/using-the-software
  Forum: http://projectsentrygun.rudolphlabs.com/forum
-
-
+ 
+ 
  A few keyboard shortcuts:
  press 'p' for a random sound effect
  press 'b' to set background image
  hold 'r' and click+drag to form a rectangle  "fire-restricted" zone
  press SPACEBAR to toggle manual/autonomous modes
  press SHIFT to toggle arrow-key aiming in manual mode
-
+ 
  */
 
 
- //   <===============================================================================================>
- //   Begin custom values - change these camera dimensions to work with your turret
- //   <===============================================================================================>
+//   <===============================================================================================>
+//   Begin custom values - change these camera dimensions to work with your turret
+//   <===============================================================================================>
 
 public int camWidth = 320;                   //   camera width (pixels),   usually 160*n
 public int camHeight = 240;                  //   camera height (pixels),  usually 120*n
 
- //   <===============================================================================================>
- //   End custom values
- //   <===============================================================================================>
+public boolean use_surf = false; //Use Surf Classifier to search for Reference Object
+public int surf_sensivity = 3; //Recognition Sensitivity lower=higher sensivity=higher false positives
+//public String surfRefFile = "D:/Sentry/robot_live2.jpg"; //Reference frame to recognize
+public String surfRefFile = "data/robot_image.jpg"; //Reference frame to recognize
 
-boolean PRINT_FRAMERATE = false;     // set to true to print the framerate at the bottom of the IDE window
+//   <===============================================================================================>
+//   End custom values
+//   <===============================================================================================>
+
+boolean PRINT_FRAMERATE = true;     // set to true to print the framerate at the bottom of the IDE window
 
 int[] diffPixelsColor = {
   255, 255, 0
@@ -38,29 +48,116 @@ public int effect = 0;                // Effect
 
 public boolean mirrorCam = false;            //   set true to mirror camera image
 
-public float xMin = 0.0;      //  Actual calibration values are loaded from "settings.txt".
-public float xMax = 180.0;//  If "settings.txt" is borken / unavailable, these defaults are used instead -
-public float yMin = 0.0;      //  otherwise, changing these lines will have no effect on your gun's calibration.
-public float yMax = 180.0;    //
+public float xMin = 40.0;      //  Actual calibration values are loaded from "settings.txt".
+public float xMax = 140.0;    //  If "settings.txt" is borken / unavailable, these defaults are used instead - 
+public float yMin = 75.0;      //  otherwise, changing these lines will have no effect on your gun's calibration.
+public float yMax = 105.0;    //
 
-import JMyron.*;
+//import JMyron.*;
+import g4p_controls.*;
+import gohai.glvideo.*;
 import blobDetection.*;
 import processing.serial.*;
 import ddf.minim.*;
+import ddf.minim.ugens.*;
 import java.awt.Frame;
-import processing.opengl.*;// see note on OpenGL in void setup()
-import procontroll.*;
+import processing.opengl.*;                  // see note on OpenGL in void setup() 
 import net.java.games.input.*;
+import org.gamecontrolplus.*;
+import org.gamecontrolplus.gui.*;
+import org.apache.commons.math.optimization.linear.*;
+import org.apache.commons.math.stat.clustering.*;
+import org.apache.commons.math.stat.descriptive.summary.*;
+import org.junit.runner.manipulation.*;
+import junit.runner.*;
+import com.stromberglabs.util.*;
+import org.apache.commons.math.analysis.polynomials.*;
+import org.hamcrest.internal.*;
+import junit.extensions.*;
+import org.apache.commons.math.analysis.integration.*;
+import junit.framework.*;
+import org.apache.commons.math.stat.inference.*;
+import org.junit.runners.*;
+import org.apache.commons.math.stat.*;
+import org.apache.commons.math.complex.*;
+import org.apache.commons.math.stat.descriptive.*;
+import org.apache.commons.math.ode.jacobians.*;
+import org.junit.experimental.max.*;
+import org.junit.runners.model.*;
+import org.apache.commons.math.special.*;
+import org.apache.commons.math.stat.descriptive.rank.*;
+import org.junit.internal.runners.statements.*;
+import org.apache.commons.math.*;
+import org.apache.commons.math.stat.correlation.*;
+import org.junit.internal.matchers.*;
+import org.junit.experimental.theories.internal.*;
+import org.junit.runner.notification.*;
+import org.apache.commons.math.stat.regression.*;
+import org.junit.runner.*;
+import org.junit.internal.runners.model.*;
+import org.junit.*;
+import org.apache.commons.math.util.*;
+import org.junit.experimental.theories.suppliers.*;
+import org.apache.commons.math.analysis.solvers.*;
+import org.apache.commons.math.optimization.general.*;
+import org.junit.experimental.results.*;
+import org.junit.experimental.*;
+import org.junit.experimental.theories.*;
+import com.stromberglabs.jopensurf.*;
+import org.apache.commons.math.analysis.interpolation.*;
+import org.apache.commons.math.analysis.*;
+import org.apache.commons.math.stat.descriptive.moment.*;
+import org.apache.commons.math.ode.sampling.*;
+import org.apache.commons.math.optimization.univariate.*;
+import org.apache.commons.math.estimation.*;
+import org.apache.commons.math.geometry.*;
+import org.apache.commons.math.fraction.*;
+import org.apache.commons.math.ode.events.*;
+import org.junit.internal.*;
+import org.apache.commons.math.genetics.*;
+import junit.textui.*;
+import org.junit.internal.runners.*;
+import org.junit.experimental.runners.*;
+import org.apache.commons.math.ode.*;
+import org.apache.commons.math.random.*;
+import org.apache.commons.math.transform.*;
+import com.stromberglabs.cluster.*;
+import org.apache.commons.math.optimization.direct.*;
+import org.apache.commons.math.ode.nonstiff.*;
+import org.apache.commons.math.linear.*;
+import org.junit.matchers.*;
+import org.junit.internal.requests.*;
+import org.junit.internal.builders.*;
+import org.hamcrest.*;
+import org.hamcrest.core.*;
+import org.apache.commons.math.optimization.*;
+import org.apache.commons.math.distribution.*;
+import org.apache.commons.math.stat.ranking.*;
+import org.apache.commons.math.optimization.fitting.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+import javax.imageio.ImageIO;
 
 public int minBlobArea = 30;                    //   minimum target size (pixels)
 public int tolerance = 100;                      //   sensitivity to motion
 
-public boolean runWithoutArduino = false;
+public boolean runWithoutArduino = true;
 public boolean connecting = false;
 
+public Surf mSurfRef;
+public Surf mSurfCap;
+public Map<SURFInterestPoint, SURFInterestPoint> mAMatchingPoints;
+public Map<SURFInterestPoint, SURFInterestPoint> mBMatchingPoints;
+public Map<SURFInterestPoint, SURFInterestPoint> pointsA;
+public Map<SURFInterestPoint, SURFInterestPoint> pointsB;
+public BufferedImage imageRef;
+public  BufferedImage captureImage;
 
 public Serial arduinoPort;
-JMyron camInput;
+//JMyron camInput;
+GLCapture camInput;
 BlobDetection target;
 Blob blob;
 Blob biggestBlob;
@@ -137,27 +234,27 @@ int safeColorBlue = 0;
 
 boolean useArrowKeys = false;   // use arrow keys to finely adjust the aiming (in manual mode)
 
-public boolean useInputDevice = false;  // use a joystick or game controller as input (in manual mode)
+public boolean useInputDevice = false;  // use a joystick or game Controler as input (in manual mode)
 public boolean inputDeviceIsSetup = false;
 
-public ControllIO controlIO;         // more stuff for using a joystick or game controller for input
-public ControllDevice inputDevice;
+public ControlIO controlIO;         // more stuff for using a joystick or game controller for input
+public ControlDevice inputDevice;
 
-public ControllButton[] buttons = new ControllButton[30];
-public ControllSlider[] sliders = new ControllSlider[10];
+public ControlButton[] buttons = new ControlButton[30];
+public ControlSlider[] sliders = new ControlSlider[10];
 
-public ControllButton[] fire_buttons = new ControllButton[0];
-public ControllButton[] preciseAim_buttons = new ControllButton[0];
-public ControllButton[] centerGun_buttons = new ControllButton[0];
-public ControllButton[] autoOn_buttons = new ControllButton[0];
-public ControllButton[] autoOff_buttons = new ControllButton[0];
-public ControllButton[] inputToggle_buttons = new ControllButton[0];
-public ControllButton[] randomSound_buttons = new ControllButton[0];
+public ControlButton[] fire_buttons = new ControlButton[0];
+public ControlButton[] preciseAim_buttons = new ControlButton[0];
+public ControlButton[] centerGun_buttons = new ControlButton[0];
+public ControlButton[] autoOn_buttons = new ControlButton[0];
+public ControlButton[] autoOff_buttons = new ControlButton[0];
+public ControlButton[] inputToggle_buttons = new ControlButton[0];
+public ControlButton[] randomSound_buttons = new ControlButton[0];
 
-public ControllSlider[] pan_sliders = new ControllSlider[0];
-public ControllSlider[] tilt_sliders = new ControllSlider[0];
-public ControllSlider[] panInvert_sliders = new ControllSlider[0];
-public ControllSlider[] tiltInvert_sliders = new ControllSlider[0];
+public ControlSlider[] pan_sliders = new ControlSlider[0];
+public ControlSlider[] tilt_sliders = new ControlSlider[0];
+public ControlSlider[] panInvert_sliders = new ControlSlider[0];
+public ControlSlider[] tiltInvert_sliders = new ControlSlider[0];
 
 
 public float xPosition = camWidth/2;
@@ -165,39 +262,66 @@ public float yPosition = camHeight/2;
 
 
 String[] inStringSplit;  // buffer for backup
-int controlMode_i, safety_i, firingMode_i, scanWhenIdle_i, trackingMotion_i, trackingColor_i, leadTarget_i, safeColor_i,
-showRestrictedZones_i, showDifferentPixels_i, showTargetBox_i, showCameraView_i, mirrorCam_i, soundEffects_i;
+int controlMode_i, safety_i, firingMode_i, scanWhenIdle_i, trackingMotion_i, trackingColor_i, leadTarget_i, safeColor_i, 
+  showRestrictedZones_i, showDifferentPixels_i, showTargetBox_i, showCameraView_i, mirrorCam_i, soundEffects_i;
 
 
 void setup() {
 
   loadSettings();
-
-
-  size(camWidth, camHeight);                  // some users have reported a faster framerate when the code utilizes OpenGL. To try this, comment out this line and uncomment the line below.
-//  size(camWidth, camHeight, OPENGL);
+  soundEffects =  false;  
+  //size(camWidth, camHeight);                  // some users have reported a faster framerate when the code utilizes OpenGL. To try this, comment out this line and uncomment the line below.
+  //  size(camWidth, camHeight, OPENGL);
+  size (320, 240, P2D);
   minim = new Minim(this);
-  loadSounds();
+
+  //loadSounds();
   playSound(18);
-  camInput = new JMyron();
-  camInput.start(camWidth, camHeight);
-  camInput.findGlobs(0);
-  camInput.adaptivity(1.01);
-  camInput.update();
-  currFrame = camInput.image();
-  rawImage = camInput.image();
-  Background = camInput.image();
-  rawBackground = camInput.image();
-  screenPixels = camInput.image();
+  //camInput = new JMyron();
+  camInput = new GLCapture(this);
+  camInput.start();
+  background(0);
+  if (camInput.available()) {
+    camInput.read();
+    image(camInput, 0, 0, width, height);
+    camInput.loadPixels();
+    loadPixels();
+    currFrame = camInput.pixels;
+    rawImage = camInput.pixels;
+    Background = camInput.pixels;
+    rawBackground = camInput.pixels;
+    screenPixels = camInput.pixels;
+  }
+  //camInput.start(camWidth, camHeight);
+  //camInput.findGlobs(0);
+  //camInput.adaptivity(1.01);
+  //camInput.update();
+  //currFrame = camInput.image();
+  //rawImage = camInput.image();
+  //Background = camInput.image();
+  //rawBackground = camInput.image();
+  //screenPixels = camInput.image();
   target = new BlobDetection(camWidth, camHeight);
   target.setThreshold(0.9);
   target.setPosDiscrimination(true);
+
+  if (use_surf) {  
+    captureImage = new BufferedImage(camWidth, camHeight, BufferedImage.OPAQUE);
+    try {
+      imageRef = ImageIO.read(new File(surfRefFile));
+    } 
+    catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    mSurfRef = new Surf(imageRef);
+  }
 
   retryArduinoConnect();
 
   xRatio = (camWidth / (xMax - xMin));                         // used to allign sights with crosshairs on PC
   yRatio = (camHeight/ (yMax - yMin));                         //
-  drawControlPanel();
+  //drawControlPanel();
 }
 
 
@@ -209,20 +333,17 @@ void draw() {
 
   if (controlMode) {              // autonomous mode
     autonomousMode();            //
-  }
-  else if (!controlMode) {        // manual mode
+  } else if (!controlMode) {        // manual mode
     manualMode();                //
   }
 
   if (fire == 1) {
     idleBeginTime = millis();
     scan = false;
-  }
-  else {
+  } else {
     if (millis() > idleBeginTime + idleTime && controlMode && scanWhenIdle) {
       scan = true;
-    }
-    else {
+    } else {
       scan = false;
     }
   }
@@ -238,14 +359,12 @@ void draw() {
   fireSelector = str(0);
   if (firingMode) {
     fireSelector = str(1);
-  }
-  else {
+  } else {
     fireSelector = str(3);
   }
   if (scan) {
     scanSelector = str(1);
-  }
-  else {
+  } else {
     scanSelector = str(0);
   }
   //println('a' + strTargetx + strTargety  + str(fire) + fireSelector + scanSelector);
@@ -308,7 +427,7 @@ void draw() {
   if (fire == 0)
     strokeWeight(1);
   stroke(255, 0, 0);                     //draw crosshairs
-	noFill();                            //
+  noFill();                            // 
   line(displayX, 0, displayX, camHeight);  //
   line(0, displayY, camWidth, displayY);   //
   ellipse(displayX, displayY, 20, 20);     //
@@ -321,19 +440,23 @@ void draw() {
 }
 
 void autonomousMode() {
-  if(inputDeviceIsSetup) {
+  if (inputDeviceIsSetup) {
     checkInputDevice();
   }
 
   if (selectingColor || selectingSafeColor) {
     cursor(1);
-  }
-  else {
+  } else {
     cursor(0);
   }
-  camInput.update();
-  rawBackground = camInput.retinaImage();
-  rawImage = camInput.image();
+  updateCamera();
+  rawBackground = camInput.pixels;
+  rawImage = camInput.pixels;
+  //camInput.update();
+  //rawBackground = camInput.retinaImage();
+  //rawImage = camInput.image();
+
+
   if (mirrorCam) {
     for (int i = 0; i < camWidth*camHeight; i++) {
       int y = floor(i/camWidth);
@@ -342,8 +465,7 @@ void autonomousMode() {
       currFrame[i] = rawImage[(y*camWidth) + x-1];
       Background[i] = rawBackground[(y*camWidth) + x-1];
     }
-  }
-  else {
+  } else {
     currFrame = rawImage;
     Background = rawBackground;
   }
@@ -354,10 +476,9 @@ void autonomousMode() {
   for (int i = 0; i < camWidth*camHeight; i++) {
     if (showCameraView) {
       pixels[i] = currFrame[i];
-    }
-    else {
+    } else {
       pixels[i] = color(0, 0, 0);
-		}
+    }        
 
     boolean motion = (((abs(red(currFrame[i])-red(Background[i])) + abs(green(currFrame[i])-green(Background[i])) + abs(blue(currFrame[i])-blue(Background[i]))) > (200-tolerance)) && trackingMotion);
     boolean isTrackedColor = (((abs(red(currFrame[i])-trackColorRed) + abs(green(currFrame[i])-trackColorGreen) + abs(blue(currFrame[i])-trackColorBlue)) < trackColorTolerance) && trackingColor);
@@ -369,19 +490,15 @@ void autonomousMode() {
       if (showDifferentPixels) {
         if (effect == 0) {
           pixels[i] = color(diffPixelsColor[0], diffPixelsColor[1], diffPixelsColor[2]);
-        }
-        else if (effect == 1) {
+        } else if (effect == 1) {
           pixels[i] = color((diffPixelsColor[0] + red(currFrame[i]))/2, (diffPixelsColor[1] + green(currFrame[i]))/2, (diffPixelsColor[2] + blue(currFrame[i]))/2);
-        }
-        else if (effect == 2) {
+        } else if (effect == 2) {
           pixels[i] = color(255-red(currFrame[i]), 255-green(currFrame[i]), 255-blue(currFrame[i]));
-        }
-        else if (effect == 3) {
+        } else if (effect == 3) {
           pixels[i] = color((diffPixelsColor[0] + (255-red(currFrame[i])))/2, (diffPixelsColor[1] + (255-green(currFrame[i])))/2, (diffPixelsColor[2] + (255-blue(currFrame[i])))/2);
         }
       }
-    }
-    else {
+    } else {
       screenPixels[i] = color(0, 0, 0);
     }
 
@@ -443,13 +560,12 @@ void autonomousMode() {
     if (displayY < 0)
       displayY = 0;
     if (displayY > camHeight)
-      displayY = 0;
-		targetX = int((possibleX / xRatio) + xMin);
+      displayY = 0;  
+    targetX = int((possibleX/xRatio)+xMin);         
     targetY = int(((camHeight-possibleY)/yRatio)+yMin);
     oldX = possibleX; // smoothing
     oldY = possibleY; // smoothing
-  }
-  else {
+  } else {
     fire = 0;
   }
 
@@ -472,13 +588,42 @@ void autonomousMode() {
     displayX = camWidth/2;
     displayY = camHeight;
   }
+
+  if (use_surf) {
+    captureImage.setRGB(0, 0, camWidth, camHeight, currFrame, 0, camWidth);
+    mSurfCap = new Surf(captureImage);
+    mBMatchingPoints = mSurfCap.getMatchingPoints(mSurfRef, true);
+    System.out.println(mBMatchingPoints.size());
+
+    if (mBMatchingPoints.size()>=surf_sensivity) {
+      noStroke();
+      fill(0, 255, 0, 150);
+      rect(0, 0, width, height);
+      fire = 0;
+      targetX = int((xMin+xMax)/2.0);
+      targetY = int(yMin);
+      displayX = camWidth/2;
+      displayY = camHeight;
+    }
+  }
 }
 
+void updateCamera() {
+  if (camInput.available()) {
+    camInput.read();
+  }
+  image(camInput, 0, 0, width, height);
+  camInput.loadPixels();
+}
 void manualMode() {
-//  cursor(1);
-  camInput.update();
-  rawBackground = camInput.retinaImage();
-  rawImage = camInput.image();
+  updateCamera();
+  rawBackground = camInput.pixels;
+  rawImage = camInput.pixels;
+
+  //  cursor(1);
+  //camInput.update();
+  //rawBackground = camInput.retinaImage();
+  //rawImage = camInput.image();
   if (mirrorCam) {
     for (int i = 0; i < camWidth*camHeight; i++) {
       int y = floor(i/camWidth);
@@ -487,8 +632,7 @@ void manualMode() {
       currFrame[i] = rawImage[(y*camWidth) + x-1];
       Background[i] = rawBackground[(y*camWidth) + x-1];
     }
-  }
-  else {
+  } else {
     currFrame = rawImage;
     Background = rawBackground;
   }
@@ -499,14 +643,14 @@ void manualMode() {
   }                                             //
   updatePixels();                               //
 
-  if(inputDeviceIsSetup) {
+  if (inputDeviceIsSetup) {
     checkInputDevice();
   }
-  if(useInputDevice) {
+  if (useInputDevice) {
     updateInputDevice();                        // determine control values using the input device (see declaration in Input_Device tab)
-    if(useArrowKeys) {   // use the arrow keys to aim one pixel at a time
+    if (useArrowKeys) {   // use the arrow keys to aim one pixel at a time
       // use arrow keys to aim - see keyReleased() below
-      if(keyPressed) {
+      if (keyPressed) {
         if (keyCode == 37) {                       // left arrow
           xPosition -= 1;
         }
@@ -520,18 +664,17 @@ void manualMode() {
           yPosition += 1;
         }
         fire = 0;
-
       }
     }
-	} else {
-    if(useArrowKeys) {   // use the arrow keys to aim one pixel at a time
+  } else {  
+    if (useArrowKeys) {   // use the arrow keys to aim one pixel at a time
       // use arrow keys to aim - see keyReleased() below
-      if(keyPressed) {
+      if (keyPressed) {
         if (keyCode == 37) {                       // left arrow
           displayX -= 1;
         }
         if (keyCode == 38) {                       // up arrow
-         displayY -= 1;
+          displayY -= 1;
         }
         if (keyCode == 39) {                       // right arrow
           displayX += 1;
@@ -541,20 +684,18 @@ void manualMode() {
         }
         fire = 0;
       }
-		} else {
+    } else {    
       displayX = mouseX;
       displayY = mouseY;
       if (mousePressed) {
         fire = 1;
-      }
-      else {
+      } else {
         fire = 0;
       }
     }
     targetX = constrain(int((displayX/xRatio)+xMin), 0, 180);                 // calculate position to go to based on mouse position
 
     targetY = constrain(int(((camHeight-displayY)/yRatio)+yMin), 0, 180);     //
-
   }
 }
 
@@ -601,7 +742,8 @@ void keyReleased() {
   }
 
   if (key == 'b') {
-    camInput.adapt();
+    //camInput.adapt();
+    println("I dont know what this means");
     playSound(15);
   }
   if (key == 'a') {
@@ -620,16 +762,34 @@ void keyReleased() {
     yMax = float(targetY);
     yRatio = (camHeight/ (yMax - yMin));                         //
   }
-  if(key == CODED && keyCode == 16) {      // shift key was pressed, toggle aim with arrow keys
-		useArrowKeys = !useArrowKeys;
+  if (key == CODED && keyCode == 16) {      // shift key was pressed, toggle aim with arrow keys
+    useArrowKeys = !useArrowKeys;
   }
-
 }
 
-
+void listDevices() {
+  String[] devices = GLCapture.list();
+  println("Device:");
+  //printArray(devices);
+  if (0 < devices.length) {
+    String[] configs = GLCapture.configs(devices[0]);
+    println("Configs:");
+    printArray(configs);
+    println("------------------------------------------------");
+  }
+}
 
 public void viewCameraSettings() {
-  camInput.settings();
+  //camInput.settings();
+  String[] devices = GLCapture.list();
+  println("Device:");
+  //printArray(devices);
+  if (0 < devices.length) {
+    String[] configs = GLCapture.configs(devices[0]);
+    println("Configs:");
+    printArray(configs);
+    println("------------------------------------------------");
+  }
   playSound(21);
 }
 
@@ -639,7 +799,7 @@ public void openWebsite() {
 }
 
 public void setBackground() {
-  camInput.adapt();
+  //camInput.adapt();
   playSound(11);
 }
 
@@ -661,31 +821,32 @@ public void radioEffect(int ID) {
 
 
 public void stop() {
-  if(soundEffects) {
-    s1.rewind();
-    s1.play();
+  if (soundEffects) {
+    playSampler(s1);
+    //s1.trigger();
+    //s1.play();
     delay(2500);
-    s1.close();
-    s2.close();
-    s3.close();
-    s4.close();
-    s5.close();
-    s7.close();
-    s6.close();
-    s8.close();
-    s9.close();
-    s10.close();
-    s11.close();
-    s12.close();
-    s13.close();
-    s14.close();
-    s15.close();
-    s16.close();
-    s17.close();
-    s18.close();
-    s19.close();
-    s20.close();
-    s21.close();
+    //s1.close();
+    //s2.close();
+    //s3.close();
+    //s4.close();
+    //s5.close();
+    //s7.close();
+    //s6.close();
+    //s8.close();
+    //s9.close();
+    //s10.close();
+    //s11.close();
+    //s12.close();
+    //s13.close();
+    //s14.close();
+    //s15.close();
+    //s16.close();
+    //s17.close();
+    //s18.close();
+    //s19.close();
+    //s20.close();
+    //s21.close();
     minim.stop();
   }
   if (!runWithoutArduino) {
@@ -693,7 +854,6 @@ public void stop() {
     delay(500);
     arduinoPort.stop();
   }
-  camInput.stop();
+  //camInput.stop();
   super.stop();
 }
-

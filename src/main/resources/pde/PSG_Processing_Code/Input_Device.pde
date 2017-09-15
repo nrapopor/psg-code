@@ -1,4 +1,4 @@
-/* this section allows you to use a game controller to control your sentry.
+/* this section allows you to use a game Controler to control your sentry.
  Setup using "InputDeviceSetupTool.pde"
  
  */
@@ -9,7 +9,7 @@ void configJoystick() {
   checkbox_useInputDevice.setSelected(useInputDevice);
   inputDeviceIsSetup = false;
   try {
-    open(dataPath("Input Device Setup Tool/InputDeviceSetupTool.exe"));
+    //open(dataPath("Input Device Setup Tool/InputDeviceSetupTool.exe"));
   }
   catch (Exception e) {
     e.printStackTrace();
@@ -24,8 +24,10 @@ void setupInputDevice() {
 
     String[] loadData = new String[49];
     loadData = loadStrings("data/Input Device Setup Tool/settings_inputDevice.txt");
+    
+    
 
-    controlIO = ControllIO.getInstance(this);
+    controlIO = ControlIO.getInstance(this);
 
     boolean error = false;
     try {
@@ -64,41 +66,41 @@ void setupInputDevice() {
     for (int i = 0; i <= 29; i++) {
 
       if (loadData[i+6].equals("Fire")) {
-        fire_buttons = (ControllButton[]) append(fire_buttons, buttons[i]);
+        fire_buttons = (ControlButton[]) append(fire_buttons, buttons[i]);
       }
       else if (loadData[i+6].equals("Precise Aim")) {
-        preciseAim_buttons = (ControllButton[]) append(preciseAim_buttons, buttons[i]);
+        preciseAim_buttons = (ControlButton[]) append(preciseAim_buttons, buttons[i]);
       }
       else if (loadData[i+6].equals("Center Gun")) {
-        centerGun_buttons = (ControllButton[]) append(centerGun_buttons, buttons[i]);
+        centerGun_buttons = (ControlButton[]) append(centerGun_buttons, buttons[i]);
       }
       else if (loadData[i+6].equals("Auto Aim On")) {
-        autoOn_buttons = (ControllButton[]) append(autoOn_buttons, buttons[i]);
+        autoOn_buttons = (ControlButton[]) append(autoOn_buttons, buttons[i]);
       }
       else if (loadData[i+6].equals("Auto Aim Off")) {
-        autoOff_buttons = (ControllButton[]) append(autoOff_buttons, buttons[i]);
+        autoOff_buttons = (ControlButton[]) append(autoOff_buttons, buttons[i]);
       }
       else if (loadData[i+6].equals("Input Dev On/Off")) {
-        inputToggle_buttons = (ControllButton[]) append(inputToggle_buttons, buttons[i]);
+        inputToggle_buttons = (ControlButton[]) append(inputToggle_buttons, buttons[i]);
       }
       else if (loadData[i+6].equals("Random Sound")) {
-        randomSound_buttons = (ControllButton[]) append(randomSound_buttons, buttons[i]);
+        randomSound_buttons = (ControlButton[]) append(randomSound_buttons, buttons[i]);
       }
     }
 
 
     for (int i = 0; i <= 9; i++) {
       if (loadData[i+39].equals("Pan")) {
-        pan_sliders = (ControllSlider[]) append(pan_sliders, sliders[i]);
+        pan_sliders = (ControlSlider[]) append(pan_sliders, sliders[i]);
       }
       else if (loadData[i+39].equals("Tilt")) {
-        tilt_sliders = (ControllSlider[]) append(tilt_sliders, sliders[i]);
+        tilt_sliders = (ControlSlider[]) append(tilt_sliders, sliders[i]);
       }
       else if (loadData[i+39].equals("Pan (Invert)")) {
-        panInvert_sliders = (ControllSlider[]) append(panInvert_sliders, sliders[i]);
+        panInvert_sliders = (ControlSlider[]) append(panInvert_sliders, sliders[i]);
       }
       else if (loadData[i+39].equals("Tilt (Invert)")) {
-        tiltInvert_sliders = (ControllSlider[]) append(tiltInvert_sliders, sliders[i]);
+        tiltInvert_sliders = (ControlSlider[]) append(tiltInvert_sliders, sliders[i]);
       }
     }
 
@@ -248,4 +250,3 @@ void checkInputDevice() {
     }
   }
 }
-

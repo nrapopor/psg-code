@@ -1,140 +1,198 @@
 Minim minim;
+AudioOutput out;
 
-AudioSnippet s1;
-AudioSnippet s2;
-AudioSnippet s3;
-AudioSnippet s4;
-AudioSnippet s5;
-AudioSnippet s6;
-AudioSnippet s7;
-AudioSnippet s8;
-AudioSnippet s9;
-AudioSnippet s10;
-AudioSnippet s11;
-AudioSnippet s12;
-AudioSnippet s13;
-AudioSnippet s14;
-AudioSnippet s15;
-AudioSnippet s16;
-AudioSnippet s17;
-AudioSnippet s18;
-AudioSnippet s19;
-AudioSnippet s20;
-AudioSnippet s21;
+Sampler[] samplers = new Sampler[20];
+
+Sampler s1;
+Sampler s2;
+Sampler s3;
+Sampler s4;
+Sampler s5;
+Sampler s6;
+Sampler s7;
+Sampler s8;
+Sampler s9;
+Sampler s10;
+Sampler s11;
+Sampler s12;
+Sampler s13;
+Sampler s14;
+Sampler s15;
+Sampler s16;
+Sampler s17;
+Sampler s18;
+Sampler s19;
+Sampler s20;
+Sampler s21;
 
 int soundTimer = 0;
 int soundInterval = 1000;
+int bufferSize = 256;
+int voices = 4;
+
+
 
 
 void loadSounds() {
-  s1 = minim.loadSnippet("data/your business is appreciated.wav");
-  s2 = minim.loadSnippet("data/who's there.wav");
-  s3 = minim.loadSnippet("data/there you are.wav");
-  s4 = minim.loadSnippet("data/there you are(2).wav");
-  s5 = minim.loadSnippet("data/target lost.wav");
-  s6 = minim.loadSnippet("data/target aquired.wav");
-  s7 = minim.loadSnippet("data/sleep mode activated.wav");
-  s8 = minim.loadSnippet("data/sentry mode activated.wav");
-  s9 = minim.loadSnippet("data/no hard feelings.wav");
-  s10 = minim.loadSnippet("data/is anyone there.wav");
-  s11 = minim.loadSnippet("data/i see you.wav");
-  s12 = minim.loadSnippet("data/i dont hate you.wav");
-  s13 = minim.loadSnippet("data/i dont blame you.wav");
-  s14 = minim.loadSnippet("data/hey its me.wav");
-  s15 = minim.loadSnippet("data/hello.wav");
-  s16 = minim.loadSnippet("data/gotcha.wav");
-  s17 = minim.loadSnippet("data/dispensing product.wav");
-  s18 = minim.loadSnippet("data/deploying.wav");
-  s19 = minim.loadSnippet("data/could you come over here.wav");
-  s20 = minim.loadSnippet("data/are you still there.wav");
-  s21 = minim.loadSnippet("data/activated.wav");
+  out   = minim.getLineOut();
+  s1 = new Sampler( "data/your business is appreciated.wav", voices, minim);
+  s2 = new Sampler( "data/who's there.wav", voices, minim);
+  s3 = new Sampler( "data/there you are.wav", voices, minim);
+  s4 = new Sampler( "data/there you are(2).wav", voices, minim);
+  s5 = new Sampler( "data/target lost.wav", voices, minim);
+  s6 = new Sampler( "data/target aquired.wav", voices, minim);
+  s7 = new Sampler( "data/sleep mode activated.wav", voices, minim);
+  s8 = new Sampler( "data/sentry mode activated.wav", voices, minim);
+  s9 = new Sampler( "data/no hard feelings.wav", voices, minim);
+  s10 = new Sampler( "data/is anyone there.wav", voices, minim);
+  s11 = new Sampler( "data/i see you.wav", voices, minim);
+  s12 = new Sampler( "data/i dont hate you.wav", voices, minim);
+  s13 = new Sampler( "data/i dont blame you.wav", voices, minim);
+  s14 = new Sampler( "data/hey its me.wav", voices, minim);
+  s15 = new Sampler( "data/hello.wav", voices, minim);
+  s16 = new Sampler( "data/gotcha.wav", voices, minim);
+  s17 = new Sampler( "data/dispensing product.wav", voices, minim);
+  s18 = new Sampler( "data/deploying.wav", voices, minim);
+  s19 = new Sampler( "data/could you come over here.wav", voices, minim);
+  s20 = new Sampler( "data/are you still there.wav", voices, minim);
+  s21 = new Sampler( "data/activated.wav", voices, minim);
+
+  
+  //s1 = minim.loadSample("data/your business is appreciated.wav",bufferSize);
+  //s2 = minim.loadSample("data/who's there.wav",bufferSize);
+  //s3 = minim.loadSample("data/there you are.wav",bufferSize);
+  //s4 = minim.loadSample("data/there you are(2).wav",bufferSize);
+  //s5 = minim.loadSample("data/target lost.wav",bufferSize);
+  //s6 = minim.loadSample("data/target aquired.wav",bufferSize);
+  //s7 = minim.loadSample("data/sleep mode activated.wav",bufferSize);
+  //s8 = minim.loadSample("data/sentry mode activated.wav",bufferSize);
+  //s9 = minim.loadSample("data/no hard feelings.wav",bufferSize);
+  //s10 = minim.loadSample("data/is anyone there.wav",bufferSize);
+  //s11 = minim.loadSample("data/i see you.wav",bufferSize);
+  //s12 = minim.loadSample("data/i dont hate you.wav",bufferSize);
+  //s13 = minim.loadSample("data/i dont blame you.wav",bufferSize);
+  //s14 = minim.loadSample("data/hey its me.wav",bufferSize);
+  //s15 = minim.loadSample("data/hello.wav",bufferSize);
+  //s16 = minim.loadSample("data/gotcha.wav",bufferSize);
+  //s17 = minim.loadSample("data/dispensing product.wav",bufferSize);
+  //s18 = minim.loadSample("data/deploying.wav",bufferSize);
+  //s19 = minim.loadSample("data/could you come over here.wav",bufferSize);
+  //s20 = minim.loadSample("data/are you still there.wav",bufferSize);
+  //s21 = minim.loadSample("data/activated.wav",bufferSize);
+}
+
+void playSampler(Sampler s) {
+  s.patch(out);
+  s.trigger();
+  s.unpatch(out);
 }
 
 void playSound(int sound) {
   if(soundEffects) {
     if(sound == 1) {
-      s1.rewind();
-      s1.play();
+      playSampler(s1);
+      //s1.trigger();
+      //s1.play();
     }
     if(sound == 2) {
-      s2.rewind();
-      s2.play();
+      playSampler(s2);
+      //s2.trigger();
+      //s2.play();
     }
     if(sound == 3) {
-      s3.rewind();
-      s3.play();
+      playSampler(s3);
+      //s3.trigger();
+      //s3.play();
     }
     if(sound == 4) {
-      s4.rewind();
-      s4.play();
+      playSampler(s4);
+      //s4.trigger();
+      //s4.play();
     }
     if(sound == 5) {
-      s5.rewind();
-      s5.play();
+      playSampler(s5);
+      //s5.trigger();
+      //s5.play();
     }
     if(sound == 6) {
-      s6.rewind();
-      s6.play();
+      playSampler(s6);
+      //s6.trigger();
+      //s6.play();
     }
     if(sound == 7) {
-      s7.rewind();
-      s7.play();
+      playSampler(s7);
+      //s7.trigger();
+      //s7.play();
     }
     if(sound == 8) {
-      s8.rewind();
-      s8.play();
+      playSampler(s8);
+      //s8.trigger();
+      //s8.play();
     }
     if(sound == 9) {
-      s9.rewind();
-      s9.play();
+      playSampler(s9);
+      //s9.trigger();
+      //s9.play();
     }
     if(sound == 10) {
-      s10.rewind();
-      s10.play();
+      playSampler(s10);
+      //s10.trigger();
+      //s10.play();
     }
     if(sound == 11) {
-      s11.rewind();
-      s11.play();
+      playSampler(s11);
+      //s11.trigger();
+      //s11.play();
     }
     if(sound == 12) {
-      s12.rewind();
-      s12.play();
+      playSampler(s12);
+      //s12.trigger();
+      //s12.play();
     }
     if(sound == 13) {
-      s13.rewind();
-      s13.play();
+      playSampler(s13);
+      //s13.trigger();
+      //s13.play();
     }
     if(sound == 14) {
-      s14.rewind();
-      s14.play();
+      playSampler(s14);
+      //s14.trigger();
+      //s14.play();
     }
     if(sound == 15) {
-      s15.rewind();
-      s15.play();
+      playSampler(s15);
+      //s15.trigger();
+      //s15.play();
     }
     if(sound == 16) {
-      s16.rewind();
-      s16.play();
+      playSampler(s16);
+      //s16.trigger();
+      //s16.play();
     }
     if(sound == 17) {
-      s17.rewind();
-      s17.play();
+      playSampler(s17);
+      //s17.trigger();
+      //s17.play();
     }
     if(sound == 18) {
-      s18.rewind();
-      s18.play();
+      playSampler(s18);
+      //s18.trigger();
+      //s18.play();
     }
     if(sound == 19) {
-      s19.rewind();
-      s19.play();
+      playSampler(s19);
+      //s19.trigger();
+      //s19.play();
     }
     if(sound == 20) {
-      s20.rewind();
-      s20.play();
+      playSampler(s20);
+      //s20.trigger();
+      //s20.play();
     }
     if(sound == 21) {
-      s21.rewind();
-      s21.play();
+      playSampler(s21);
+      //s21.trigger();
+      //s21.play();
     }
   }
 }
@@ -143,44 +201,44 @@ void randomIdleSound() {
   if(soundEffects) {
     int sound = int(random(1, 11));
     if(sound == 1) {
-      s2.rewind();
-      s2.play();
+      s2.trigger();
+      //s2.play();
     }
     if(sound == 2) {
-      s7.rewind();
-      s7.play();
+      s7.trigger();
+      //s7.play();
     }
     if(sound == 3) {
-      s9.rewind();
-      s9.play();
+      s9.trigger();
+      //s9.play();
     }
     if(sound == 4) {
-      s10.rewind();
-      s10.play();
+      s10.trigger();
+      //s10.play();
     }
     if(sound == 5) {
-      s11.rewind();
-      s11.play();
+      s11.trigger();
+      //s11.play();
     }
     if(sound == 6) {
-      s12.rewind();
-      s12.play();
+      s12.trigger();
+      //s12.play();
     }
     if(sound == 7) {
-      s13.rewind();
-      s13.play();
+      s13.trigger();
+      //s13.play();
     }
     if(sound == 8) {
-      s14.rewind();
-      s14.play();
+      s14.trigger();
+      //s14.play();
     }
     if(sound == 9) {
-      s19.rewind();
-      s19.play();
+      s19.trigger();
+      //s19.play();
     }
     if(sound == 10) {
-      s20.rewind();
-      s20.play();
+      s20.trigger();
+      //s20.play();
     }
   }
 }

@@ -48,6 +48,11 @@ public void saveSettings() {
   
 }
 
+public void loadSettingsFromJSON() {
+    java.util.ResourceBundle res = java.util.ResourceBundle.getBundle("data.settings");
+    loadJSONObject("data/settings.json");
+}
+
 public void loadSettings() {
   
   String[] loadData = new String[40];
@@ -101,4 +106,3 @@ public void loadSettings() {
   
   println("Successfully loaded settings from \"settings.txt\"");
 }
-
