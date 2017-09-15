@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.nrapopor.utilities</groupId>
-	<artifactId>processing-code</artifactId>
+	<artifactId>psg-code</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>processing-code</name>
+	<name>psg-code</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
