@@ -1,16 +1,54 @@
+/**
+ * @author ubuntu - Nick Rapoport
+ * @copyright Copyright 2017 ( Sep 3, 2017 ) Nick Rapoport all rights reserved.
+ */
 package com.nrapoport.utilities.processing_code.enums;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <DL>
+ * <DT>Description:</DT>
+ * <DD>a helper class for enums</DD>
+ * <DT>Date:</DT>
+ * <DD>Sep 16, 2017</DD>
+ * </DL>
+ *
+ * @author ubuntu - Nick Rapoport
+ *
+ * @param <T>
+ */
 public class DDEnum<T extends Enum<T> & IAltNameAndIdAware> {
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>return a new instance of this class for an appropriate enum</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param <T>
+     * @param inT
+     * @return
+     */
     public static <T extends Enum<T> & IAltNameAndIdAware> DDEnum<T> getNewInstance(final Class<T> inT) {
         return new DDEnum<>(inT);
     }
 
     private final Class<T> enumType;
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>DDEnum Constructor</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     * 
+     * @param enumTypeIn
+     */
     private DDEnum(final Class<T> enumTypeIn) {
         enumType = enumTypeIn;
     }
@@ -85,6 +123,16 @@ public class DDEnum<T extends Enum<T> & IAltNameAndIdAware> {
         return result;
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>return a list of altNames (or names if the altName is null)</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     * 
+     * @return
+     */
     public List<String> getDropdownStrings() {
         final T[] enumConstants = enumType.getEnumConstants(); // Similar to e.g. Day.values();
         final List<String> strings = new ArrayList<>(enumConstants.length);

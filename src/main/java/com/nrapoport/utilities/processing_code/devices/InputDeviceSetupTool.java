@@ -4,7 +4,7 @@
  */
 package com.nrapoport.utilities.processing_code.devices;
 
-import static org.junit.Assert.*;
+// import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -49,7 +49,7 @@ import processing.core.PApplet;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>Create a Device Configuration GUI</DD>
  * <DT>Date:</DT>
  * <DD>Sep 2, 2017</DD>
  * </DL>
@@ -61,6 +61,12 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
     // @SuppressWarnings("unused")
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(InputDeviceSetupTool.class);
 
+    /**
+     * <DL>
+     * <DT>Field</DT>
+     * <DD>DEFAULT_DEVICE_FILENAME (String) = "data/settings_inputDevice.cfg"</DD>
+     * </DL>
+     */
     public final static String DEFAULT_DEVICE_FILENAME = "data/settings_inputDevice.cfg";
 
     protected static void createDataPath() {
@@ -70,10 +76,20 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
                 PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwxrwxr--")));
         } catch (final IOException ex) {
             log.error("caught IOException :", ex); //$NON-NLS-1$
-            fail(ex.getMessage());
+            throw new RuntimeException("Could not create the projects ./data directory", ex);
         }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>launch Processing main method for this class</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param arrstring
+     */
     public static void launchMain(final String[] arrstring) {
         final String[] arrstring2 = new String[] { InputDeviceSetupTool.class.getName() };
         if (arrstring != null) {
@@ -83,6 +99,16 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
         }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>start this application</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param args
+     */
     public static void main(final String[] args) {
         launchMain(args);
     }
@@ -91,33 +117,33 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
 
     private final List<IDeviceHelper> deviceSliders = new ArrayList<>(30);
 
-    public ControlIO controlIO;
+    private ControlIO controlIO;
 
-    public ControlDevice tryDevice;
+    private ControlDevice tryDevice;
 
-    public ControlDevice inputDevice;
+    private ControlDevice inputDevice;
 
-    GPanel panelMain;
+    private GPanel panelMain;
 
-    GPanel panelAdminTop;
+    private GPanel panelAdminTop;
 
-    GPanel panelAdminBottom;
+    private GPanel panelAdminBottom;
 
-    GDropList dropdown_whichDevice;
+    private GDropList dropdown_whichDevice;
 
-    GDropList dropdown_selectFile;
+    private GDropList dropdown_selectFile;
 
-    GButton saveButton;
+    private GButton saveButton;
 
-    GTextField textFileName;
+    private GTextField textFileName;
 
-    GButton exitButton;
+    private GButton exitButton;
 
-    int whichDevice = 0;
+    private int whichDevice = 0;
 
-    List<String> listDevices = new ArrayList<>(20);
+    private List<String> listDevices = new ArrayList<>(20);
 
-    int numDevices = 0;
+    private int numDevices = 0;
 
     private float currHeight = 600;
 
@@ -152,7 +178,6 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
      * </DL>
      */
     public InputDeviceSetupTool() {
-        // TODO Auto-generated constructor stub
     }
 
     protected float calcDropDownLength(final float current, final float newStrLen, final float min) {
@@ -163,6 +188,14 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
         return newLen > currLen ? newLen : currLen;
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>close currently selected device</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     */
     public void closeDevice() {
         if (inputDevice != null) {
             inputDevice.close();
@@ -173,7 +206,7 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add configureWindow description</DD>
+     * <DD>Create the window and add all the GUI controls to it</DD>
      * <DT>Date:</DT>
      * <DD>Sep 14, 2017</DD>
      * </DL>
@@ -271,10 +304,12 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add createDeviceDropDown description</DD>
+     * <DD>Create a new GDropList listing all available devices</DD>
      * <DT>Date:</DT>
      * <DD>Sep 14, 2017</DD>
      * </DL>
+     *
+     * @return a new, populated GDropList
      */
     protected GDropList createDeviceDropDown() {
         controlIO = ControlIO.getInstance(this);
@@ -299,12 +334,23 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
         return dropList;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void draw() {
         this.background(150);
         this.updateAllButtonsAndSliders();
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>draw a top and bottom border for the passed panel based on window height</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param target
+     */
     void drawBorders(final GPanel target) {
         borderTop = makeBorder(target.getPApplet(), 0, 0, getCurrWidth() - 2 * X_GAP, 3);
         borderBottom =
@@ -383,6 +429,17 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
         return prevMaxY;
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Handle Button Events</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param button
+     * @param event
+     */
     public void handleButtonEvents(final GButton button, final GEvent event) {
         if (button == saveButton && event == GEvent.CLICKED) {
             PApplet.print("Saving settings... ");
@@ -402,6 +459,17 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
 
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>handle DropList Events</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param combo
+     * @param event
+     */
     public void handleDropListEvents(final GDropList combo, final GEvent event) {
         log.info("in Handler for {}", combo == dropdown_whichDevice ? "dropdown_whichDevice" : "dropdown_selectFile");
         if (combo == dropdown_whichDevice) {
@@ -437,6 +505,17 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
         }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Handle Text Events</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param textarea
+     * @param event
+     */
     public void handleTextEvents(final GEditableTextControl textarea, final GEvent event) {
         if (textarea == textFileName) {
             log.info("textFileName - GTextField >> GEvent. {} @ {}", event, millis());
@@ -444,6 +523,18 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
         //println(event);
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>
+     * <DD>Handle Text Events</DD></DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param source
+     * @param event
+     */
     public void handleTextEvents(final GTextField source, final GEvent event) { //_CODE_:textfield1:857853:
         println("textfield1 - GTextField >> GEvent." + event + " @ " + millis());
     } //_CODE_:textfield1:857853:
@@ -457,6 +548,16 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
         return border;
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>open new control device</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param n
+     */
     public void openNewDevice(final int n) {
         inputDevice = controlIO.getDevice(n);
         PApplet.println("Device Selected = " + inputDevice.getName());
@@ -588,11 +689,32 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
         }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>process DropList Events</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param combo
+     * @param event
+     */
     public void processDropListEvents(final GDropList combo, final GEvent event) {
         log.info("in Handler 2 for {}", combo.toString());
         //handleDropListEvents(combo, event);
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>remove old borders, because there is no resize in the G4P library</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param target
+     */
     void removeBorders(final GPanel target) {
         borderTop.setVisible(false);
         borderTop.dispose();
@@ -602,6 +724,14 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
         borderBottom = null;
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Save settings to a file</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     */
     public void saveSettings() {
         final String[] arrstring = new String[49];
         String config = dropdown_whichDevice.getSelectedText() + System.lineSeparator();
@@ -757,12 +887,21 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
 
     }
 
+    /** {@inheritDoc} */
     @Override
     public void setup() {
         //this.size(800, 600);
         configureWindow();
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Update All Buttons and Sliders from the device</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     */
     public void updateAllButtonsAndSliders() {
         for (final IDeviceHelper helper : deviceButtons) {
             helper.update();
@@ -773,6 +912,17 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
         dropdown_whichDevice.draw();
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>write to file</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param fileName
+     * @param bytes
+     */
     protected void writeFile(final String fileName, final byte[] bytes) {
         createDataPath();
         final Path p = FileSystems.getDefault().getPath(fileName);
@@ -812,6 +962,17 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
 
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Write the string array to file (add line serator to the end of each array element</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param fileName
+     * @param data
+     */
     protected void writeFile(final String fileName, final String[] data) {
         final StringBuilder sb = new StringBuilder();
         int idx = 0;

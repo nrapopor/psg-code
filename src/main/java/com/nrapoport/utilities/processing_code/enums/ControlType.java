@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>Control type enum to handle different controls. Button or Slider</DD>
+ * <DD>Control type enum to handle different controls. Button, Slider or Hat</DD>
  * <DT>Date:</DT>
  * <DD>Sep 2, 2017</DD>
  * </DL>
@@ -18,28 +18,102 @@ import java.util.List;
  *
  */
 public enum ControlType implements IAltNameAndIdAware {
-    Button(1), Hat(2), Slider(3); //, Descriptor(4);
+    /**
+     * <DL>
+     * <DT>Field</DT>
+     * <DD>Button (ControlType) =</DD>
+     * </DL>
+     */
+    Button(1),
+    /**
+     * <DL>
+     * <DT>Field</DT>
+     * <DD>Hat (ControlType) =</DD>
+     * </DL>
+     */
+    Hat(2),
+    /**
+     * <DL>
+     * <DT>Field</DT>
+     * <DD>Slider (ControlType) =</DD>
+     * </DL>
+     */
+    Slider(3); //, Descriptor(4);
 
     private volatile static DDEnum<ControlType> ddEnum = DDEnum.getNewInstance(ControlType.class);
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Return the ControlType with the passed id</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param in
+     * @return
+     */
     public static ControlType getById(final int in) {
         return ddEnum.getById(in);
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Return the ControlType with the passed ordinal</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param in
+     * @return
+     */
     public static ControlType getByOrdinal(final int in) {
         return ddEnum.getByOrdinal(in);
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Return the ControlType with the passed name or altName</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param in
+     * @return
+     */
     public static ControlType getByString(final String in) {
         return ddEnum.getByString(in);
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Return the ControlType's list of altNames (or names if altName is null)</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param in
+     * @return
+     */
     public static List<String> getDropdownStrings() {
         return ddEnum.getDropdownStrings();
     }
 
     private final int id;
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>ControlType Constructor</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     * 
+     * @param idIn
+     */
     ControlType(final int idIn) {
         id = idIn;
     }

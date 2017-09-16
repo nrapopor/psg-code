@@ -70,6 +70,7 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @param aParent
+     * @param aJSONFileName
      */
     public Settings(final PApplet aParent, final String aJSONFileName) {
         super(aParent);
@@ -1214,6 +1215,12 @@ public class Settings extends AbstractPDE {
      * </DL>
      *
      * @return
+     *         <DL>
+     *         <DT><code>true</code></DT>
+     *         <DD>Use Safe Color</DD>
+     *         <DT><code>false</code></DT>
+     *         <DD>otherwise</DD>
+     *         </DL>
      * @see com.nrapoport.utilities.processing_code.config.ConfigurationSettings#isUseSafeColor()
      */
     public boolean isUseSafeColor() {
@@ -1260,6 +1267,8 @@ public class Settings extends AbstractPDE {
      *
      * @param jsonName
      *            the name of the file to load the settings from
+     * @param depth
+     *            this method may call itself recursively, so this varibale is used to prevent stack overflow
      * @throws IOException
      */
     protected void loadSettings(final String jsonName, final int depth) throws IOException { //
@@ -1370,13 +1379,12 @@ public class Settings extends AbstractPDE {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>save the current settings to a JSON file</DD>
+     * <DD>Save the current settings to a JSON file using the configured name</DD>
      * <DT>Date:</DT>
      * <DD>Sep 1, 2017</DD>
      * </DL>
      *
-     * @param jsonName
-     *            the name of the JSON file to create
+     * @throws IOException
      */
     public void saveSettings() throws IOException {
         saveSettings(getjSONFileName());
@@ -2662,6 +2670,8 @@ public class Settings extends AbstractPDE {
      * <DD>Sep 4, 2017</DD>
      * </DL>
      *
+     * @param json
+     *            the serialized JSON content to save
      * @param jsonFile
      *            the file to create
      * @throws IOException

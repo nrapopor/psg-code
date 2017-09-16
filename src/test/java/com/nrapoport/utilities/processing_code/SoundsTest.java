@@ -88,7 +88,7 @@ public class SoundsTest extends BasePDETestingAncestor {
 
     /**
      * Test method for
-     * {@link com.nrapoport.utilities.processing_code.Sounds#Sounds(processing.core.PApplet, com.nrapoport.utilities.processing_code.Settings)}.
+     * {@link com.nrapoport.utilities.processing_code.Sounds#Sounds(processing.core.PApplet, com.nrapoport.utilities.processing_code.config.Settings)}.
      */
     @Test
     public void test010Sounds() {
@@ -104,6 +104,14 @@ public class SoundsTest extends BasePDETestingAncestor {
         }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>test015SoundsMinimal</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     */
     @Test
     public void test015SoundsMinimal() {
         getPsgParent().getSettings().setRunType(RunType.Minimal);

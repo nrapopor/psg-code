@@ -33,7 +33,7 @@ import org.junit.runners.MethodSorters;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>base class for testing</DD>
  * <DT>Date:</DT>
  * <DD>Sep 4, 2017</DD>
  * </DL>
@@ -117,8 +117,17 @@ public class BasePDETestingAncestor {
     private final static String dataDir = "data";
 
     /**
-     * Copy source file to target location. If {@code prompt} is true then prompt user to overwrite target if it exists.
-     * The {@code preserve} parameter determines if file attributes should be copied/preserved.
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Copy source file to target location. If {@code prompt} is true then prompt user to overwrite target if it
+     * exists. The {@code preserve} parameter determines if file attributes should be copied/preserved.</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param source
+     * @param target
+     * @param preserve
      */
     static void copyFile(final Path source, final Path target, final boolean preserve) {
         final CopyOption[] options =
@@ -131,6 +140,16 @@ public class BasePDETestingAncestor {
         }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Copy all files from a passed {@code oldPath} to the projects ./data directory</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param oldPath
+     */
     protected static void copyFiles(final String oldPath) {
         final Path absoluteSourcePath = FileSystems.getDefault().getPath(oldPath).toAbsolutePath();
         final Path absoluteTargetPath = FileSystems.getDefault().getPath(getDatadir()).toAbsolutePath();
@@ -152,7 +171,7 @@ public class BasePDETestingAncestor {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add createEmptyJson description</DD>
+     * <DD>Create Empty Json file</DD>
      * <DT>Date:</DT>
      * <DD>Sep 4, 2017</DD>
      * </DL>
@@ -268,7 +287,7 @@ public class BasePDETestingAncestor {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add setUpBeforeClass description</DD>
+     * <DD>Set Up Before Class</DD>
      * <DT>Date:</DT>
      * <DD>Sep 2, 2017</DD>
      * </DL>

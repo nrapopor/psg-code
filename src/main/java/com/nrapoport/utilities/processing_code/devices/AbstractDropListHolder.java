@@ -18,7 +18,8 @@ import g4p_controls.GPanel;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>This is the ancestor of the Type holders for Button, Slider and Hat. it manages the action drop list that allows
+ * for selection of valid actions for a particular control</DD>
  * <DT>Date:</DT>
  * <DD>Sep 10, 2017</DD>
  * </DL>
@@ -73,8 +74,11 @@ public abstract class AbstractDropListHolder implements IGControlHolder, IGUIDim
      * <DT>Description:</DT>
      * <DD>AbstractDropListHolder Constructor</DD>
      * <DT>Date:</DT>
-     * <DD>Sep 10, 2017</DD>
+     * <DD>Sep 16, 2017</DD>
      * </DL>
+     *
+     * @param aAction
+     * @param aControlType
      */
     public AbstractDropListHolder(final GDropList aAction, final ControlType aControlType) {
         super();
@@ -82,6 +86,19 @@ public abstract class AbstractDropListHolder implements IGControlHolder, IGUIDim
         controlType = aControlType;
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>AbstractDropListHolder Constructor</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param parent
+     * @param index
+     * @param panel
+     * @param aControlType
+     */
     public AbstractDropListHolder(final IDimensionsAware parent, final int index, final GPanel panel,
             final ControlType aControlType) {
         super();

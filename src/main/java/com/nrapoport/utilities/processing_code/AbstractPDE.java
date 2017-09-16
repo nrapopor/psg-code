@@ -69,7 +69,7 @@ public abstract class AbstractPDE implements IPAppletAware {
      * <DD>Sep 1, 2017</DD>
      * </DL>
      *
-     * @param variables
+     * @param what
      * @see processing.core.PApplet#println(boolean)
      */
     public static void println(final boolean what) {
@@ -84,7 +84,7 @@ public abstract class AbstractPDE implements IPAppletAware {
      * <DD>Sep 1, 2017</DD>
      * </DL>
      *
-     * @param variables
+     * @param what
      * @see processing.core.PApplet#println(byte)
      */
     public static void println(final byte what) {
@@ -99,7 +99,7 @@ public abstract class AbstractPDE implements IPAppletAware {
      * <DD>Sep 1, 2017</DD>
      * </DL>
      *
-     * @param variables
+     * @param what
      * @see processing.core.PApplet#println(char)
      */
     public static void println(final char what) {
@@ -114,7 +114,7 @@ public abstract class AbstractPDE implements IPAppletAware {
      * <DD>Sep 1, 2017</DD>
      * </DL>
      *
-     * @param variables
+     * @param what
      * @see processing.core.PApplet#println(double)
      */
     public static void println(final double what) {
@@ -129,7 +129,7 @@ public abstract class AbstractPDE implements IPAppletAware {
      * <DD>Sep 1, 2017</DD>
      * </DL>
      *
-     * @param variables
+     * @param what
      * @see processing.core.PApplet#println(float)
      */
     public static void println(final float what) {
@@ -144,7 +144,7 @@ public abstract class AbstractPDE implements IPAppletAware {
      * <DD>Sep 1, 2017</DD>
      * </DL>
      *
-     * @param variables
+     * @param what
      * @see processing.core.PApplet#println(int)
      */
     public static void println(final int what) {
@@ -159,7 +159,7 @@ public abstract class AbstractPDE implements IPAppletAware {
      * <DD>Sep 1, 2017</DD>
      * </DL>
      *
-     * @param variables
+     * @param what
      * @see processing.core.PApplet#println(long)
      */
     public static void println(final long what) {
@@ -189,7 +189,7 @@ public abstract class AbstractPDE implements IPAppletAware {
      * <DD>Sep 1, 2017</DD>
      * </DL>
      *
-     * @param variables
+     * @param what
      * @see processing.core.PApplet#println(Object)
      */
     public static void println(final Object what) {
@@ -204,7 +204,7 @@ public abstract class AbstractPDE implements IPAppletAware {
      * <DD>Sep 1, 2017</DD>
      * </DL>
      *
-     * @param variables
+     * @param what
      * @see processing.core.PApplet#println(String)
      */
     public static void println(final String what) {
@@ -220,6 +220,8 @@ public abstract class AbstractPDE implements IPAppletAware {
      * <DT>Date:</DT>
      * <DD>Sep 1, 2017</DD>
      * </DL>
+     *
+     * @param aParent
      */
     public AbstractPDE(final PApplet aParent) {
         parent = aParent;

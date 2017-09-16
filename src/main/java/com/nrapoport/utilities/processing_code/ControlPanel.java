@@ -55,7 +55,7 @@ import processing.serial.Serial;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>Control Panel GUI Class</DD>
  * <DT>Date:</DT>
  * <DD>Sep 2, 2017</DD>
  * </DL>
@@ -74,39 +74,39 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
     final Sounds sounds;
 
     //final JMyron camInput;
-    GLCapture camInput;
+    private GLCapture camInput;
 
-    public int controlPanelWindowX = 50; // x position on screen of upper-left corner of control panel
+    //private int controlPanelWindowX = 50; // x position on screen of upper-left corner of control panel
 
-    public int controlPanelWindowY = 100; // y position on screen of upper-left corner of control panel
+    // private int controlPanelWindowY = 100; // y position on screen of upper-left corner of control panel
 
-    GPanel panel_main; // control panel
+    private GPanel panel_main; // control panel
 
-    PImage panelBackgroundImg;
+    private PImage panelBackgroundImg;
 
-    GLabel label_serialOut, label_targetX, label_targetY, label_fire, label_fireSelector, label_scanSelector,
+    private GLabel label_serialOut, label_targetX, label_targetY, label_fire, label_fireSelector, label_scanSelector,
             label_runWithoutArduino, label_xMin, label_xMax, label_yMin, label_yMax, label_setxMin, label_setxMax,
             label_setyMin, label_setyMax; // text labels on control panel
 
-    GCheckbox checkbox_leadTarget, checkbox_showRestrictedZones, checkbox_trackingColor, checkbox_safeColor,
+    private GCheckbox checkbox_leadTarget, checkbox_showRestrictedZones, checkbox_trackingColor, checkbox_safeColor,
             checkbox_trackingMotion, checkbox_showDifferentPixels, checkbox_showTargetBox, checkbox_mirrorCam,
             checkbox_controlMode, checkbox_safety, checkbox_showCameraView, checkbox_scanWhenIdle,
             checkbox_soundEffects, checkbox_activeSmoothing, checkbox_useInputDevice, checkbox_useArrowKeys;// checkboxes
 
-    GButton button_viewCameraSettings, button_setBackground, button_selectColor, button_selectSafeColor,
+    private GButton button_viewCameraSettings, button_setBackground, button_selectColor, button_selectSafeColor,
             button_openWebsite, button_playRandomSound, button_saveSettings, button_loadSettings,
             button_retryArduinoConnect, button_saveAndExit, button_configJoystick, button_resetCalibration,
             button_flipX, button_flipY; // buttons
 
-    GSlider slider_tolerance, slider_trackColorTolerance, slider_safeColorTolerance, slider_safeColorMinSize,
+    private GSlider slider_tolerance, slider_trackColorTolerance, slider_safeColorTolerance, slider_safeColorMinSize,
             slider_minBlobArea, slider_nbDot, slider_antSens, slider_propX, slider_propY, slider_smoothingFactor; //sliders
 
-    GLabel label_slider_tolerance, label_slider_trackColorTolerance, label_slider_safeColorTolerance,
+    private GLabel label_slider_tolerance, label_slider_trackColorTolerance, label_slider_safeColorTolerance,
             label_slider_safeColorMinSize, label_slider_minBlobArea, label_slider_nbDot, label_slider_antSens,
             label_slider_propX, label_slider_propY, label_smoothingFactor; // value readouts for sliders
     // GTextField txfSomeText;   // textfield
 
-    GDropList dropdown_effect, dropdown_firingMode, dropdown_comPort; // dropdown menus
+    private GDropList dropdown_effect, dropdown_firingMode, dropdown_comPort; // dropdown menus
     //GActivityBar acyBar;   // activity bar
     //GTimer tmrTimer;       // timer
 
@@ -115,9 +115,9 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
     //GOption optHand, optXhair, optMove, optText, optWait;
 
     // G4P components for second windowl
-    GWindow window_main;
+    private GWindow window_main;
 
-    int sliderInertia = 3;
+    private int sliderInertia = 3;
 
     /**
      * <DL>
@@ -141,7 +141,7 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add configJoystick description</DD>
+     * <DD>Setup the Controller</DD>
      * <DT>Date:</DT>
      * <DD>Sep 2, 2017</DD>
      * </DL>
@@ -154,6 +154,7 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
         getRuntimeSettings().setInputDeviceIsSetup(false);
         // try {
         // open(dataPath("Input Device Setup Tool/InputDeviceSetupTool.exe"));
+        //TODO add the controller config here
         try {
             InputDeviceSetupTool.main((String[]) null);
         } catch (final Exception ex) {
@@ -161,12 +162,31 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
         }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>draw Controller background</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param appc
+     * @param data
+     */
     public void drawController(final PApplet appc, final GWinData data) {
         appc.background(panelBackgroundImg);
 
     }
 
-    void drawControlPanel() {
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Draw Control Panel</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     */
+    protected void drawControlPanel() {
         G4P.messagesEnabled(false);
         G4P.setGlobalColorScheme(GConstants.BLUE_SCHEME);
         G4P.setCursor(PConstants.ARROW);
@@ -1036,16 +1056,7 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
         return runtimeSettings;
     }
 
-    /**
-     * <DL>
-     * <DT>Description:</DT>
-     * <DD>Getter for the settings property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 2, 2017</DD>
-     * </DL>
-     *
-     * @return the value of settings field
-     */
+    /** {@inheritDoc} */
     @Override
     public Settings getSettings() {
         return settings;
@@ -1065,6 +1076,17 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
         return sounds;
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Handle Button Events</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param button
+     * @param event
+     */
     public void handleButtonEvents(final GButton button, final GEvent event) {
         //   public void handleButtonEvents(final GButton control) {
         if (button == button_viewCameraSettings && event == GEvent.CLICKED) {
@@ -1150,6 +1172,17 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
     }
 
     //    public void handleComboEvents(final GCombo combo) {
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Handle DropList Events</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param combo
+     * @param event
+     */
     public void handleDropListEvents(final GDropList combo, final GEvent event) {
         if (combo == dropdown_effect) {
             getSettings().setEffect(Effects.getByOrdinal(dropdown_effect.getSelectedIndex()));
@@ -1176,6 +1209,17 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
         }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Handle Slider Events</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param slider
+     * @param event
+     */
     public void handleSliderEvents(final GValueControl slider, final GEvent event) {
         //    public void handleSliderEvents(final GSlider slider) {
         if (slider == slider_tolerance) {
@@ -1210,6 +1254,17 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
         }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Handle ToggleControl Events (Checkboxes)</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param cbox
+     * @param event
+     */
     public void handleToggleControlEvents(final GToggleControl cbox, final GEvent event) {
         //    public void handleCheckboxEvents(final GCheckbox cbox) {
         if (cbox == checkbox_leadTarget) {
@@ -1268,20 +1323,56 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
         }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>open the PSG website</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     */
     public void openWebsite() {
         link(getSettings().getWebsite());
         getSounds().playSound(15);
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Play a random sound</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     */
     public void playRandomSound() {
         getSounds().randomIdleSound();
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>set that last image for movement detection</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     */
     public void setBackground() {
         //getCamInput().adapt();
+        //TODO force last background
         getSounds().playSound(11);
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>set the label to the passed text</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param label
+     * @param text
+     */
     public void setLabelText(final GLabel label, final String text) {
         try {
             label.setText(text);
@@ -1309,6 +1400,14 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
         checkbox_useInputDevice.setSelected(state);
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Update Control Panels info data</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     */
     public void updateControlPanels() {
         setLabelText(label_serialOut,
             "Serial Out: " + 'a' + getRuntimeSettings().getStrTargetX() + getRuntimeSettings().getStrTargetY()
@@ -1375,6 +1474,14 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
         checkbox_useArrowKeys.setSelected(getSettings().isUseArrowKeys());
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>View Camera Settings</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     */
     public void viewCameraSettings() {
         //camInput.settings();
         final String[] devices = GLCapture.list();

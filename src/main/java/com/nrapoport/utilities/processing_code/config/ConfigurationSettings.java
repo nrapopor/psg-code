@@ -22,7 +22,7 @@ import com.nrapoport.utilities.processing_code.enums.RunType;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>A class used as a structure to serialize and deserialize JSON config</DD>
  * <DT>Date:</DT>
  * <DD>Sep 4, 2017</DD>
  * </DL>

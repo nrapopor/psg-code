@@ -33,7 +33,7 @@ public class RuntimeSettings implements ISettingsAware {
 
     private volatile boolean selectingSafeColor = false;
 
-    public volatile Serial arduinoPort = null;
+    private volatile Serial arduinoPort = null;
 
     private volatile boolean inputDeviceIsSetup = false;
     //        int ydiff; // smoothing
@@ -68,6 +68,16 @@ public class RuntimeSettings implements ISettingsAware {
 
     private volatile ControlIO controlIO; // more stuff for using a joystick or game Controler for input
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>RuntimeSettings Constructor</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     * 
+     * @param parent
+     */
     public RuntimeSettings(final PSGProcessingCode parent) {
         settings = parent.getSettings();
     }
@@ -585,7 +595,7 @@ public class RuntimeSettings implements ISettingsAware {
      * <DD>Sep 2, 2017</DD>
      * </DL>
      *
-     * @param aConnecting
+     * @param aArduinoPort
      *            new value for the arduinoPort property
      */
     public void setArduinoPort(final Serial aArduinoPort) {
@@ -678,7 +688,7 @@ public class RuntimeSettings implements ISettingsAware {
      * <DD>Sep 2, 2017</DD>
      * </DL>
      *
-     * @param aConnecting
+     * @param aInputDeviceIsSetup
      *            new value for the inputDeviceIsSetup property
      */
     public void setInputDeviceIsSetup(final boolean aInputDeviceIsSetup) {
@@ -738,7 +748,7 @@ public class RuntimeSettings implements ISettingsAware {
      * <DD>Sep 2, 2017</DD>
      * </DL>
      *
-     * @param aConnecting
+     * @param aPrevTargetX
      *            new value for the prevTargetX property
      */
     public void setPrevTargetX(final int aPrevTargetX) {
@@ -753,7 +763,7 @@ public class RuntimeSettings implements ISettingsAware {
      * <DD>Sep 2, 2017</DD>
      * </DL>
      *
-     * @param aConnecting
+     * @param aPrevTargetY
      *            new value for the prevTargetY property
      */
     public void setPrevTargetY(final int aPrevTargetY) {

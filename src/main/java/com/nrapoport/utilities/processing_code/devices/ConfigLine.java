@@ -10,7 +10,7 @@ import com.nrapoport.utilities.processing_code.enums.DeviceButtonActions;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>A calss representing a single line in the device config file</DD>
  * <DT>Date:</DT>
  * <DD>Sep 14, 2017</DD>
  * </DL>
@@ -22,6 +22,12 @@ public class ConfigLine {
     //@SuppressWarnings("unused")
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ConfigLine.class);
 
+    /**
+     * <DL>
+     * <DT>Field</DT>
+     * <DD>SEPARATOR (String) = "\t"</DD>
+     * </DL>
+     */
     public static final String SEPARATOR = "\t";
 
     private final String key;
@@ -45,8 +51,10 @@ public class ConfigLine {
      * <DT>Description:</DT>
      * <DD>ConfigLine Constructor</DD>
      * <DT>Date:</DT>
-     * <DD>Sep 14, 2017</DD>
+     * <DD>Sep 16, 2017</DD>
      * </DL>
+     *
+     * @param line
      */
     public ConfigLine(final String line) {
         final String[] tokens = line.split(SEPARATOR);

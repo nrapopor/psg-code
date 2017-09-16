@@ -1,3 +1,8 @@
+/**
+ * @author ubuntu - Nick Rapoport
+ * @copyright Copyright 2017 ( Sep 2, 2017 ) Nick Rapoport all rights reserved.
+ */
+
 package com.nrapoport.utilities.processing_code;
 
 import java.util.ArrayList;
@@ -11,6 +16,17 @@ import ddf.minim.Minim;
 import ddf.minim.MultiChannelBuffer;
 import ddf.minim.ugens.Sampler;
 
+/**
+ * <DL>
+ * <DT>Description:</DT>
+ * <DD>Play sounds, cause killer robots are not silent!</DD>
+ * <DT>Date:</DT>
+ * <DD>Sep 16, 2017</DD>
+ * </DL>
+ *
+ * @author ubuntu - Nick Rapoport
+ *
+ */
 public class Sounds extends AbstractPDE implements AutoCloseable {
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Sounds.class);
 
@@ -33,6 +49,16 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
     final List<Sampler> players = new ArrayList<>(NUMBER_OF_SOUNDS);
     //Delay delay;
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Sounds Constructor</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param aParent
+     */
     public Sounds(final PSGProcessingCode aParent) {
         super(aParent);
         settings = aParent.getSettings();
@@ -92,10 +118,12 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
      * <DD>Sep 2, 2017</DD>
      * </DL>
      *
-     * @param aKey
-     * @return
+     * @param index
+     *
+     * @return return a Sampler with the passed index
      * @see java.util.List#get(int)
      */
+
     protected Sampler get(final int index) {
         int idx = index;
         if (idx == 0) {
@@ -192,7 +220,7 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add initMinim description</DD>
+     * <DD>Initialize the Minim audio library</DD>
      * <DT>Date:</DT>
      * <DD>Sep 9, 2017</DD>
      * </DL>
@@ -255,16 +283,17 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
             Sounds.log.debug("{} waiting to Play sound: {}", Thread.currentThread().getName(), sound);
             new Thread(() -> {
                 try {
-                    Sounds.log.debug("{} Playing sound: {}", Thread.currentThread().getName(), sound);
-                    synchronized (sampler) {
+                    synchronized (out) {
                         sampler.patch(out);
+                        TimeUnit.MILLISECONDS.sleep(100);
+                        Sounds.log.debug("{} Playing sound: {}", Thread.currentThread().getName(), sound);
                         sampler.trigger();
                     }
                     TimeUnit.MILLISECONDS.sleep(getSettings().getSamplerDelay());
                 } catch (final InterruptedException ex) {
                     Sounds.log.debug("caught InterruptedException :", ex); //$NON-NLS-1$
                 } finally {
-                    synchronized (sampler) {
+                    synchronized (out) {
                         sampler.unpatch(out);
                     }
                     Sounds.log.debug("{} Done Playing sound: {}", Thread.currentThread().getName(), sound);

@@ -9,7 +9,7 @@ import com.nrapoport.utilities.processing_code.enums.ControlType;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>This interface describes the Device Controller element wrappers</DD>
  * <DT>Date:</DT>
  * <DD>Sep 11, 2017</DD>
  * </DL>
@@ -76,7 +76,7 @@ public interface IDeviceHelper {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add getSelectedText description</DD>
+     * <DD>Get Selected Text for action</DD>
      * <DT>Date:</DT>
      * <DD>Sep 11, 2017</DD>
      * </DL>
@@ -88,11 +88,11 @@ public interface IDeviceHelper {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add setSelectedText description</DD>
+     * <DD>Set Selected Text for Action</DD>
      * <DT>Date:</DT>
      * <DD>Sep 14, 2017</DD>
      * </DL>
-     * 
+     *
      * @param drIndex
      */
     void setSelectedText(int drIndex);

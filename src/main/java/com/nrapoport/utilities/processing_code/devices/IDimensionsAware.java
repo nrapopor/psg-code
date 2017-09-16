@@ -7,7 +7,7 @@ package com.nrapoport.utilities.processing_code.devices;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>An awareness interface for window sizes</DD>
  * <DT>Date:</DT>
  * <DD>Sep 13, 2017</DD>
  * </DL>

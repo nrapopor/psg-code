@@ -22,20 +22,9 @@ import g4p_controls.GPanel;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>This class is used to hold a device element such as Button or Slider (No Hat support yet)</DD>
+ * <DD>This class is used to hold a device element such as Button or Slider (TODO No Hat support yet)</DD>
  * <DT>Date:</DT>
  * <DD>Sep 10, 2017</DD>
- * </DL>
- *
- * @author ubuntu - Nick Rapoport
- *
- */
-/**
- * <DL>
- * <DT>Description:</DT>
- * <DD>TODO add description</DD>
- * <DT>Date:</DT>
- * <DD>Sep 13, 2017</DD>
  * </DL>
  *
  * @author ubuntu - Nick Rapoport
@@ -52,7 +41,7 @@ public class DeviceHelper implements IDeviceHelper {
 
     private static final List<IGControlHolder> controls = new ArrayList<>(buttons.size() + sliders.size());
 
-    public static final String SEPARATOR = "\t";
+    //public static final String SEPARATOR = "\t";
 
     /**
      * <DL>
@@ -131,7 +120,10 @@ public class DeviceHelper implements IDeviceHelper {
      * <DD>Sep 10, 2017</DD>
      * </DL>
      *
+     * @param aParent
      * @param aPanel
+     * @param aControl
+     * @param aIndex
      */
     public DeviceHelper(final IDimensionsAware aParent, final GPanel aPanel, final ControlInput aControl,
             final int aIndex) {
@@ -318,7 +310,7 @@ public class DeviceHelper implements IDeviceHelper {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add initNew description</DD>
+     * <DD>initialize new GUI control (since non were found for this index)</DD>
      * <DT>Date:</DT>
      * <DD>Sep 13, 2017</DD>
      * </DL>

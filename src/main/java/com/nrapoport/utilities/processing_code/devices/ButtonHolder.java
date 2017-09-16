@@ -13,7 +13,7 @@ import g4p_controls.GPanel;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>A wrapper class for managing the Button GUI</DD>
  * <DT>Date:</DT>
  * <DD>Sep 10, 2017</DD>
  * </DL>

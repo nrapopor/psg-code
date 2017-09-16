@@ -7,7 +7,7 @@ package com.nrapoport.utilities.processing_code.devices;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>A gui element control interface</DD>
  * <DT>Date:</DT>
  * <DD>Sep 10, 2017</DD>
  * </DL>

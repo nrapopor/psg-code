@@ -29,7 +29,7 @@ import processing.serial.Serial;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>Main PSG code class. it will initialize and loop (in draw) to perform the PSG activities</DD>
  * <DT>Date:</DT>
  * <DD>Sep 2, 2017</DD>
  * </DL>
@@ -44,7 +44,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add main description</DD>
+     * <DD>Standard external launcher for the project</DD>
      * <DT>Date:</DT>
      * <DD>Sep 2, 2017</DD>
      * </DL>
@@ -116,10 +116,20 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
         log.info("Working on sketch path: {}", sketchPath());
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>This method is the autonomous mode for the robot. it will decide when and who to shoot</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @return
+     */
     private boolean autonomousMode() {
 
         if (getRuntimeSettings().isInputDeviceIsSetup()) {
-            getDeviceController().checkInputDevice(); //TODO start here
+            getDeviceController().checkInputDevice(); //TODO start here device controller
         }
         final int camWidth = getSettings().getCamWidth();
         final int camHeight = getSettings().getCamHeight();
@@ -274,8 +284,6 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
             getRuntimeSettings().setPossibleX(possibleX);
             getRuntimeSettings().setPossibleY(possibleY);
 
-            //TODO start here
-
             getAnticipation().anticipation();
 
             final float smoothingFactor = getSettings().getSmoothingFactor();
@@ -341,6 +349,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void draw() {
 
@@ -527,8 +536,6 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
         return camInput;
     }
 
-    //boolean scan = false;
-
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -616,6 +623,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
         return sounds;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void keyReleased() {
         final int targetX = getRuntimeSettings().getTargetX();
@@ -661,6 +669,16 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
 
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Use your controller or mouse to aim and shoot ...</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @return
+     */
     public boolean manualMode() {
         //  cursor(1);
         if (!updateCamera(false)) {
@@ -981,7 +999,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add updateCamera description</DD>
+     * <DD>update the camera image</DD>
      * <DT>Date:</DT>
      * <DD>Sep 9, 2017</DD>
      * </DL>
@@ -994,6 +1012,12 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
      *            <DD>Running From Draw</DD>
      *            </DL>
      * @return
+     *         <DL>
+     *         <DT><code>true</code></DT>
+     *         <DD>Camera was ready and a new image is available</DD>
+     *         <DT><code>false</code></DT>
+     *         <DD>otherwise</DD>
+     *         </DL>
      */
     public boolean updateCamera(final boolean init) {
         //background(0);

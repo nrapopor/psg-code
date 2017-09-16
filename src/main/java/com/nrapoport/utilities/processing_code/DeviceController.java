@@ -19,7 +19,7 @@ import processing.core.PApplet;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>Populate the device controller settings from the configuration file</DD>
  * <DT>Date:</DT>
  * <DD>Sep 2, 2017</DD>
  * </DL>
@@ -57,13 +57,13 @@ public class DeviceController extends AbstractPDE {
 
     private ControlButton[] randomSound_buttons = new ControlButton[0];
 
-    public ControlSlider[] pan_sliders = new ControlSlider[0];
+    private ControlSlider[] pan_sliders = new ControlSlider[0];
 
-    public ControlSlider[] tilt_sliders = new ControlSlider[0];
+    private ControlSlider[] tilt_sliders = new ControlSlider[0];
 
-    public ControlSlider[] panInvert_sliders = new ControlSlider[0];
+    private ControlSlider[] panInvert_sliders = new ControlSlider[0];
 
-    public ControlSlider[] tiltInvert_sliders = new ControlSlider[0];
+    private ControlSlider[] tiltInvert_sliders = new ControlSlider[0];
 
     private ControlDevice inputDevice;
 
@@ -179,10 +179,30 @@ public class DeviceController extends AbstractPDE {
         return inputDevice;
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the runtimeSettings property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     * 
+     * @return
+     */
     public RuntimeSettings getRuntimeSettings() {
         return runtimeSettings;
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the settings property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     * 
+     * @return
+     */
     public Settings getSettings() {
         return settings;
     }

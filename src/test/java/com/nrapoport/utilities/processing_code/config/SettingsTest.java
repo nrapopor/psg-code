@@ -15,12 +15,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.nrapoport.utilities.processing_code.BasePDETestingAncestor;
-import com.nrapoport.utilities.processing_code.config.Settings;
 
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>Test Settings class</DD>
  * <DT>Date:</DT>
  * <DD>Sep 2, 2017</DD>
  * </DL>
@@ -36,7 +35,7 @@ public class SettingsTest extends BasePDETestingAncestor {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add setUpBeforeClass description</DD>
+     * <DD>Set Up Befor eClass</DD>
      * <DT>Date:</DT>
      * <DD>Sep 2, 2017</DD>
      * </DL>
@@ -51,7 +50,7 @@ public class SettingsTest extends BasePDETestingAncestor {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add tearDownAfterClass description</DD>
+     * <DD>Tear Down After Class</DD>
      * <DT>Date:</DT>
      * <DD>Sep 2, 2017</DD>
      * </DL>
@@ -65,7 +64,7 @@ public class SettingsTest extends BasePDETestingAncestor {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add setUp description</DD>
+     * <DD>Set up before test</DD>
      * <DT>Date:</DT>
      * <DD>Sep 2, 2017</DD>
      * </DL>
@@ -79,7 +78,7 @@ public class SettingsTest extends BasePDETestingAncestor {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add tearDown description</DD>
+     * <DD>Tear down after test</DD>
      * <DT>Date:</DT>
      * <DD>Sep 2, 2017</DD>
      * </DL>
@@ -91,7 +90,7 @@ public class SettingsTest extends BasePDETestingAncestor {
     }
 
     /**
-     * Test method for {@link com.nrapoport.utilities.processing_code.config.Settings#LoadSettings()}.
+     * Test method for {@link com.nrapoport.utilities.processing_code.config.Settings#loadSettings()}.
      */
     @Test
     public void testLoadSettingsWhenFileEmpty() {
@@ -118,7 +117,7 @@ public class SettingsTest extends BasePDETestingAncestor {
     }
 
     /**
-     * Test method for {@link com.nrapoport.utilities.processing_code.config.Settings#LoadSettings()}.
+     * Test method for {@link com.nrapoport.utilities.processing_code.config.Settings#loadSettings()}.
      */
     @Test
     public void testLoadSettingsWhenFileMissing() {

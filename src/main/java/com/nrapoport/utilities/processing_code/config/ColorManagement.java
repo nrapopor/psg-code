@@ -9,7 +9,7 @@ import com.google.gson.annotations.Expose;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add ConfigurationSettings description</DD>
+ * <DD>Color Management JSON serialization class</DD>
  * <DT>Date:</DT>
  * <DD>Sep 4, 2017</DD>
  * </DL>

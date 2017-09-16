@@ -27,7 +27,7 @@ import processing.core.PApplet;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>InputDeviceSetupToolOldn</DD>
  * <DT>Date:</DT>
  * <DD>Sep 2, 2017</DD>
  * </DL>
@@ -39,6 +39,16 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
     @SuppressWarnings("unused")
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(InputDeviceSetupToolOld.class);
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>launch the main method for Processing</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param arrstring
+     */
     public static void launchMain(final String[] arrstring) {
         final String[] arrstring2 = new String[] { "InputDeviceSetupTool" };
         if (arrstring != null) {
@@ -52,11 +62,11 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
 
     private final List<IDeviceHelper> deviceSliders = new ArrayList<>(30);
 
-    public ControlIO controlIO;
+    private ControlIO controlIO;
 
-    public ControlDevice tryDevice;
+    private ControlDevice tryDevice;
 
-    public ControlDevice inputDevice;
+    private ControlDevice inputDevice;
 
     //    public ControlButton button_00;
     //
@@ -330,7 +340,6 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
      * </DL>
      */
     public InputDeviceSetupToolOld() {
-        // TODO Auto-generated constructor stub
     }
     /*
      * Decompiled with CFR 0_122.
@@ -340,6 +349,14 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
      * procontroll.ControlButton procontroll.ControlDevice procontroll.ControlIO procontroll.ControlSlider
      */
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Close Device</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     */
     public void closeDevice() {
         if (inputDevice != null) {
             inputDevice.close();
@@ -347,6 +364,7 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void draw() {
         this.background(150);
@@ -356,28 +374,28 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
     /** {@inheritDoc} */
     @Override
     public float getCurrHeight() {
-        // TODO Auto-generated method stub
+
         return 0;
     }
 
     /** {@inheritDoc} */
     @Override
     public float getCurrWidth() {
-        // TODO Auto-generated method stub
+
         return 0;
     }
 
     /** {@inheritDoc} */
     @Override
     public float getPrevMaxX() {
-        // TODO Auto-generated method stub
+
         return 0;
     }
 
     //    /**
     //     * <DL>
     //     * <DT>Description:</DT>
-    //     * <DD>TODO add populateDropDown description</DD>
+    //     * <DD>Populate DropDown</DD>
     //     * <DT>Date:</DT>
     //     * <DD>Sep 9, 2017</DD>
     //     * </DL>
@@ -395,10 +413,20 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
     /** {@inheritDoc} */
     @Override
     public float getPrevMaxY() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>handleButtonEvents description</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param button
+     * @param event
+     */
     public void handleButtonEvents(final GButton button, final GEvent event) {
         if (button == saveButton && event == GEvent.CLICKED) {
             PApplet.print("Saving settings... ");
@@ -411,6 +439,17 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
         }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>handleDropListEvents description</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param combo
+     * @param event
+     */
     public void handleDropListEvents(final GDropList combo, final GEvent event) {
         if (combo == dropdown_whichDevice) {
             whichDevice = dropdown_whichDevice.getSelectedIndex();
@@ -423,6 +462,16 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
         }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>openNewDevice description</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param n
+     */
     public void openNewDevice(final int n) {
         inputDevice = controlIO.getDevice(n);
         PApplet.println("Device Selected = " + inputDevice.getName());
@@ -1390,6 +1439,14 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
         //        }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>saveSettings description</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     */
     public void saveSettings() {
         final String[] arrstring = new String[49];
         int idx = 6;
@@ -1463,6 +1520,7 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
         this.delay(100);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void setup() {
         this.size(800, 600);
@@ -1490,6 +1548,14 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
         saveButton = new GButton(this, 710, 570, 80, 20, "Save & Exit");
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>updateAllButtonsAndSliders description</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     */
     public void updateAllButtonsAndSliders() {
         for (final IDeviceHelper helper : deviceButtons) {
             helper.update();
@@ -1541,6 +1607,17 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
         dropdown_whichDevice.draw();
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>updateButton description</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param controllButton
+     * @param gLabel
+     */
     public void updateButton(final ControlButton controllButton, final GLabel gLabel) {
         if (controllButton != null) {
             if (controllButton.pressed()) {
@@ -1551,6 +1628,17 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
         }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>updateSlider description</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param controllSlider
+     * @param gWSlider
+     */
     public void updateSlider(final ControlSlider controllSlider, final GSlider gWSlider) {
         if (controllSlider != null) {
             gWSlider.setValue(controllSlider.getValue());

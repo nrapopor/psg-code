@@ -18,10 +18,34 @@ import java.util.List;
  *
  */
 public enum ControlMode implements IAltNameAndIdAware {
-    Manual(0), Autonomous(1);
+    /**
+     * <DL>
+     * <DT>Manual</DT>
+     * <DD>manual mode using a controller or mouse</DD>
+     * </DL>
+     */
+    Manual(0),
+    /**
+     * <DL>
+     * <DT>Autonomous</DT>
+     * <DD>automatic mode shooting when the robot decides</DD>
+     * </DL>
+     */
+    Autonomous(1);
 
     private volatile static DDEnum<ControlMode> ddEnum = DDEnum.getNewInstance(ControlMode.class);
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>flip between autonomous and manual modes</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param in
+     * @return
+     */
     public static ControlMode flip(final ControlMode in) {
         if (in == ControlMode.Autonomous) {
             return ControlMode.Manual;
@@ -29,24 +53,78 @@ public enum ControlMode implements IAltNameAndIdAware {
         return ControlMode.Autonomous;
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Return the ControlMode with the passed id</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param in
+     * @return
+     */
     public static ControlMode getById(final int in) {
         return ddEnum.getById(in);
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Return the ControlMode with the passed ordinal</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param in
+     * @return
+     */
     public static ControlMode getByOrdinal(final int in) {
         return ddEnum.getByOrdinal(in);
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Return the ControlMode with the passed nsme ot altName</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param in
+     * @return
+     */
     public static ControlMode getByString(final String in) {
         return ddEnum.getByString(in);
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Return the ControlMode's list of altNames (or names if altName is null)</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param in
+     * @return
+     */
     public static List<String> getDropdownStrings() {
         return ddEnum.getDropdownStrings();
     }
 
     private final int id;
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>ControlMode Constructor</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param idIn
+     */
     ControlMode(final int idIn) {
         id = idIn;
     }
@@ -57,6 +135,7 @@ public enum ControlMode implements IAltNameAndIdAware {
         return name();
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getId() {
         return id;

@@ -14,7 +14,7 @@ import g4p_controls.GSlider;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>A wrapper class for a Slider</DD>
  * <DT>Date:</DT>
  * <DD>Sep 10, 2017</DD>
  * </DL>
@@ -58,6 +58,18 @@ public class SliderHolder extends AbstractDropListHolder {
         slider = aLabel;
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>SliderHolder Constructor</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @param parent
+     * @param index
+     * @param panel
+     */
     public SliderHolder(final IDimensionsAware parent, final int index, final GPanel panel) {
         super(parent, index, panel, ControlType.Slider);
         final float xOffset = getSliderX() - X_GAP - SLIDER_WIDTH - X_GAP;
@@ -86,6 +98,7 @@ public class SliderHolder extends AbstractDropListHolder {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void clear() {
         super.clear();
@@ -109,8 +122,18 @@ public class SliderHolder extends AbstractDropListHolder {
         return slider;
     }
 
-    public float getValue() {
-        return slider != null ? slider.getValueF() : 0.0f;
-    }
+    //    /**
+    //     * <DL>
+    //     * <DT>Description:</DT>
+    //     * <DD>return the current value for the slider</DD>
+    //     * <DT>Date:</DT>
+    //     * <DD>Sep 16, 2017</DD>
+    //     * </DL>
+    //     *
+    //     * @return slider's float value
+    //     */
+    //    public float getValue() {
+    //        return slider != null ? slider.getValueF() : 0.0f;
+    //    }
 
 }

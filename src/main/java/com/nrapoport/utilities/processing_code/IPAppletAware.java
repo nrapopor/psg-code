@@ -9,7 +9,7 @@ import processing.core.PApplet;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>An awareness interface for PApplet property</DD>
  * <DT>Date:</DT>
  * <DD>Sep 1, 2017</DD>
  * </DL>
@@ -25,7 +25,7 @@ public interface IPAppletAware {
      * <DT>Date:</DT>
      * <DD>Sep 1, 2017</DD>
      * </DL>
-     * 
+     *
      * @return PApplet parent;
      */
     PApplet getParent();

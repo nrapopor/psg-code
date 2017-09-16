@@ -12,7 +12,7 @@ import processing.core.PApplet;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>TODO add description</DD>
+ * <DD>Class that handles "lead" for targets</DD>
  * <DT>Date:</DT>
  * <DD>Sep 3, 2017</DD>
  * </DL>
@@ -237,7 +237,7 @@ public class Anticipation extends AbstractPDE {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>TODO add initLocalVariables description</DD>
+     * <DD>Initialize local variables from Settings and RuntimeSettings</DD>
      * <DT>Date:</DT>
      * <DD>Sep 4, 2017</DD>
      * </DL>

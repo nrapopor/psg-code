@@ -59,10 +59,30 @@ public class ConfigurationColor {
         fromArray(color);
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>return the color as an array of ints</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     *
+     * @return
+     */
     public int[] asArray() {
         return new int[] { red, green, blue };
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>populate this color from an array of ints (RGB)</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 16, 2017</DD>
+     * </DL>
+     * 
+     * @param color
+     */
     public void fromArray(final int[] color) {
         red = color[0];
         green = color[1];
