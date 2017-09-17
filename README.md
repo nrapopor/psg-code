@@ -26,7 +26,7 @@ I've also modified the configuration settings to use JSON. I leveraged the (GSON
 1. Install these extra packages
 
    ````sh
-	apt install libjinput-java libjinput-java-doc libjutils-java alsa-utils bluez bluez-tools \
+	sudo apt install libjinput-java libjinput-java-doc libjutils-java alsa-utils bluez bluez-tools \
    		gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-libav \
    		gstreamer1.0-libav-dbg libjogl2-java libjogl2-jni
    ````
@@ -211,21 +211,22 @@ The following configuration must be done prior to running the code for the first
 1.  Choose the correct `enum` value for the `boardType` and deploy it to the connected board
 
 ### Controller
-1.  Connect your game controller to the RPi PORT port and run the `InputDeviceSetupTool` to create the device configuration `.cfg` file. 
+1. Connect your game controller to the RPi PORT port and run the `InputDeviceSetupTool` to create the device configuration `.cfg` file. 
 Select your controller from the device list and map the buttons and the sliders on your controller to actions.
-	````sh
-	cd ~/psg-code/src/main/resources/scripts
-	# TODO add the command to launch the InputDeviceSetupTool
-	````   
+   ````sh
+   cd ~/psg-code/src/main/resources/scripts
+   # TODO add the command to launch the InputDeviceSetupTool
+   ```` 
+   **Note:**
+   >This will have the side effect of creating the `data` directory for the project, creating the default configuration file,
+   >and initializing the `deviceConfig` property to the device config file name  
 
 ### Default Settings
-1.  Run the following command to create the default configuration file. 
+1.  Run the following command to create the default configuration file. (this is only needed if the Controller step was skipped) 
 	````sh
 	cd ~/psg-code/src/main/resources/scripts
 	# TODO: add the command to launch the Settings command to initialize settings
 	````   
-1. Modify the settings file to set the `deviceConfig` property with the name of the device configuration file created during the prior step.
-This property is set to `settings_inputDevice.cfg` by default.     
    **Note:** 
    >Read the instructions on the [PSG Site](http://psg.rudolphlabs.com/make-your-own/using-the-software "http://psg.rudolphlabs.com/make-your-own/using-the-software") 
    >on the various features of the software. They are still valid just the configuration settings are now in JSON so hopefully a little easier to read. I've
