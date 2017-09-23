@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,6 +18,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.Expose;
 import com.nrapoport.utilities.psgcode.AbstractPDE;
+import com.nrapoport.utilities.psgcode.PSGProcessingCode;
 import com.nrapoport.utilities.psgcode.enums.ControlMode;
 import com.nrapoport.utilities.psgcode.enums.Controls;
 import com.nrapoport.utilities.psgcode.enums.Effects;
@@ -30,7 +32,7 @@ import processing.core.PApplet;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>manage settings for project</DD>
+ * <DD>Manage settings for project TODO This class is enormous It need to be redesigned (map backed bean perhaps)</DD>
  * <DT>Date:</DT>
  * <DD>Sep 1, 2017</DD>
  * </DL>
@@ -41,6 +43,21 @@ import processing.core.PApplet;
 public class Settings extends AbstractPDE {
     //   @SuppressWarnings("unused")
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Settings.class);
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>This is to generated the default ./data/settings.json if there are none.</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 18, 2017</DD>
+     * </DL>
+     *
+     * @param args
+     */
+    public static void main(final String[] args) {
+        final Settings settings = new Settings(new PSGProcessingCode(), PSGProcessingCode.DEFAULT_SETTINGS);
+        log.info("current Settings: \n{}", settings.toString());
+    }
 
     private @Expose ConfigurationSettings configuration = new ConfigurationSettings();
 
@@ -537,6 +554,21 @@ public class Settings extends AbstractPDE {
     /**
      * <DL>
      * <DT>Description:</DT>
+     * <DD>A delegate method for the getRetinaPeriodMillis method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 18, 2017</DD>
+     * </DL>
+     *
+     * @return
+     * @see com.nrapoport.utilities.psgcode.config.ConfigurationSettings#getRetinaPeriodMillis()
+     */
+    public int getRetinaPeriodMillis() {
+        return configuration.getRetinaPeriodMillis();
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
      * <DD>A delegate method for the getRunType method</DD>
      * <DT>Date:</DT>
      * <DD>Sep 9, 2017</DD>
@@ -682,6 +714,21 @@ public class Settings extends AbstractPDE {
      */
     public List<String> getSoundFiles() {
         return configuration.getSoundFiles();
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>A delegate method for the getSoundFilesMap method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 18, 2017</DD>
+     * </DL>
+     * 
+     * @return
+     * @see com.nrapoport.utilities.psgcode.config.ConfigurationSettings#getSoundFilesMap()
+     */
+    public Map<String, String> getSoundFilesMap() {
+        return configuration.getSoundFilesMap();
     }
 
     /**
@@ -1300,25 +1347,6 @@ public class Settings extends AbstractPDE {
             ex.fillInStackTrace();
             throw ex;
         }
-        //        } finally {
-        //            if (fr != null) {
-        //                fr.close();
-        //            }
-        //        }
-        //String[] loadData = new String[40];
-        //loadData = loadStrings("settings.txt");
-        //        if (settings != null) {
-        //            //fromJSON(settings);
-        //            log.info("Successfully loaded settings from '{}'", jsonName);
-        //        } else {
-        //            final String msg =
-        //                "Could not load the settings .... Something went very, very, very, wrong please contact your developer";
-        //            log.error(msg);
-        //            final IOException ex = new IOException(msg);
-        //            ex.fillInStackTrace();
-        //            throw ex;
-        //        }
-        //println("Successfully loaded settings from \"settings.txt\"");
     }
 
     /**
@@ -1365,65 +1393,9 @@ public class Settings extends AbstractPDE {
     public void saveSettings(final String jsonName) throws IOException {
         //FileWriter fr = null;
         final Path jsonAbsoluteName = Util.validateLocation(jsonName);//FileSystems.getDefault().getPath(jsonName).toAbsolutePath();
-        final ConfigurationSettingsHolder csh = new ConfigurationSettingsHolder(getConfiguration());
-        final String json = gson.toJson(csh, csh.getClass());
+        //final ConfigurationSettingsHolder csh = new ConfigurationSettingsHolder(getConfiguration());
+        final String json = toString();
         Util.writeSettingsToFile(json, jsonAbsoluteName.toString());
-
-        //        //final String[] saveData = new String[40];
-        //        final JSONObject settings = toJSONObject();
-        //        //        final Map<String, Object> current = toMap();
-        //        //        for (final String key : current.keySet()) {
-        //        //            settings.put(key, current.get(key));
-        //        //
-        //        //        }
-        //        final JSONObject json = new JSONObject();
-        //        json.put("settings", settings);
-        //        saveJSONObject(json, jsonName);
-        //        log.info("Successfully saved settings to '{}'", jsonName);
-
-        //        saveData[0] = str(camWidth);
-        //        saveData[1] = str(camHeight);
-        //        saveData[2] = str(xMin);
-        //        saveData[3] = str(xMax);
-        //        saveData[4] = str(yMin);
-        //        saveData[5] = str(yMax);
-        //        saveData[6] = str(effect);
-        //        saveData[7] = str(mirrorCam);
-        //        saveData[8] = str(minBlobArea);
-        //        saveData[9] = str(tolerance);
-        //        saveData[10] = str(runWithoutArduino);
-        //        saveData[11] = str(smoothingFactor);
-        //        saveData[12] = str(activeSmoothing);
-        //        saveData[13] = str(showDifferentPixels);
-        //        saveData[14] = str(showTargetBox);
-        //        saveData[15] = str(showCameraView);
-        //        saveData[16] = str(firingMode);
-        //        saveData[17] = str(safety);
-        //        saveData[18] = str(controlMode);
-        //        saveData[19] = str(soundEffects);
-        //        saveData[20] = str(scanWhenIdle);
-        //        saveData[21] = str(trackingMotion);
-        //        saveData[22] = str(showRestrictedZones);
-        //        saveData[23] = str(trackingColor);
-        //        saveData[24] = str(trackColorTolerance);
-        //        saveData[25] = str(trackColorRed);
-        //        saveData[26] = str(trackColorGreen);
-        //        saveData[27] = str(trackColorBlue);
-        //        saveData[28] = str(useSafeColor);
-        //        saveData[29] = str(safeColorMinSize);
-        //        saveData[30] = str(safeColorTolerance);
-        //        saveData[31] = str(safeColorRed);
-        //        saveData[32] = str(safeColorGreen);
-        //        saveData[33] = str(safeColorBlue);
-        //        saveData[34] = str(useInputDevice);
-        //        saveData[35] = str(leadTarget);
-        //        saveData[36] = str(nbDot);
-        //        saveData[37] = str(antSens);
-        //        saveData[38] = str(propX);
-        //        saveData[39] = str(propY);
-
-        //saveStrings("data/settings.txt", saveData);
-        //println("Successfully saved settings to \"settings.txt\"");
 
     }
 
@@ -1805,6 +1777,21 @@ public class Settings extends AbstractPDE {
     /**
      * <DL>
      * <DT>Description:</DT>
+     * <DD>A delegate method for the setRetinaPeriodMillis method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 18, 2017</DD>
+     * </DL>
+     *
+     * @param aRetinaPeriodMillis
+     * @see com.nrapoport.utilities.psgcode.config.ConfigurationSettings#setRetinaPeriodMillis(int)
+     */
+    public void setRetinaPeriodMillis(final int aRetinaPeriodMillis) {
+        configuration.setRetinaPeriodMillis(aRetinaPeriodMillis);
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
      * <DD>A delegate method for the setRunType method</DD>
      * <DT>Date:</DT>
      * <DD>Sep 9, 2017</DD>
@@ -2162,8 +2149,6 @@ public class Settings extends AbstractPDE {
         configuration.setTrackColorGreen(aTrackColorGreen);
     }
 
-    //public static final int SETTINGS_COUNT = 41;
-
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -2178,6 +2163,8 @@ public class Settings extends AbstractPDE {
     public void setTrackColorRed(final int aTrackColorRed) {
         configuration.setTrackColorRed(aTrackColorRed);
     }
+
+    //public static final int SETTINGS_COUNT = 41;
 
     /**
      * <DL>
@@ -2239,151 +2226,6 @@ public class Settings extends AbstractPDE {
         updateCount = aUpdateCount;
     }
 
-    //   <===============================================================================================>
-    //   Begin custom values - change these camera dimensions to work with your turret
-    //   <===============================================================================================>
-    //private boolean printFrameRate = false; // set to true to print the framerate at the bottom of the IDE window
-
-    //private int camWidth = 320; //   camera width (pixels),   usually 160*n
-
-    //private int camHeight = 240; //   camera height (pixels),  usually 120*n
-
-    //private int[] diffPixelsColor = { 255, 255, 0 }; // Red, green, blue values (0-255)  to show pixel as marked as target
-
-    //private Effects effect = Effects.Opaque;
-
-    //private boolean mirrorCam = false; //   set true to mirror camera image
-
-    //   <===============================================================================================>
-    //   End custom values
-    //   <===============================================================================================>
-
-    //    private float xMin = 0.0f; //  Actual calibration values are loaded from "settings.json".
-    //
-    //    private float xMax = 180.0f; //  If "settings.txt" is broken / unavailable, these defaults are used instead -
-    //
-    //    private float yMin = 0.0f; //  otherwise, changing these lines will have no effect on your gun's calibration.
-    //
-    //    //private int effect = 0; // Effect
-    //
-    //    private float yMax = 180.0f; //
-    //
-    //    private int minBlobArea = 30; //   minimum target size (pixels)
-    //
-    //    private int tolerance = 100; //   sensitivity to motion
-    //
-    //    private boolean runWithoutArduino = false;
-    //
-    //    private Renderers rendererType = Renderers.P2D;
-    //
-    //    private float smoothingFactor = 0.8f; // smoothing
-    //
-    //    private boolean activeSmoothing = true;
-    //
-    //    protected boolean useSafeColor = false;
-    //
-    //    private boolean showDifferentPixels = false;
-    //
-    //    private boolean showTargetBox = true;
-    //
-    //    private boolean showCameraView = true;
-    //
-    //    //private boolean firingMode = true; // true = semi,        false = auto
-    //    FiringMode firingMode = FiringMode.SemiAuto;
-    //
-    //    private boolean safety = true;
-    //
-    //    //private boolean controlMode = false; // true = autonomous,  false = manual
-    //    private ControlMode controlMode = ControlMode.Manual;
-    //
-    //    private boolean soundEffects = false; // set to true to enable sound effects by default
-    //
-    //    private boolean scanWhenIdle = true;
-    //
-    //    private boolean trackingMotion = true;
-    //
-    //    //
-    //    private int idleTime = 10000; // how many milliseconds to wait until scanning (when in scan mode)
-    //
-    //    int idleBeginTime = 0;
-    //
-    //    boolean scan = false;
-    //
-    //    public String serPortUsed;
-    //
-    //    int[][] fireRestrictedZones = new int[30][4];
-    //
-    //    int restrictedZone = 1;
-    //
-
-    //    private boolean showRestrictedZones = false;
-    //
-    //    private boolean trackingColor = false;
-    //
-    //    private int trackColorTolerance = 100;
-    //
-    //    private int trackColorRed = 255;
-    //
-    //    private int trackColorGreen = 255;
-    //
-    //    private int trackColorBlue = 255;
-    //
-    //    private int safeColorMinSize = 500;
-    //
-    //    private int safeColorTolerance = 100;
-    //
-    //    private int safeColorRed = 0;
-    //
-    //    private int safeColorGreen = 255;
-    //
-    //    private int safeColorBlue = 0;
-    //
-    //    private Controls controls = Controls.Mouse;
-    //
-    //    boolean leadTarget = true;
-    //
-    //    private int nbDot = 10; // nomber of dot for anticipation minimum 2
-    //
-    //    //private boolean useInputDevice = false; // use a joystick or game Controller as input (in manual mode) now it's controls enum
-    //
-    //    private int antSens = 10; // sensitivity of anticipation
-    //
-    //    private boolean useArrowKeys = false; // use arrow keys to finely adjust the aiming (in manual mode)
-    //
-    //    private float propX = 0.67f; // proportionality of anticipation
-    //
-    //    private float propY = 0.11f; // 1 is Hight / more is Less
-    //
-    //    private int soundInterval = 1000;
-    //
-    //    //private int soundTimer = 0;
-    //
-    //    List<String> soundFiles = new ArrayList<>(Arrays.asList( //
-    //        "data/your business is appreciated.wav", //$NON-NLS-1$
-    //        "data/who's there.wav", //$NON-NLS-1$
-    //        "data/there you are.wav", //$NON-NLS-1$
-    //        "data/there you are(2).wav", //$NON-NLS-1$
-    //        "data/target lost.wav", //$NON-NLS-1$
-    //        "data/target aquired.wav", //$NON-NLS-1$
-    //        "data/sleep mode activated.wav", //$NON-NLS-1$
-    //        "data/sentry mode activated.wav", //$NON-NLS-1$
-    //        "data/no hard feelings.wav", //$NON-NLS-1$
-    //        "data/is anyone there.wav", //$NON-NLS-1$
-    //        "data/i see you.wav", //$NON-NLS-1$
-    //        "data/i dont hate you.wav", //$NON-NLS-1$
-    //        "data/i dont blame you.wav", //$NON-NLS-1$
-    //        "data/hey its me.wav", //$NON-NLS-1$
-    //        "data/hello.wav", //$NON-NLS-1$
-    //        "data/gotcha.wav", //$NON-NLS-1$
-    //        "data/dispensing product.wav", //$NON-NLS-1$
-    //        "data/deploying.wav", //$NON-NLS-1$
-    //        "data/could you come over here.wav", //$NON-NLS-1$
-    //        "data/are you still there.wav", //$NON-NLS-1$
-    //        "data/activated.wav" //$NON-NLS-1$
-    //    ));
-    //
-    //    private String website = "http://psg.rudolphlabs.com/";
-
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -2398,139 +2240,6 @@ public class Settings extends AbstractPDE {
     public void setUseArrowKeys(final boolean aUseArrowKeys) {
         configuration.setUseArrowKeys(aUseArrowKeys);
     }
-
-    //    /**
-    //     * <DL>
-    //     * <DT>Description:</DT>
-    //     * <DD>parse the settings from a json file</DD>
-    //     * <DT>Date:</DT>
-    //     * <DD>Sep 1, 2017</DD>
-    //     * </DL>
-    //     *
-    //     * @param settings
-    //     *            the name of the JSON file
-    //     */
-    //    protected void fromJSON(final JSONObject settings) {
-    //        camWidth = settings.getInt("camWidth", camWidth); // loadData[0]
-    //        camHeight = settings.getInt("camHeight", camHeight); // loadData[1]
-    //        printFrameRate = settings.getBoolean("printFrameRate", printFrameRate);
-    //        if (settings.hasKey("calibration")) {
-    //            final JSONObject calibration = settings.getJSONObject("calibration");
-    //            xMin = calibration.getFloat("xMin", xMin); // loadData[2]
-    //            xMax = calibration.getFloat("xMax", xMax); // loadData[3]
-    //            yMin = calibration.getFloat("yMin", yMin); // loadData[4]
-    //            yMax = calibration.getFloat("yMax", yMax); // loadData[5]
-    //            //effect = calibration.getInt("effect", effect); // loadData[6]
-    //            try {
-    //                setEffect(Effects.valueOf(calibration.getString("effect", getEffect().name()))); //loadData[42] //new
-    //            } catch (final IllegalArgumentException ex) {
-    //                log.warn("Invalid value passed for the 'effect' using  {} ", getEffect().name()); //$NON-NLS-1$
-    //                String values = "";
-    //                for (final Effects em : Effects.values()) {
-    //                    values += "'" + em.name() + "' ";
-    //                }
-    //                log.warn("valid values are  {} ", values); //$NON-NLS-1$
-    //            }
-    //            mirrorCam = calibration.getBoolean("mirrorCam", mirrorCam); // loadData[7]
-    //            minBlobArea = calibration.getInt("minBlobArea", minBlobArea); // loadData[8]
-    //            tolerance = calibration.getInt("tolerance", tolerance); // loadData[9]
-    //            smoothingFactor = calibration.getFloat("smoothingFactor", smoothingFactor); // loadData[11]
-    //            activeSmoothing = calibration.getBoolean("activeSmoothing", activeSmoothing); // loadData[12]
-    //        }
-    //        runWithoutArduino = settings.getBoolean("runWithoutArduino", runWithoutArduino); // loadData[10]
-    //        showDifferentPixels = settings.getBoolean("showDifferentPixels", showDifferentPixels); // loadData[13]
-    //        showTargetBox = settings.getBoolean("showTargetBox", showTargetBox); // loadData[14]
-    //        showCameraView = settings.getBoolean("showCameraView", showCameraView); // loadData[15]
-    //        //firingMode = settings.getBoolean("firingMode", firingMode); // loadData[16]
-    //        try {
-    //            firingMode = FiringMode.valueOf(settings.getString("firingMode", firingMode.name())); //loadData[16] //new
-    //        } catch (final IllegalArgumentException ex) {
-    //            log.warn("Invalid value passed for the 'firingMode' using  {} ", firingMode.name()); //$NON-NLS-1$
-    //            String values = "";
-    //            for (final FiringMode em : FiringMode.values()) {
-    //                values += "'" + em.name() + "' ";
-    //            }
-    //            log.warn("valid values are  {} ", values); //$NON-NLS-1$
-    //        }
-    //
-    //        safety = settings.getBoolean("safety", safety); // loadData[17]
-    //        //controlMode = settings.getBoolean("controlMode", controlMode); // loadData[18]
-    //        try {
-    //            controlMode = ControlMode.valueOf(settings.getString("controlMode", controlMode.name())); //loadData[18] //new
-    //        } catch (final IllegalArgumentException ex) {
-    //            log.warn("Invalid value passed for the 'controlMode' using  {} ", controlMode.name()); //$NON-NLS-1$
-    //            String values = "";
-    //            for (final ControlMode em : ControlMode.values()) {
-    //                values += "'" + em.name() + "' ";
-    //            }
-    //            log.warn("valid values are  {} ", values); //$NON-NLS-1$
-    //        }
-    //
-    //        scanWhenIdle = settings.getBoolean("scanWhenIdle", scanWhenIdle); // loadData[20]
-    //        idleTime = settings.getInt("idleTime", idleTime); // loadData[48]
-    //        trackingMotion = settings.getBoolean("trackingMotion", trackingMotion); // loadData[21]
-    //        showRestrictedZones = settings.getBoolean("showRestrictedZones", showRestrictedZones); // loadData[22]
-    //        trackingColor = settings.getBoolean("trackingColor", trackingColor); // loadData[23]
-    //        trackColorTolerance = settings.getInt("trackColorTolerance", trackColorTolerance); // loadData[24]
-    //        trackColorRed = settings.getInt("trackColorRed", trackColorRed); // loadData[25]
-    //        trackColorGreen = settings.getInt("trackColorGreen", trackColorGreen); // loadData[26]
-    //        trackColorBlue = settings.getInt("trackColorBlue", trackColorBlue); // loadData[27]
-    //        useSafeColor = settings.getBoolean("useSafeColor", useSafeColor); // loadData[28]
-    //        safeColorMinSize = settings.getInt("safeColorMinSize", safeColorMinSize); // loadData[29]
-    //        safeColorTolerance = settings.getInt("safeColorTolerance", safeColorTolerance); // loadData[30]
-    //        safeColorRed = settings.getInt("safeColorRed", safeColorRed); // loadData[31]
-    //        safeColorGreen = settings.getInt("safeColorGreen", safeColorGreen); // loadData[32]
-    //        safeColorBlue = settings.getInt("safeColorBlue", safeColorBlue); // loadData[33]
-    //        //useInputDevice = settings.getBoolean("useInputDevice", useInputDevice); // loadData[34]
-    //        leadTarget = settings.getBoolean("leadTarget", leadTarget); // loadData[35]
-    //        nbDot = settings.getInt("nbDot", nbDot); // loadData[36]
-    //        antSens = settings.getInt("antSens", antSens); // loadData[37]
-    //        propX = settings.getFloat("propX", propX); // loadData[38]
-    //        propY = settings.getFloat("propY", propY); // loadData[39]
-    //        setUseArrowKeys(settings.getBoolean("useArrowKeys", isUseArrowKeys())); // loadData[40] //new
-    //        website = settings.getString("website", website); // loadData[48] //new
-    //        if (settings.hasKey("diffPixelsColor")) {
-    //            final JSONObject dpc = settings.getJSONObject("diffPixelsColor"); //loadData[41] //new
-    //            diffPixelsColor[0] = dpc.getInt("red", diffPixelsColor[0]);
-    //            diffPixelsColor[1] = dpc.getInt("green", diffPixelsColor[1]);
-    //            diffPixelsColor[2] = dpc.getInt("blue", diffPixelsColor[2]);
-    //        }
-    //        try {
-    //            rendererType = Renderers.valueOf(settings.getString("rendererType", rendererType.name())); //loadData[42] //new
-    //        } catch (final IllegalArgumentException ex) {
-    //            log.warn("Invalid value passed for the 'rendererType' using  {} ", rendererType.name()); //$NON-NLS-1$
-    //            String values = "";
-    //            for (final Renderers em : Renderers.values()) {
-    //                values += "'" + em.name() + "' ";
-    //            }
-    //            log.warn("valid values are  {} ", values); //$NON-NLS-1$
-    //        }
-    //        try {
-    //            controls = Controls.valueOf(settings.getString("controls", controls.name())); //$NON-NLS-1$
-    //        } catch (final IllegalArgumentException ex) {
-    //            log.warn("Invalid value passed for the 'controls' using  {} ", controls); //$NON-NLS-1$
-    //            String values = "";
-    //            for (final Controls em : Controls.values()) {
-    //                values += "'" + em.name() + "' ";
-    //            }
-    //            log.warn("valid values are  {} ", values); //$NON-NLS-1$
-    //        }
-    //
-    //        if (settings.hasKey("sounds")) {
-    //            soundsUpdate = true;
-    //            final JSONObject sounds = settings.getJSONObject("sounds");
-    //            soundEffects = sounds.getBoolean("soundEffects", soundEffects); // loadData[19]
-    //            //soundTimer = sounds.getInt("soundTimer", soundTimer); // loadData[44]
-    //            soundInterval = sounds.getInt("soundInterval", soundInterval); // loadData[45]
-    //            if (sounds.hasKey("soundFiles")) {
-    //                final JSONArray soundsF = sounds.getJSONArray("soundFiles"); //loadData[43] //new
-    //                soundFiles.clear();
-    //                soundFiles.addAll(Arrays.asList(soundsF.getStringArray()));
-    //            }
-    //        }
-    //
-    //        updateCount++;
-    //    }
 
     /**
      * <DL>
@@ -2636,135 +2345,19 @@ public class Settings extends AbstractPDE {
         configuration.toggleUseArrowKeys();
     }
 
-    //    public Map<String, Object> toMap() {
-    //        final Map<String, Object> contents = new LinkedHashMap<String, Object>(SETTINGS_COUNT);
-    //        contents.put("camWidth", camWidth); // loadData[0]
-    //        contents.put("camHeight", camHeight); // loadData[1]
-    //        contents.put("xMin", xMin); // loadData[2]
-    //        contents.put("xMax", xMax); // loadData[3]
-    //        contents.put("yMin", yMin); // loadData[4]
-    //        contents.put("yMax", yMax); // loadData[5]
-    //        contents.put("effect", effect); // loadData[6]
-    //        contents.put("mirrorCam", mirrorCam); // loadData[7]
-    //        contents.put("minBlobArea", minBlobArea); // loadData[8]
-    //        contents.put("tolerance", tolerance); // loadData[9]
-    //        contents.put("runWithoutArduino", runWithoutArduino); // loadData[10]
-    //        contents.put("smoothingFactor", smoothingFactor); // loadData[11]
-    //        contents.put("activeSmoothing", activeSmoothing); // loadData[12]
-    //        contents.put("showDifferentPixels", showDifferentPixels); // loadData[13]
-    //        contents.put("showTargetBox", showTargetBox); // loadData[14]
-    //        contents.put("showCameraView", showCameraView); // loadData[15]
-    //        contents.put("firingMode", firingMode); // loadData[16]
-    //        contents.put("safety", safety); // loadData[17]
-    //        contents.put("controlMode", controlMode); // loadData[18]
-    //        contents.put("soundEffects", soundEffects); // loadData[19]
-    //        contents.put("scanWhenIdle", scanWhenIdle); // loadData[20]
-    //        contents.put("trackingMotion", trackingMotion); // loadData[21]
-    //        contents.put("showRestrictedZones", showRestrictedZones); // loadData[22]
-    //        contents.put("trackingColor", trackingColor); // loadData[23]
-    //        contents.put("trackColorTolerance", trackColorTolerance); // loadData[24]
-    //        contents.put("trackColorRed", trackColorRed); // loadData[25]
-    //        contents.put("trackColorGreen", trackColorGreen); // loadData[26]
-    //        contents.put("trackColorBlue", trackColorBlue); // loadData[27]
-    //        contents.put("useSafeColor", useSafeColor); // loadData[28]
-    //        contents.put("safeColorMinSize", safeColorMinSize); // loadData[29]
-    //        contents.put("safeColorTolerance", safeColorTolerance); // loadData[30]
-    //        contents.put("safeColorRed", safeColorRed); // loadData[31]
-    //        contents.put("safeColorGreen", safeColorGreen); // loadData[32]
-    //        contents.put("safeColorBlue", safeColorBlue); // loadData[33]
-    //        contents.put("useInputDevice", useInputDevice); // loadData[34]
-    //        contents.put("leadTarget", leadTarget); // loadData[35]
-    //        contents.put("nbDot", nbDot); // loadData[36]
-    //        contents.put("antSens", antSens); // loadData[37]
-    //        contents.put("propX", propX); // loadData[38]
-    //        contents.put("propY", propY); // loadData[39]
-    //        contents.put("useArrowKeys", useArrowKeys); // loadData[40] //new
-    //        final JSONObject diffPixelsColorObj = new JSONObject();
-    //        diffPixelsColorObj.put("red", diffPixelsColor[0]);
-    //        diffPixelsColorObj.put("green", diffPixelsColor[1]);
-    //        diffPixelsColorObj.put("blue", diffPixelsColor[2]);
-    //
-    //        contents.put("diffPixelsColor", diffPixelsColorObj); //loadData[41] //new
-    //
-    //        return contents;
-    //
-    //    }
-    //    /**
-    //     * <DL>
-    //     * <DT>Description:</DT>
-    //     * <DD>store the current property values of this object into JSON</DD>
-    //     * <DT>Date:</DT>
-    //     * <DD>Sep 1, 2017</DD>
-    //     * </DL>
-    //     *
-    //     * @return
-    //     */
-    //    public JSONObject toJSONObject() {
-    //        //final Map<String, Object> contents = new LinkedHashMap<String, Object>(SETTINGS_COUNT);
-    //        final JSONObject contents = new JSONObject();
-    //        contents.put("camWidth", camWidth); // loadData[0]
-    //        contents.put("camHeight", camHeight); // loadData[1]
-    //        contents.put("printFrameRate", printFrameRate); // loadData[47]
-    //        final JSONObject calibration = new JSONObject();
-    //        calibration.put("xMin", xMin); // loadData[2]
-    //        calibration.put("xMax", xMax); // loadData[3]
-    //        calibration.put("yMin", yMin); // loadData[4]
-    //        calibration.put("yMax", yMax); // loadData[5]
-    //        calibration.put("effect", getEffect().name()); // loadData[6]
-    //        calibration.put("mirrorCam", mirrorCam); // loadData[7]
-    //        calibration.put("minBlobArea", minBlobArea); // loadData[8]
-    //        calibration.put("tolerance", tolerance); // loadData[9]
-    //        calibration.put("smoothingFactor", smoothingFactor); // loadData[11]
-    //        calibration.put("activeSmoothing", activeSmoothing); // loadData[12]
-    //        contents.put("calibration", calibration);
-    //        contents.put("runWithoutArduino", runWithoutArduino); // loadData[10]
-    //        contents.put("showDifferentPixels", showDifferentPixels); // loadData[13]
-    //        contents.put("showTargetBox", showTargetBox); // loadData[14]
-    //        contents.put("showCameraView", showCameraView); // loadData[15]
-    //        contents.put("firingMode", firingMode.name()); // loadData[16]
-    //        contents.put("safety", safety); // loadData[17]
-    //        contents.put("controlMode", controlMode.name()); // loadData[18]
-    //        contents.put("scanWhenIdle", scanWhenIdle); // loadData[20]
-    //        contents.put("idleTime", idleTime); // loadData[47]
-    //        contents.put("trackingMotion", trackingMotion); // loadData[21]
-    //        contents.put("showRestrictedZones", showRestrictedZones); // loadData[22]
-    //        contents.put("trackingColor", trackingColor); // loadData[23]
-    //        contents.put("trackColorTolerance", trackColorTolerance); // loadData[24]
-    //        contents.put("trackColorRed", trackColorRed); // loadData[25]
-    //        contents.put("trackColorGreen", trackColorGreen); // loadData[26]
-    //        contents.put("trackColorBlue", trackColorBlue); // loadData[27]
-    //        contents.put("useSafeColor", useSafeColor); // loadData[28]
-    //        contents.put("safeColorMinSize", safeColorMinSize); // loadData[29]
-    //        contents.put("safeColorTolerance", safeColorTolerance); // loadData[30]
-    //        contents.put("safeColorRed", safeColorRed); // loadData[31]
-    //        contents.put("safeColorGreen", safeColorGreen); // loadData[32]
-    //        contents.put("safeColorBlue", safeColorBlue); // loadData[33]
-    //        //contents.put("useInputDevice", useInputDevice); // loadData[34]
-    //        contents.put("leadTarget", leadTarget); // loadData[35]
-    //        contents.put("nbDot", nbDot); // loadData[36]
-    //        contents.put("antSens", antSens); // loadData[37]
-    //        contents.put("propX", propX); // loadData[38]
-    //        contents.put("propY", propY); // loadData[39]
-    //        contents.put("useArrowKeys", isUseArrowKeys()); // loadData[40] //new
-    //        contents.put("website", website); // loadData[48] //new
-    //        final JSONObject diffPixelsColorObj = new JSONObject();
-    //        diffPixelsColorObj.put("red", diffPixelsColor[0]);
-    //        diffPixelsColorObj.put("green", diffPixelsColor[1]);
-    //        diffPixelsColorObj.put("blue", diffPixelsColor[2]);
-    //        contents.put("diffPixelsColor", diffPixelsColorObj); //loadData[41] //new
-    //        contents.put("rendererType", rendererType.name()); //loadData[42] //new
-    //        contents.put("controls", controls.name()); //loadData[43] //new
-    //        final JSONObject sounds = new JSONObject();
-    //        //sounds.put("soundTimer", soundTimer); //loadData[44] //new
-    //        sounds.put("soundInterval", soundInterval); //loadData[45] //new
-    //        sounds.put("soundEffects", soundEffects); // loadData[19]
-    //        final JSONArray soundsF = new JSONArray();
-    //        for (final String sound : soundFiles) {
-    //            soundsF.append(sound);
-    //        }
-    //        sounds.put("soundFiles", soundsF); //loadData[46] //new
-    //        contents.put("sounds", sounds);
-    //        return contents;
-    //    }
-
+    /**
+     * {@inheritDoc}
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>get the current settings as a JSON string</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 1, 2017</DD>
+     * </DL>
+     */
+    @Override
+    public String toString() {
+        final ConfigurationSettingsHolder csh = new ConfigurationSettingsHolder(getConfiguration());
+        final String json = gson.toJson(csh, csh.getClass());
+        return json;
+    }
 }

@@ -1,4 +1,5 @@
 #!/bin/bash
+#DESC: This script will install the single missing library to the local maven cache
 export GROUP=$1
 export ARTIFACT=$2
 export VERSION=$3

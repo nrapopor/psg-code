@@ -5,8 +5,8 @@
 
 package com.nrapoport.utilities.psgcode;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.nrapoport.utilities.psgcode.config.Settings;
@@ -46,7 +46,7 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
 
     final Settings settings;
 
-    final List<Sampler> players = new ArrayList<>(NUMBER_OF_SOUNDS);
+    final Map<String, Sampler> players = new LinkedHashMap<>(NUMBER_OF_SOUNDS);
     //Delay delay;
 
     /**
@@ -132,7 +132,36 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
         if (idx > players.size()) {
             idx = players.size();
         }
-        return players.get(index - 1);
+        return (Sampler) players.values().toArray()[idx - 1];
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>get a reference to the audio player by name</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 2, 2017</DD>
+     * </DL>
+     *
+     * @param name
+     *            the name of the particular sound (all lower case)
+     *
+     * @return return a Sampler with the passed index
+     * @see java.util.Map#get(int)
+     * @throws IllegalArgumentException
+     *             if the sound name is invalid
+     */
+
+    protected Sampler get(final String name) {
+        if (players.containsKey(name.toLowerCase())) {
+            return players.get(name.toLowerCase());
+        }
+        final String msg =
+            String.format("No such sound: '%1$s' Make sure that all sound names are in lower case", name.toLowerCase());
+        final RuntimeException newEx = new IllegalArgumentException(msg);
+        newEx.fillInStackTrace();
+        log.error("Invalid sound name passed int", newEx);
+        throw newEx;
     }
 
     /**
@@ -159,7 +188,7 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
      *
      * @return the value of players field
      */
-    public List<Sampler> getPlayers() {
+    public Map<String, Sampler> getPlayers() {
         return players;
     }
 
@@ -280,32 +309,72 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
         resetSettingsManagedFields(false);
         if (soundEffects) {
             final Sampler sampler = get(sound);
-            Sounds.log.debug("{} waiting to Play sound: {}", Thread.currentThread().getName(), sound);
-            new Thread(() -> {
-                try {
-                    synchronized (out) {
-                        sampler.patch(out);
-                        TimeUnit.MILLISECONDS.sleep(100);
-                        Sounds.log.debug("{} Playing sound: {}", Thread.currentThread().getName(), sound);
-                        sampler.trigger();
-                    }
-                    TimeUnit.MILLISECONDS.sleep(getSettings().getSamplerDelay());
-                } catch (final InterruptedException ex) {
-                    Sounds.log.debug("caught InterruptedException :", ex); //$NON-NLS-1$
-                } finally {
-                    synchronized (out) {
-                        sampler.unpatch(out);
-                    }
-                    Sounds.log.debug("{} Done Playing sound: {}", Thread.currentThread().getName(), sound);
-                }
-            }).start();
-            //            try {
-            //                Thread.sleep(2000);
-            //            } catch (final InterruptedException ex) {
-            //                log.debug("caught InterruptedException :", ex); //$NON-NLS-1$
-            //            }
-            //            player.unpatch(out);
+            @SuppressWarnings("unchecked")
+            final String soundStr = ((Map.Entry<String, Sampler>) players.entrySet().toArray()[sound - 1]).getKey();
+
+            //getSettings().getSoundFilesMap().values().toArray()[players.indexOf(sampler)].toString();
+            playSound(soundStr, sampler);
         }
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Play the sound at the passed index (1 based) , if sound effects are enabled</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 2, 2017</DD>
+     * </DL>
+     *
+     * @param sound
+     *            the 1 based index of the sound;
+     */
+    public void playSound(final String sound) {
+        resetSettingsManagedFields(false);
+        if (soundEffects) {
+            final Sampler sampler = get(sound);
+            final String soundStr = sound.toLowerCase();
+            playSound(soundStr, sampler);
+        }
+
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Play the selected sound</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 18, 2017</DD>
+     * </DL>
+     *
+     * @param sound
+     * @param sampler
+     */
+    protected void playSound(final String sound, final Sampler sampler) {
+        Sounds.log.debug("{} waiting to Play sound: {}", Thread.currentThread().getName(), sound);
+        new Thread(() -> {
+            try {
+                synchronized (out) {
+                    sampler.patch(out);
+                    TimeUnit.MILLISECONDS.sleep(100);
+                    Sounds.log.debug("{} Playing sound: {}", Thread.currentThread().getName(), sound);
+                    sampler.trigger();
+                }
+                TimeUnit.MILLISECONDS.sleep(getSettings().getSamplerDelay());
+            } catch (final InterruptedException ex) {
+                Sounds.log.debug("caught InterruptedException :", ex); //$NON-NLS-1$
+            } finally {
+                synchronized (out) {
+                    sampler.unpatch(out);
+                }
+                Sounds.log.debug("{} Done Playing sound: {}", Thread.currentThread().getName(), sound);
+            }
+        }).start();
+        //            try {
+        //                Thread.sleep(2000);
+        //            } catch (final InterruptedException ex) {
+        //                log.debug("caught InterruptedException :", ex); //$NON-NLS-1$
+        //            }
+        //            player.unpatch(out);
     }
 
     /**
@@ -319,8 +388,11 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
     public void randomIdleSound() {
         resetSettingsManagedFields(false);
         if (soundEffects) {
-            final int sound = (int) Math.floor(getParent().random(1, 11));
-            playSound(sound);
+            final String[] soundList = { "business", "who", "there", "nohardfeel", "isthere", "donthate", "dontblame",
+                "itsme", "hello", "comehere", "stillthere" };
+
+            final int sound = (int) Math.floor(getParent().random(0, soundList.length));
+            playSound(soundList[sound]);
         }
     }
 
@@ -352,16 +424,16 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
                 initMinim();
             }
             closePlayers();
-            for (final String sound : settings.getSoundFiles()) {
+            for (final String soundKey : settings.getSoundFilesMap().keySet()) {
                 //players.add(minim.loadSample(sound));
                 final MultiChannelBuffer sampleData = new MultiChannelBuffer(1024, 2);
-                final float rate = minim.loadFileIntoBuffer(sound, sampleData);
+                final float rate = minim.loadFileIntoBuffer(settings.getSoundFilesMap().get(soundKey), sampleData);
                 final Sampler sampler = new Sampler(sampleData, rate, numberOfVoices);
                 if (rate > sampleRate) {
                     sampleRate = rate;
                     log.debug("sampleRate: {},{}", sampleRate, rate);
                 }
-                players.add(sampler);
+                players.put(soundKey.toLowerCase(), sampler);
             }
             getSettings().setSoundsUpdate(false);
             if (out != null) {

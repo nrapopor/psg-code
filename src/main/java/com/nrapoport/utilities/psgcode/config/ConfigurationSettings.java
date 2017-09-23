@@ -37,47 +37,48 @@ public class ConfigurationSettings {
     //   Begin custom values - change these camera dimensions to work with your turret
     //   <===============================================================================================>
 
-    private final String comments_default = ""//
-        + "printFrameRate=set to true to print the framerate at the bottom of the IDE window, default: false;" //$NON-NLS-1$
-        + "camWidth=camera width (pixels),   usually 160*n, default: 320;" //$NON-NLS-1$
-        + "camHeight=camera height (pixels),  usually 120*n, default: 240;" //$NON-NLS-1$
-        + "diffPixelsColor=Red, green, blue values (0-255) to show pixel as marked as target, default: {255, 255, 0};" //$NON-NLS-1$
-        + "runtType=the level of resouces to use for this run: one of Full, Minimal, MinimalWithSounds. default: Minimal;" //$NON-NLS-1$
-        + "deviceConfig=the name of the device configuration file in the data folder. default: " //$NON-NLS-1$
-        + InputDeviceSetupTool.DEFAULT_DEVICE_FILENAME + ";" //$NON-NLS-1$
-        + "effect=one of Opaque, Transparent, Negative, NegativeAndTransparent, default: Opaque;" //$NON-NLS-1$
-        + "mirrorCam=set true to mirror camera image;" //$NON-NLS-1$
-        + "xMin=calibration default: 0.0;" //$NON-NLS-1$
-        + "xMax=calibration default: 180.0;" //$NON-NLS-1$
-        + "yMin=calibration default: 0.0;" //$NON-NLS-1$
-        + "yMax=calibration default: 180.0;" //$NON-NLS-1$
-        + "minBlobArea=minimum target size (pixels) default: 30;" //$NON-NLS-1$
-        + "tolerance=sensitivity to motion default: 100;" //$NON-NLS-1$
-        + "runWithoutArduino=If Arduino board is not available default: false;" //$NON-NLS-1$
-        + "rendererType=The type of render to use (this is a Processing display option). One of P2D, P3D, OPENGL, FX2D, PDF, SVG, DXF default: P2D;" //$NON-NLS-1$
-        + "smoothingFactor=smoothing factor, default: 0.8f;" //$NON-NLS-1$
-        + "firingMode=One of Automatic, SemiAuto default: SemiAuto;" //$NON-NLS-1$
-        + "safety=Enable the weapon (allow to fire), default: true;" //$NON-NLS-1$
-        + "controlMode=One of Manual, Autonomous, default: Manual;" //$NON-NLS-1$
-        + "soundEffects=set to true to enable sound effects by default, default: false;" //$NON-NLS-1$
-        + "idleTime=how many milliseconds to wait until scanning (when in scan mode), default: 10000;" //$NON-NLS-1$
-        + "trackColor=the color that's used for tracking, default: minSize 0 tolerance 100 and RGB {255, 255, 255};" //$NON-NLS-1$
-        + "safeColor=the color that's used for safe, default: minSize 500 tolerance 100, and RGB {255, 255, 255};" //$NON-NLS-1$
-        + "controls=One of Device or Mouse, default: Mouse;" //$NON-NLS-1$
-        + "leadTarget=Do the anticipation,('lead') calculations, default: true;" //$NON-NLS-1$
-        + "nbDot=number of dot for anticipation minimum 2, default: 10;" //$NON-NLS-1$
-        + "antSens=sensitivity of anticipation, default: 10;" //$NON-NLS-1$
-        + "useArrowKeys=use arrow keys to finely adjust the aiming (in manual mode), default: false;" //$NON-NLS-1$
-        + "propX=proportionality of anticipation 1 is Width / more is Less, default:0.67;" //$NON-NLS-1$
-        + "propY=proportionality of anticipation 1 is Hight / more is Less, default: 0.11;" //$NON-NLS-1$
-        + "soundInterval=simple counter limit that will determine how often to play a random sound (if enabled) default: 1000;" //$NON-NLS-1$
-        + "numberOfVoices=The number of voices passed to the Sampler (see Minim documentation) , default: 21;" //$NON-NLS-1$
-        + "samplerDelay=Time (in milliseconds) to wait to unpatch a Sampler (see Minim documentation), default: 2500;" //$NON-NLS-1$
-        + "soundFiles=list of sound files that will play sounds for both random and as a response to activity if sounds are enabled, order is important;" //$NON-NLS-1$
-    ;
+    private final List<String> comments_default = new ArrayList<>(Arrays.asList( //
+        "printFrameRate=set to true to print the framerate at the bottom of the IDE window, default: false;", //$NON-NLS-1$
+        "camWidth=camera width (pixels),   usually 160*n, default: 320;", //$NON-NLS-1$
+        "camHeight=camera height (pixels),  usually 120*n, default: 240;", //$NON-NLS-1$
+        "retinaPeriodMillis=Refresh rate of the 'retina' image. Basicaly, the image to use for detecting motion. The default is 20 times a second, or every 50 millis. Default 50 ;", //$NON-NLS-1$
+        "diffPixelsColor=Red, green, blue values (0-255) to show pixel as marked as target, default: {255, 255, 0};", //$NON-NLS-1$
+        "runtType=the level of resouces to use for this run: one of Full, Minimal, MinimalWithSounds. default: Minimal;", //$NON-NLS-1$
+        "deviceConfig=the name of the device configuration file in the data folder. default: " //$NON-NLS-1$
+            + InputDeviceSetupTool.DEFAULT_DEVICE_FILENAME + ";", //$NON-NLS-1$
+        "effect=one of Opaque, Transparent, Negative, NegativeAndTransparent, default: Opaque;", //$NON-NLS-1$
+        "mirrorCam=set true to mirror camera image;", //$NON-NLS-1$
+        "xMin=calibration default: 0.0;", //$NON-NLS-1$
+        "xMax=calibration default: 180.0;", //$NON-NLS-1$
+        "yMin=calibration default: 0.0;", //$NON-NLS-1$
+        "yMax=calibration default: 180.0;", //$NON-NLS-1$
+        "minBlobArea=minimum target size (pixels) default: 30;", //$NON-NLS-1$
+        "tolerance=sensitivity to motion default: 100;", //$NON-NLS-1$
+        "runWithoutArduino=If Arduino board is not available default: false;", //$NON-NLS-1$
+        "rendererType=The type of render to use (this is a Processing display option). One of P2D, P3D, OPENGL, FX2D, PDF, SVG, DXF default: P2D;", //$NON-NLS-1$
+        "smoothingFactor=smoothing factor, default: 0.8f;", //$NON-NLS-1$
+        "firingMode=One of Automatic, SemiAuto default: SemiAuto;", //$NON-NLS-1$
+        "safety=Enable the weapon (allow to fire), default: true;", //$NON-NLS-1$
+        "controlMode=One of Manual, Autonomous, default: Manual;", //$NON-NLS-1$
+        "soundEffects=set to true to enable sound effects by default, default: false;", //$NON-NLS-1$
+        "idleTime=how many milliseconds to wait until scanning (when in scan mode), default: 10000;", //$NON-NLS-1$
+        "trackColor=the color that's used for tracking, default: minSize 0 tolerance 100 and RGB {255, 255, 255};", //$NON-NLS-1$
+        "safeColor=the color that's used for safe, default: minSize 500 tolerance 100, and RGB {255, 255, 255};", //$NON-NLS-1$
+        "controls=One of Device or Mouse, default: Mouse;", //$NON-NLS-1$
+        "leadTarget=Do the anticipation,('lead') calculations, default: true;", //$NON-NLS-1$
+        "nbDot=number of dot for anticipation minimum 2, default: 10;", //$NON-NLS-1$
+        "antSens=sensitivity of anticipation, default: 10;", //$NON-NLS-1$
+        "useArrowKeys=use arrow keys to finely adjust the aiming (in manual mode), default: false;", //$NON-NLS-1$
+        "propX=proportionality of anticipation 1 is Width / more is Less, default:0.67;", //$NON-NLS-1$
+        "propY=proportionality of anticipation 1 is Hight / more is Less, default: 0.11;", //$NON-NLS-1$
+        "soundInterval=simple counter limit that will determine how often to play a random sound (if enabled) default: 1000;", //$NON-NLS-1$
+        "numberOfVoices=The number of voices passed to the Sampler (see Minim documentation) , default: 21;", //$NON-NLS-1$
+        "samplerDelay=Time (in milliseconds) to wait to unpatch a Sampler (see Minim documentation), default: 2500;", //$NON-NLS-1$
+        "soundFiles=list of sound files that will play sounds for both random and as a response to activity if sounds are enabled, order is important;" //$NON-NLS-1$
+    ));
 
-    private final @Expose Map<String, String> comments = Arrays.stream(comments_default.split(";"))
-        .map(s -> s.split("=")).collect(Collectors.toMap( //
+    private final @Expose Map<String, String> comments = comments_default.stream().map(s -> s.split("="))
+        .collect(Collectors.toMap( //
             a -> a[0], //key
             a -> a[1], //value
             (u, v) -> {
@@ -111,6 +112,10 @@ public class ConfigurationSettings {
 
     private @Expose boolean activeSmoothing = true;
 
+    private @Expose boolean useSafeColor = false;
+
+    private @Expose boolean showDifferentPixels = false;
+
     //    private @Expose boolean printFrameRate = false; // set to true to print the framerate at the bottom of the IDE window
     //
     //    private @Expose int camWidth = 320; //   camera width (pixels),   usually 160*n
@@ -125,10 +130,6 @@ public class ConfigurationSettings {
     //   End custom values
     //   <===============================================================================================>
 
-    private @Expose boolean useSafeColor = false;
-
-    private @Expose boolean showDifferentPixels = false;
-
     private @Expose boolean showTargetBox = true;
 
     private @Expose boolean showCameraView = true;
@@ -136,12 +137,12 @@ public class ConfigurationSettings {
     //private @Expose boolean firingMode = true; // true = semi,        false = auto
     private @Expose FiringMode firingMode = FiringMode.SemiAuto;
 
-    //private @Expose int effect = 0; // Effect
-
     private @Expose boolean safety = true;
 
     //private @Expose boolean controlMode = false; // true = autonomous,  false = manual
     private @Expose ControlMode controlMode = ControlMode.Manual;
+
+    //private @Expose int effect = 0; // Effect
 
     private @Expose boolean soundEffects = false; // set to true to enable sound effects by default
 
@@ -193,27 +194,59 @@ public class ConfigurationSettings {
     private @Expose long samplerDelay = 2500;
 
     private @Expose List<String> soundFiles = new ArrayList<>(Arrays.asList( //
-        "data/your business is appreciated.wav", //$NON-NLS-1$
-        "data/who's there.wav", //$NON-NLS-1$
-        "data/there you are.wav", //$NON-NLS-1$
-        "data/there you are(2).wav", //$NON-NLS-1$
-        "data/target lost.wav", //$NON-NLS-1$
-        "data/target aquired.wav", //$NON-NLS-1$
-        "data/sleep mode activated.wav", //$NON-NLS-1$
-        "data/sentry mode activated.wav", //$NON-NLS-1$
-        "data/no hard feelings.wav", //$NON-NLS-1$
-        "data/is anyone there.wav", //$NON-NLS-1$
-        "data/i see you.wav", //$NON-NLS-1$
-        "data/i dont hate you.wav", //$NON-NLS-1$
-        "data/i dont blame you.wav", //$NON-NLS-1$
-        "data/hey its me.wav", //$NON-NLS-1$
-        "data/hello.wav", //$NON-NLS-1$
-        "data/gotcha.wav", //$NON-NLS-1$
-        "data/dispensing product.wav", //$NON-NLS-1$
-        "data/deploying.wav", //$NON-NLS-1$
-        "data/could you come over here.wav", //$NON-NLS-1$
-        "data/are you still there.wav", //$NON-NLS-1$
-        "data/activated.wav" //$NON-NLS-1$
+        "data/your business is appreciated.wav", //$NON-NLS-1$  0
+        "data/who's there.wav", //$NON-NLS-1$                   1
+        "data/there you are.wav", //$NON-NLS-1$                 2
+        "data/there you are(2).wav", //$NON-NLS-1$              3
+        "data/target lost.wav", //$NON-NLS-1$                   4
+        "data/target aquired.wav", //$NON-NLS-1$                5
+        "data/sleep mode activated.wav", //$NON-NLS-1$          6
+        "data/sentry mode activated.wav", //$NON-NLS-1$         7
+        "data/no hard feelings.wav", //$NON-NLS-1$              8
+        "data/is anyone there.wav", //$NON-NLS-1$               9
+        "data/i see you.wav", //$NON-NLS-1$                     10
+        "data/i dont hate you.wav", //$NON-NLS-1$               11
+        "data/i dont blame you.wav", //$NON-NLS-1$              12
+        "data/hey its me.wav", //$NON-NLS-1$                    13
+        "data/hello.wav", //$NON-NLS-1$                         14
+        "data/gotcha.wav", //$NON-NLS-1$                        15
+        "data/dispensing product.wav", //$NON-NLS-1$            16
+        "data/deploying.wav", //$NON-NLS-1$                     17
+        "data/could you come over here.wav", //$NON-NLS-1$      18
+        "data/are you still there.wav", //$NON-NLS-1$           19
+        "data/activated.wav" //$NON-NLS-1$                      20
+    ));
+
+    private List<List<String>> soundFilesMapEntries = new ArrayList<>(Arrays.asList( //
+        Arrays.asList("business", "data/your business is appreciated.wav"), //$NON-NLS-1$ //$NON-NLS-2$ 0
+        Arrays.asList("who", "data/who's there.wav"), //$NON-NLS-1$ //$NON-NLS-2$                       1
+        Arrays.asList("there", "data/there you are.wav"), //$NON-NLS-1$ //$NON-NLS-2$                   2
+        Arrays.asList("there2", "data/there you are(2).wav"), //$NON-NLS-1$ //$NON-NLS-2$               3
+        Arrays.asList("lost", "data/target lost.wav"), //$NON-NLS-1$ //$NON-NLS-2$                      4
+        Arrays.asList("aquired", "data/target aquired.wav"), //$NON-NLS-1$ //$NON-NLS-2$                5
+        Arrays.asList("sleep", "data/sleep mode activated.wav"), //$NON-NLS-1$ //$NON-NLS-2$            6
+        Arrays.asList("sentry", "data/sentry mode activated.wav"), //$NON-NLS-1$ //$NON-NLS-2$          7
+        Arrays.asList("nohardfeel", "data/no hard feelings.wav"), //$NON-NLS-1$ //$NON-NLS-2$           8
+        Arrays.asList("isthere", "data/is anyone there.wav"), //$NON-NLS-1$ //$NON-NLS-2$               9
+        Arrays.asList("isee", "data/i see you.wav"), //$NON-NLS-1$ //$NON-NLS-2$                        10
+        Arrays.asList("donthate", "data/i dont hate you.wav"), //$NON-NLS-1$ //$NON-NLS-2$              11
+        Arrays.asList("dontblame", "data/i dont blame you.wav"), //$NON-NLS-1$ //$NON-NLS-2$            12
+        Arrays.asList("itsme", "data/hey its me.wav"), //$NON-NLS-1$ //$NON-NLS-2$                      13
+        Arrays.asList("hello", "data/hello.wav"), //$NON-NLS-1$ //$NON-NLS-2$                           14
+        Arrays.asList("gotcha", "data/gotcha.wav"), //$NON-NLS-1$ //$NON-NLS-2$                         15
+        Arrays.asList("product", "data/dispensing product.wav"), //$NON-NLS-1$ //$NON-NLS-2$            16
+        Arrays.asList("deploying", "data/deploying.wav"), //$NON-NLS-1$ //$NON-NLS-2$                   17
+        Arrays.asList("comehere", "data/could you come over here.wav"), //$NON-NLS-1$ //$NON-NLS-2$     18
+        Arrays.asList("stillthere", "data/are you still there.wav"), //$NON-NLS-1$ //$NON-NLS-2$        19
+        Arrays.asList("activated", "data/activated.wav") //$NON-NLS-1$ //$NON-NLS-2$                    20
+    ));
+
+    private @Expose Map<String, String> soundFilesMap = soundFilesMapEntries.stream().collect(Collectors.toMap( //
+        a -> a.get(0), //key
+        a -> a.get(1), //value
+        (u, v) -> {
+            throw new IllegalStateException(String.format("Duplicate key '%s$1' for '%s$2'", u, v));
+        }, LinkedHashMap::new //I want to keep the order
     ));
 
     private @Expose String website = "http://psg.rudolphlabs.com/";
@@ -329,22 +362,6 @@ public class ConfigurationSettings {
         return customizable.getCamWidth();
     }
 
-    //    private @Expose int trackColorRed = 255;
-
-    //    private @Expose int trackColorGreen = 255;
-
-    //    private @Expose int trackColorBlue = 255;
-
-    //    private @Expose int safeColorMinSize = 500;
-
-    //    private @Expose int safeColorTolerance = 100;
-
-    //    private @Expose int safeColorRed = 0;
-
-    //   private @Expose int safeColorGreen = 255;
-
-    //    private @Expose int safeColorBlue = 0;
-
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -387,8 +404,6 @@ public class ConfigurationSettings {
         return controls;
     }
 
-    //private @Expose boolean useInputDevice = false; // use a joystick or game Controller as input (in manual mode) now it's controls enum
-
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -402,6 +417,22 @@ public class ConfigurationSettings {
     public CustomizableSettings getCustomizable() {
         return customizable;
     }
+
+    //    private @Expose int trackColorRed = 255;
+
+    //    private @Expose int trackColorGreen = 255;
+
+    //    private @Expose int trackColorBlue = 255;
+
+    //    private @Expose int safeColorMinSize = 500;
+
+    //    private @Expose int safeColorTolerance = 100;
+
+    //    private @Expose int safeColorRed = 0;
+
+    //   private @Expose int safeColorGreen = 255;
+
+    //    private @Expose int safeColorBlue = 0;
 
     /**
      * <DL>
@@ -448,6 +479,8 @@ public class ConfigurationSettings {
         return customizable.getDiffPixelsColorArray();
     }
 
+    //private @Expose boolean useInputDevice = false; // use a joystick or game Controller as input (in manual mode) now it's controls enum
+
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -490,8 +523,6 @@ public class ConfigurationSettings {
         return effect;
     }
 
-    //private int soundTimer = 0;
-
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -532,6 +563,64 @@ public class ConfigurationSettings {
      */
     public int getFiringModeIndex() {
         return firingMode.ordinal();
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the firingMode property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 1, 2017</DD>
+     * </DL>
+     *
+     * @return the value of firingMode field
+     */
+    public int getFiringModeInt() {
+        return firingMode.getId();
+    }
+
+    //private int soundTimer = 0;
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the idleTime property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 4, 2017</DD>
+     * </DL>
+     *
+     * @return the value of idleTime field
+     */
+    public int getIdleTime() {
+        return idleTime;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the minBlobArea property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 4, 2017</DD>
+     * </DL>
+     *
+     * @return the value of minBlobArea field
+     */
+    public int getMinBlobArea() {
+        return minBlobArea;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the nbDot property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 4, 2017</DD>
+     * </DL>
+     *
+     * @return the value of nbDot field
+     */
+    public int getNbDot() {
+        return nbDot;
     }
 
     //    /**
@@ -609,62 +698,6 @@ public class ConfigurationSettings {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>Getter for the firingMode property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 1, 2017</DD>
-     * </DL>
-     *
-     * @return the value of firingMode field
-     */
-    public int getFiringModeInt() {
-        return firingMode.getId();
-    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
-     * <DD>Getter for the idleTime property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 4, 2017</DD>
-     * </DL>
-     *
-     * @return the value of idleTime field
-     */
-    public int getIdleTime() {
-        return idleTime;
-    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
-     * <DD>Getter for the minBlobArea property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 4, 2017</DD>
-     * </DL>
-     *
-     * @return the value of minBlobArea field
-     */
-    public int getMinBlobArea() {
-        return minBlobArea;
-    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
-     * <DD>Getter for the nbDot property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 4, 2017</DD>
-     * </DL>
-     *
-     * @return the value of nbDot field
-     */
-    public int getNbDot() {
-        return nbDot;
-    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
      * <DD>Getter for the numberOfVoices property</DD>
      * <DT>Date:</DT>
      * <DD>Sep 6, 2017</DD>
@@ -716,6 +749,21 @@ public class ConfigurationSettings {
      */
     public Renderers getRendererType() {
         return rendererType;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>A delegate method for the getRetinaPeriodMillis method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 18, 2017</DD>
+     * </DL>
+     *
+     * @return
+     * @see com.nrapoport.utilities.psgcode.config.CustomizableSettings#getRetinaPeriodMillis()
+     */
+    public int getRetinaPeriodMillis() {
+        return customizable.getRetinaPeriodMillis();
     }
 
     /**
@@ -857,6 +905,20 @@ public class ConfigurationSettings {
      */
     public List<String> getSoundFiles() {
         return new ArrayList<>(soundFiles);
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the soundFilesMap property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 18, 2017</DD>
+     * </DL>
+     *
+     * @return the value of soundFilesMap field
+     */
+    public Map<String, String> getSoundFilesMap() {
+        return soundFilesMap;
     }
 
     /**
@@ -1627,6 +1689,21 @@ public class ConfigurationSettings {
     /**
      * <DL>
      * <DT>Description:</DT>
+     * <DD>A delegate method for the setRetinaPeriodMillis method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 18, 2017</DD>
+     * </DL>
+     *
+     * @param aRetinaPeriodMillis
+     * @see com.nrapoport.utilities.psgcode.config.CustomizableSettings#setRetinaPeriodMillis(int)
+     */
+    public void setRetinaPeriodMillis(final int aRetinaPeriodMillis) {
+        customizable.setRetinaPeriodMillis(aRetinaPeriodMillis);
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
      * <DD>A delegate method for the setRunType method</DD>
      * <DT>Date:</DT>
      * <DD>Sep 9, 2017</DD>
@@ -1892,6 +1969,21 @@ public class ConfigurationSettings {
      */
     public void setSoundFiles(final List<String> aSoundFiles) {
         soundFiles = aSoundFiles;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Setter for the soundFilesMap property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 18, 2017</DD>
+     * </DL>
+     *
+     * @param aSoundFilesMap
+     *            new value for the soundFilesMap property
+     */
+    public void setSoundFilesMap(final Map<String, String> aSoundFilesMap) {
+        soundFilesMap = aSoundFilesMap;
     }
 
     /**

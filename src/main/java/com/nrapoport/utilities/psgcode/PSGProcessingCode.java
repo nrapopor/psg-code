@@ -59,7 +59,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
      * @param args
      */
     public static void main(final String[] args) {
-        final String[] nameArray = new String[] { PSGProcessingCode.class.getSimpleName() };
+        final String[] nameArray = new String[] { PSGProcessingCode.class.getName() };
         if (args != null) {
             PApplet.main(PApplet.concat(nameArray, args));
         } else {
@@ -110,6 +110,8 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
 
     float oldY;// = getSettings().getCamHeight() / 2; // smoothing
 
+    private int lastTime = millis();
+
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -120,7 +122,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
      */
     public PSGProcessingCode() {
         super();
-        log.info("Working on sketch path: {}", sketchPath());
+        log.debug("Working on sketch path: {}", sketchPath());
     }
 
     /**
@@ -360,20 +362,46 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
     @Override
     public void draw() {
 
+        if (getRuntimeSettings().isConnecting()) {
+            final int currWidth = getSettings().getCamWidth();
+            final int currHeight = getSettings().getCamHeight();
+            background(0);
+            final String msg = "Connecting to Arduino...";
+            final int msgSize = msg.length();
+            final int textSize = Math.round(currWidth / msgSize);
+            textSize(textSize);
+            fill(255);
+            text(msg, 0, currHeight / 2 - textSize / 2);
+            return;
+        }
+
         if (getSettings().isPrintFrameRate()) {
             println(frameRate);
         }
 
-        if (getSettings().getControlMode() == ControlMode.Autonomous) { // autonomous mode
-            if (!autonomousMode()) //
-            {
-                return;
-            } //
-        } else { // manual mode
-            if (!manualMode()) {
-                return;
-            } //
+        boolean newImageAvalable = false;
+        switch (getSettings().getControlMode()) {
+            case Autonomous:
+                newImageAvalable = autonomousMode();
+                break;
+
+            case Manual:
+                newImageAvalable = manualMode();
+                break;
         }
+        if (!newImageAvalable) {
+            return;
+        }
+        //        if ( == ControlMode.Autonomous) { // autonomous mode
+        //            if (!autonomousMode()) //
+        //            {
+        //                return;
+        //            }
+        //        } else { // manual mode
+        //            if (!manualMode()) {
+        //                return;
+        //            } //
+        //        }
 
         if (getRuntimeSettings().isFiring()) {
             idleBeginTime = millis();
@@ -382,6 +410,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
             final boolean timeToScan = millis() > idleBeginTime + getSettings().getIdleTime(); // it's Time!!
             final boolean scanAllowed =
                 getSettings().getControlMode() == ControlMode.Autonomous && getSettings().isScanWhenIdle(); // Can I?
+
             getRuntimeSettings().setScan(timeToScan && scanAllowed);
             //            if ( timeToScan&& ) {
             //                scan = true;
@@ -390,7 +419,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
             //            }
         }
 
-        if (getSettings().isSafety()) {
+        if (!getSettings().isSafety()) {
             getRuntimeSettings().setFiring(false);
         }
 
@@ -469,7 +498,8 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
         //        if (sumNewFire == 0 && sumPrevFire == 5) { // target departed screen
 
         if (getRuntimeSettings().hasTargetDepartedScreen()) {
-            final int[] soundList = { 1, 2, 9, 12, 13, 20 };
+            //final int[] soundList = { 1, 2, 9, 12, 13, 20 };
+            final String[] soundList = { "business", "who", "nohardfeel", "donthate", "dontblame", "stillthere" };
             final int s = Math.round(random(0, 6));
             getSounds().playSound(soundList[s]);
             //            if (s == 0) {
@@ -498,15 +528,17 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
         //        if (fire == 0) {
         //            strokeWeight(1);
         //        }
-        stroke(255, 0, 0); //draw crosshairs
+        stroke(255, 0, 0); //draw cross-hairs
         noFill(); //
         line(getRuntimeSettings().getDisplayX(), 0, getRuntimeSettings().getDisplayX(), getSettings().getCamHeight()); //
         line(0, getRuntimeSettings().getDisplayY(), getSettings().getCamWidth(), getRuntimeSettings().getDisplayY()); //
-        ellipse(getRuntimeSettings().getDisplayX(), getRuntimeSettings().getDisplayY(), 20, 20); //
-        ellipse(getRuntimeSettings().getDisplayX(), getRuntimeSettings().getDisplayY(), 28, 22); //
-        ellipse(getRuntimeSettings().getDisplayX(), getRuntimeSettings().getDisplayY(), 36, 24); //
+        ellipse(getRuntimeSettings().getDisplayX(), getRuntimeSettings().getDisplayY(), 20, 20); // 20,20
+        ellipse(getRuntimeSettings().getDisplayX(), getRuntimeSettings().getDisplayY(), 28, 28); // 28,22
+        ellipse(getRuntimeSettings().getDisplayX(), getRuntimeSettings().getDisplayY(), 36, 36); // 36,24
 
-        getControlPanel().updateControlPanels();
+        if (getSettings().getRunType() == RunType.Full) {
+            getControlPanel().updateControlPanels();
+        }
         getRuntimeSettings().updatePrevTargetXY();
         //prevTargetX = targetX;
         //prevTargetY = targetY;
@@ -636,43 +668,116 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
         final int targetX = getRuntimeSettings().getTargetX();
         final int targetY = getRuntimeSettings().getTargetY();
 
-        if (key == 'p') {
-            getSounds().randomIdleSound();
+        switch (key) {
+            case ' ':
+                //controlMode = !controlMode;
+                getSettings().flipControlMode();
+                break;
+
+            case 'a':
+                getSettings().setxMin(targetX);
+                //xRatio = camWidth / (xMax - xMin); // used to align sights with cross-hairs on PC // dynamically calculated getSettings().getxRatio()
+                break;
+            case 'b':
+                retinaImage(true);
+                getSounds().playSound("hello"); // 15
+                break;
+
+            case 'd':
+                //xMax = targetX;
+                getSettings().setxMax(targetX);
+                //xRatio = camWidth / (xMax - xMin); // used to align sights with cross-hairs on PC // dynamically calculated getSettings().getxRatio()
+                break;
+            case 'h':
+                final String msgFmt = "%1$5s : = %2$s \n"; //$NON-NLS-1$
+                final String msg = String.format(msgFmt, "SPACE", "Toggle Manual and Autonomous modes") //$NON-NLS-1$ //$NON-NLS-2$
+                    + String.format(msgFmt, "a", "set min X") //$NON-NLS-1$ //$NON-NLS-2$
+                    + String.format(msgFmt, "b", "Reset retina image to curre3nt background") //$NON-NLS-1$ //$NON-NLS-2$
+                    + String.format(msgFmt, "d", "set min X") //$NON-NLS-1$ //$NON-NLS-2$
+                    + String.format(msgFmt, "h", "print key help") //$NON-NLS-1$ //$NON-NLS-2$
+                    + String.format(msgFmt, "H", "print current state") //$NON-NLS-1$ //$NON-NLS-2$
+                    + String.format(msgFmt, "p", "Play random sound") //$NON-NLS-1$ //$NON-NLS-2$
+                    + String.format(msgFmt, "r", "reset calibration to defaults") //$NON-NLS-1$ //$NON-NLS-2$
+                    + String.format(msgFmt, "s", "set min y") + String.format(msgFmt, "w", "set max y") //$NON-NLS-1$ //$NON-NLS-2$
+                    + String.format(msgFmt, "SHIFT", "Toggle the use of arrow keys for aiming"); //$NON-NLS-1$ //$NON-NLS-2$
+                log.info("\nAvalable Keys : \n{}", msg);
+                getSettings().setxMax(targetX);
+                //xRatio = camWidth / (xMax - xMin); // used to allign sights with crosshairs on PC // dynamically calculated getSettings().getxRatio()
+                break;
+            case 'H':
+                printCurrentState();
+                break;
+
+            case 'p':
+                getSounds().randomIdleSound();
+                break;
+
+            case 'r':
+                getSettings().setxMin(0.0f);
+                getSettings().setxMax(180.0f);
+                getSettings().setyMin(0.0f);
+                getSettings().setyMax(180);
+                break;
+
+            case 's':
+                //yMin = targetY;
+                getSettings().setyMin(targetY);
+
+                //yRatio = camHeight / (yMax - yMin); // dynamically calculated getSettings().getyRatio()
+                break;
+
+            case 'w':
+                //yMax = targetY;
+                getSettings().setyMax(targetY);
+                //yRatio = camHeight / (yMax - yMin); // dynamically calculated getSettings().getyRatio()
+                break;
+            case CODED:
+                if (keyCode == SHIFT) { // shift key was pressed, toggle aim with arrow keys
+                    getSettings().toggleUseArrowKeys();
+                }
+                break;
+            default:
+                break;
         }
 
-        if (key == ' ') {
-            //controlMode = !controlMode;
-            getSettings().flipControlMode();
-        }
-
-        if (key == 'b') {
-            //camInput.adapt();
-            getSounds().playSound(15);
-        }
-        if (key == 'a') {
-            //xMin = targetX;
-            getSettings().setxMin(targetX);
-            //xRatio = camWidth / (xMax - xMin); // used to allign sights with crosshairs on PC // dynamically calculated getSettings().getxRatio()
-        }
-        if (key == 'd') {
-            //xMax = targetX;
-            getSettings().setxMax(targetX);
-            //xRatio = camWidth / (xMax - xMin); // used to allign sights with crosshairs on PC // dynamically calculated getSettings().getxRatio()
-        }
-        if (key == 's') {
-            //yMin = targetY;
-            getSettings().setyMin(targetY);
-
-            //yRatio = camHeight / (yMax - yMin); // dynamically calculated getSettings().getyRatio()
-        }
-        if (key == 'w') {
-            //yMax = targetY;
-            getSettings().setyMax(targetY);
-            //yRatio = camHeight / (yMax - yMin); // dynamically calculated getSettings().getyRatio()
-        }
-        if (key == CODED && keyCode == SHIFT) { // shift key was pressed, toggle aim with arrow keys
-            getSettings().toggleUseArrowKeys();
-        }
+        //        if (key == CODED && keyCode == SHIFT) { // shift key was pressed, toggle aim with arrow keys
+        //            getSettings().toggleUseArrowKeys();
+        //        }
+        //        if (key == ' ') {
+        //        }
+        //        if (key == 'a') {
+        //            //xMin = targetX;
+        //            getSettings().setxMin(targetX);
+        //        }
+        //        if (key == 'b') {
+        //            //camInput.adapt();
+        //            getSounds().playSound("hello"); // 15
+        //        }
+        //        if (key == 'd') {
+        //            //xMax = targetX;
+        //            getSettings().setxMax(targetX);
+        //            //xRatio = camWidth / (xMax - xMin); // used to allign sights with crosshairs on PC // dynamically calculated getSettings().getxRatio()
+        //        }
+        //        if (key == 'p') {
+        //            getSounds().randomIdleSound();
+        //        }
+        //        if (key == 'r') {
+        //            getSettings().setxMin(0.0f);
+        //            getSettings().setxMax(180.0f);
+        //            getSettings().setyMin(0.0f);
+        //            getSettings().setyMax(180);
+        //        }
+        //        if (key == 's') {
+        //            //yMin = targetY;
+        //            getSettings().setyMin(targetY);
+        //
+        //            //yRatio = camHeight / (yMax - yMin); // dynamically calculated getSettings().getyRatio()
+        //        }
+        //        if (key == 'w') {
+        //            //yMax = targetY;
+        //            getSettings().setyMax(targetY);
+        //            //yRatio = camHeight / (yMax - yMin); // dynamically calculated getSettings().getyRatio()
+        //        }
 
     }
 
@@ -758,19 +863,32 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
             if (getSettings().isUseArrowKeys()) { // use the arrow keys to aim one pixel at a time
                 // use arrow keys to aim - see keyReleased() below
                 if (keyPressed) {
-                    if (keyCode == 37) { // left arrow
-                        getRuntimeSettings().incrementDisplayX(-1);
-                    }
-                    if (keyCode == 38) { // up arrow
-                        getRuntimeSettings().incrementDisplayY(-1);
-                    }
-                    if (keyCode == 39) { // right arrow
-                        getRuntimeSettings().incrementDisplayX(1);
-                    }
-                    if (keyCode == 40) { // down arrow
-                        getRuntimeSettings().incrementDisplayY(1);
-
-                    }
+                    switch (keyCode) {
+                        case LEFT:
+                            getRuntimeSettings().incrementDisplayX(-1);
+                            break;
+                        case UP:
+                            getRuntimeSettings().incrementDisplayY(-1);
+                            break;
+                        case RIGHT:
+                            getRuntimeSettings().incrementDisplayX(1);
+                            break;
+                        case DOWN:
+                            getRuntimeSettings().incrementDisplayY(1);
+                            break;
+                    }//                    if (keyCode == 37) { // left arrow
+                     //                        getRuntimeSettings().incrementDisplayX(-1);
+                     //                    }
+                     //                    if (keyCode == 38) { // up arrow
+                     //                        getRuntimeSettings().incrementDisplayY(-1);
+                     //                    }
+                     //                    if (keyCode == 39) { // right arrow
+                     //                        getRuntimeSettings().incrementDisplayX(1);
+                     //                    }
+                     //                    if (keyCode == 40) { // down arrow
+                     //                        getRuntimeSettings().incrementDisplayY(1);
+                     //
+                     //                    }
                     getRuntimeSettings().setFiring(false);
                 }
             } else {
@@ -842,6 +960,68 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
     /**
      * <DL>
      * <DT>Description:</DT>
+     * <DD>print current state</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 18, 2017</DD>
+     * </DL>
+     */
+    public void printCurrentState() {
+        final String msgFmt = " %1$-25s : = %2$s\n";
+        final String status = String.format(msgFmt, "Serial Out",
+            'a' + getRuntimeSettings().getStrTargetX() + getRuntimeSettings().getStrTargetY()
+                + getRuntimeSettings().getFiringInt() + getSettings().getFiringMode().getId()
+                + getRuntimeSettings().getScanInt())
+            + String.format(msgFmt, "Pan Servo Position", getRuntimeSettings().getStrTargetX())
+            + String.format(msgFmt, "Tilt Servo Position", getRuntimeSettings().getStrTargetY())
+            + String.format(msgFmt, "Track Color Tolerance", getSettings().getTolerance())
+            + String.format(msgFmt, "Safe Color Tolerance", getSettings().getSafeColorTolerance())
+            + String.format(msgFmt, "Min Area", getSettings().getSafeColorMinSize())
+            + String.format(msgFmt, "Min Size", getSettings().getMinBlobArea())
+            + String.format(msgFmt, "Memory", getSettings().getNbDot())
+            + String.format(msgFmt, "Sensitivity", getSettings().getAntSens())
+            + String.format(msgFmt, "X Degree of Anitcipation", getSettings().getPropX())
+            + String.format(msgFmt, "Y Degree of Anitcipation", getSettings().getPropY())
+            + String.format(msgFmt, "xMin", getSettings().getxMin())
+            + String.format(msgFmt, "xMax", getSettings().getxMax())
+            + String.format(msgFmt, "yMin", getSettings().getyMin())
+            + String.format(msgFmt, "yMax", getSettings().getyMax())
+            + String.format(msgFmt, "Firing?", getRuntimeSettings().isFiring() ? "" : "Not " + "Firing")
+            + String.format(msgFmt, "Firing Mode", getSettings().getFiringMode().altName())
+            + String.format(msgFmt, "Controller on port",
+                getSettings().isRunWithoutArduino() ? "No Controller" : getRuntimeSettings().getSerPortUsed())
+            + String.format(msgFmt, "Controller State",
+                getRuntimeSettings().isConnecting() ? "Connecting ..."
+                    : (getRuntimeSettings().getSerPortUsed() == null || getRuntimeSettings().getSerPortUsed().isEmpty()
+                        ? "Not c" : "C") + "onnected")
+            + String.format(msgFmt, "Scan Mode", (getSettings().isScanWhenIdle() ? "S" : "Don't s") + "can when idle")
+            + String.format(msgFmt, "Control Mode", getSettings().getControlMode().name())
+            + String.format(msgFmt, "Controls", getSettings().getControls().name())
+            + String.format(msgFmt, "Use Arrow Keys", getSettings().isUseArrowKeys());
+        log.info("\nCurrent State: \n{}", status);
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Capture an image every 'retinaPeriodMillis'. used for aiming ...</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 18, 2017</DD>
+     * </DL>
+     *
+     * @param force
+     */
+    protected void retinaImage(final boolean force) {
+        final int time = millis();
+        if (time - lastTime > getSettings().getRetinaPeriodMillis() || force) {
+            lastBackground = rawBackground;
+            lastTime = time;
+        }
+
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
      * <DD>connect to Arduino (the sketch that's running on it send a 'T' periodically) so test all the Serial ports
      * found for this heartbeat.</DD>
      * <DT>Date:</DT>
@@ -849,10 +1029,14 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
      * </DL>
      */
     public void retryArduinoConnect() {
-        if (!getSettings().isRunWithoutArduino()) {
+        log.debug("in retryArduinoConnect");
+        if (getSettings().isRunWithoutArduino()) {
+            getRuntimeSettings().setConnecting(false);
+            log.debug("isRunWithoutArduino is {} exiting", getSettings().isRunWithoutArduino());
             return;
         }
 
+        log.debug("in retryArduinoConnect : trying");
         getRuntimeSettings().setConnecting(true);
         //          try{
         //            arduinoPort.stop();
@@ -864,7 +1048,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
         // The arduino is sending out a 'T' every 100 millisecs. Contributed by Don K.
         long millisStart;
         int i = 0;
-        final int len = Serial.list().length; //get number of ports available
+        int len = Serial.list().length; //get number of ports available
         final List<String> ports = new ArrayList<>(len);
         log.info("Serial Port Count = {}", len);
         for (final String port : Serial.list()) {
@@ -873,6 +1057,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
                 ports.add(port);
             }
         }
+        len = ports.size();
         //println(Serial.list()); //print list of ports to screen
 
         //println("Serial Port Count = " + len); //print count of ports to screen
@@ -928,11 +1113,12 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
     @Override
     public void settings() {
         //size(320, 240, "P2D");
-        size(getSettings().getCamWidth(), getSettings().getCamHeight(), getSettings().getRendererType().name());
+        size(getSettings().getCamWidth(), getSettings().getCamHeight(), getSettings().getRendererType().altName());
     }
 
     @Override
     public void setup() {
+        log.debug("in setup");
         //size(getSettings().getCamWidth(), getSettings().getCamHeight(), getSettings().getRendererTypeString());
         oldX = getSettings().getCamWidth() / 2; // smoothing (contributed by Adam S.)
         oldY = getSettings().getCamHeight() / 2; // smoothing
@@ -974,8 +1160,10 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
         target = new BlobDetection(getSettings().getCamWidth(), getSettings().getCamHeight());
         target.setThreshold(0.9f);
         target.setPosDiscrimination(true);
+        getRuntimeSettings().setConnecting(true);
+        getSettings().setRunWithoutArduino(false);
 
-        retryArduinoConnect();
+        thread("retryArduinoConnect");
 
         //xRatio = camWidth / (xMax - xMin); // used to allign sights with crosshairs on PC
         //yRatio = camHeight / (yMax - yMin); //
@@ -1040,14 +1228,16 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
                 lastBackground = camInput.pixels;
                 screenPixels = camInput.pixels;
                 currFrame = camInput.pixels;
+                retinaImage(true);
+            } else {
+                if (lastBackground == null) {
+                    lastBackground = rawBackground;
+                }
+                if (screenPixels == null) {
+                    screenPixels = rawImage;
+                }
+                retinaImage(false);
             }
-            if (lastBackground == null) {
-                lastBackground = rawBackground;
-            }
-            if (screenPixels == null) {
-                screenPixels = rawImage;
-            }
-
             return true;
         }
         return false;

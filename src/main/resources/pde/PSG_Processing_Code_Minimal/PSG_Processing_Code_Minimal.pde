@@ -163,6 +163,7 @@ int[] screenPixels;
 public boolean showDifferentPixels;
 public boolean showTargetBox;
 public boolean showCameraView;
+//public boolean doneArduinoConnect = false; 
 
 
 void setup() {
@@ -195,8 +196,8 @@ void setup() {
   target = new BlobDetection(camWidth, camHeight);
   target.setThreshold(0.9);
   target.setPosDiscrimination(true);
-
-  retryArduinoConnect();
+  connecting = true;
+  thread("retryArduinoConnect");
 
   xRatio = (camWidth / (xMax - xMin));                         // used to allign sights with crosshairs on PC
   yRatio = (camHeight/ (yMax - yMin));                         //
@@ -230,9 +231,21 @@ public boolean updateCamera(boolean init) {
 }
 
 void draw() {
+  if (connecting) {
+    background(0);
+    textSize(50);
+    fill(255);
+    String msg = "Connecting to Arduino...";
+    int msgSize = msg.length();
+    text(msg,camWidth/2 - msgSize/2, camHeight/2 - 25);
+    return;
+  }
+  
+  
   if (PRINT_FRAMERATE) {
     println(frameRate);
   }
+  
 
   if (controlMode) {              // autonomous mode
     if (!autonomousMode()) {      //

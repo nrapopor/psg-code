@@ -23,7 +23,8 @@ import processing.serial.Serial;
  *
  */
 public class RuntimeSettings implements ISettingsAware {
-    private final Settings settings;
+
+    private Settings settings;
 
     private volatile boolean connecting = false;
 
@@ -40,25 +41,25 @@ public class RuntimeSettings implements ISettingsAware {
     //
     //private float xRatio; //derived
 
-    private volatile int targetX = getSettings().getCamWidth() / 2;
+    private volatile int targetX = 0;
 
-    private volatile int targetY = getSettings().getCamHeight() / 2;
+    private volatile int targetY = 0;
 
-    private volatile int prevTargetX = targetX;
+    private volatile int prevTargetX = 0;
 
-    private volatile int prevTargetY = targetY;
+    private volatile int prevTargetY = 0;
 
-    private volatile int displayX = getSettings().getCamWidth() / 2;
+    private volatile int displayX = 0;
 
-    private volatile int displayY = getSettings().getCamHeight() / 2;
+    private volatile int displayY = 0;
 
-    private volatile float xPosition = getSettings().getCamWidth() / 2;;
+    private volatile float xPosition = 0;
 
-    private volatile float yPosition = getSettings().getCamHeight() / 2;
+    private volatile float yPosition = 0;
 
-    private volatile float possibleX = getSettings().getCamWidth() / 2;;
+    private volatile float possibleX = 0;
 
-    private volatile float possibleY = getSettings().getCamHeight() / 2;
+    private volatile float possibleY = 0;
 
     private volatile boolean firing;
 
@@ -66,7 +67,7 @@ public class RuntimeSettings implements ISettingsAware {
 
     private boolean scan = false;
 
-    private volatile ControlIO controlIO; // more stuff for using a joystick or game Controler for input
+    private volatile ControlIO controlIO; // more stuff for using a joystick or game Controller for input
 
     /**
      * <DL>
@@ -75,11 +76,12 @@ public class RuntimeSettings implements ISettingsAware {
      * <DT>Date:</DT>
      * <DD>Sep 16, 2017</DD>
      * </DL>
-     * 
-     * @param parent
+     *
+     * @param aParent
      */
-    public RuntimeSettings(final PSGProcessingCode parent) {
-        settings = parent.getSettings();
+    public RuntimeSettings(final PSGProcessingCode aParent) {
+        settings = aParent.getSettings();
+        init();
     }
 
     /**
@@ -438,6 +440,27 @@ public class RuntimeSettings implements ISettingsAware {
      */
     public void incrementyPosition(final float aYPosition) {
         yPosition += aYPosition;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Initialize runtime variables from settings</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 18, 2017</DD>
+     * </DL>
+     */
+    private void init() {
+        targetX = getSettings().getCamWidth() / 2;
+        targetY = getSettings().getCamHeight() / 2;
+        prevTargetX = targetX;
+        prevTargetY = targetY;
+        displayX = getSettings().getCamWidth() / 2;
+        displayY = getSettings().getCamHeight() / 2;
+        xPosition = getSettings().getCamWidth() / 2;
+        yPosition = getSettings().getCamHeight() / 2;
+        possibleX = getSettings().getCamWidth() / 2;
+        possibleY = getSettings().getCamHeight() / 2;
     }
 
     //private int possibleX = camWidth / 2;

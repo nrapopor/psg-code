@@ -1,4 +1,5 @@
-	# Required for maven 2
+#DESC: Some necessary common declarations 
+# Required for maven 2
 #export  M2=/usr/local/lib/apache-maven-2.2.1
 export  M2=/usr/local/maven
 export  M2_HOME=$M2

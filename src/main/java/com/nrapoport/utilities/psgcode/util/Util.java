@@ -4,8 +4,6 @@
  */
 package com.nrapoport.utilities.psgcode.util;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -57,8 +55,11 @@ public class Util {
             //                java.nio.file.StandardCopyOption.COPY_ATTRIBUTES,
             //                java.nio.file.LinkOption.NOFOLLOW_LINKS);
         } catch (final IOException ex) {
-            log.error("caught IOException :", ex); //$NON-NLS-1$
-            fail(ex.getMessage());
+            final String msg = String.format("Error copying files to './data' from path '%1$s'", oldPath);
+            log.error(msg, ex);
+            final RuntimeException newEx = new RuntimeException(msg, ex);
+            newEx.fillInStackTrace();
+            throw newEx;
         }
     }
 
@@ -127,8 +128,11 @@ public class Util {
             Files.createDirectories(absolutePath,
                 PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwxrwxr--")));
         } catch (final IOException ex) {
-            log.error("caught IOException :", ex); //$NON-NLS-1$
-            fail(ex.getMessage());
+            final String msg = String.format("Error Creating path '%1$s'", newPath);
+            log.error(msg, ex);
+            final RuntimeException newEx = new RuntimeException(msg, ex);
+            newEx.fillInStackTrace();
+            throw newEx;
         }
     }
 

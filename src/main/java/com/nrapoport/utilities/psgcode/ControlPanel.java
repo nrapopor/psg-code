@@ -1333,7 +1333,7 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
      */
     public void openWebsite() {
         link(getSettings().getWebsite());
-        getSounds().playSound(15);
+        getSounds().playSound("hello"); //15
     }
 
     /**
@@ -1358,8 +1358,8 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
      */
     public void setBackground() {
         //getCamInput().adapt();
-        //TODO force last background
-        getSounds().playSound(11);
+        ((PSGProcessingCode) getParent()).retinaImage(true);
+        getSounds().playSound("isee"); //11
     }
 
     /**
@@ -1496,7 +1496,7 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
         }
         //getCamInput().settings();
         if (getSettings().isSoundEffects()) {
-            getSounds().playSound(21);
+            getSounds().playSound("activated"); //21
         }
     }
 }

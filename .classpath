@@ -32,5 +32,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/home/ubuntu/Downloads/processing-3.3.6/core/library/jogl-all.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

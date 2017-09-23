@@ -55,4 +55,5 @@ public void retryArduinoConnect() {
     }
   }
   connecting = false;
+  //doneArduinoConnect = true;
 }

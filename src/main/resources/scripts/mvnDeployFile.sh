@@ -1,4 +1,5 @@
 #!/bin/bash
+#DESC: This script will deploy the single missing library to the remote server
 export GROUP=$1
 export ARTIFACT=$2
 export VERSION=$3

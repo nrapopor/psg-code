@@ -31,6 +31,8 @@ public class CustomizableSettings {
 
     private @Expose ConfigurationColor diffPixelsColor = new ConfigurationColor(255, 255, 0); // Red, green, blue values (0-255)  to show pixel as marked as target
 
+    private @Expose int retinaPeriodMillis = 50; // length of period to use for setting the retina image for aiming
+
     private @Expose RunType runType = RunType.Minimal;
 
     private @Expose String deviceConfig = InputDeviceSetupTool.DEFAULT_DEVICE_FILENAME;
@@ -81,7 +83,7 @@ public class CustomizableSettings {
      * <DT>Date:</DT>
      * <DD>Sep 16, 2017</DD>
      * </DL>
-     * 
+     *
      * @return the value of deviceConfig field
      */
     public String getDeviceConfig() {
@@ -114,6 +116,20 @@ public class CustomizableSettings {
      */
     public int[] getDiffPixelsColorArray() {
         return diffPixelsColor.asArray();
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the retinaPeriodMillis property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 18, 2017</DD>
+     * </DL>
+     *
+     * @return the value of retinaPeriodMillis field
+     */
+    public int getRetinaPeriodMillis() {
+        return retinaPeriodMillis;
     }
 
     /**
@@ -181,7 +197,7 @@ public class CustomizableSettings {
      * <DT>Date:</DT>
      * <DD>Sep 16, 2017</DD>
      * </DL>
-     * 
+     *
      * @param aDeviceConfig
      *            new value for the deviceConfig property
      */
@@ -232,6 +248,21 @@ public class CustomizableSettings {
      */
     public void setPrintFrameRate(final boolean aPrintFrameRate) {
         printFrameRate = aPrintFrameRate;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Setter for the retinaPeriodMillis property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 18, 2017</DD>
+     * </DL>
+     *
+     * @param aRetinaPeriodMillis
+     *            new value for the retinaPeriodMillis property
+     */
+    public void setRetinaPeriodMillis(final int aRetinaPeriodMillis) {
+        retinaPeriodMillis = aRetinaPeriodMillis;
     }
 
     /**
