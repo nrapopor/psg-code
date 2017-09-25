@@ -104,6 +104,7 @@ substituting the current maven version (like `3.5.0`) for `3.3.9`. Just in case 
 ### Get the Code
 
 1. Checkout and build the code
+
    ````sh
    [ ! -d ~/projects ] && mkdir ~/projects
    cd ~/projects
@@ -123,6 +124,7 @@ The following configuration must be done prior to running the code for the first
 1. Connect to the serial port that Arduino is listening on
 1. Open the sketch `~/projects/psg-code/src/main/resources/arduino/PSG_Arduino_Code.ino` 
 1. Verify that the `boardType` is set to the correct value for your setup:
+
    ````c++
    enum BoardTypes {
        ARDUINO_BARE, SHIELD_V4, SHIELD_V6, SHIELD_V7, STANDALONE_V3, STANDALONE_V5, STANDALONE_V7, STANDALONE_V8
@@ -130,7 +132,9 @@ The following configuration must be done prior to running the code for the first
 	
    BoardTypes boardType = ARDUINO_BARE;
    ````
+   
    At the bottom of the sketch are the pin assignments that depend on the `boardType` value :
+   
    ````c++
    void assignPins() {
 
@@ -229,7 +233,8 @@ The following configuration must be done prior to running the code for the first
 			break;
        }
    }
-   ```` 
+   ````
+    
 1. Choose the correct `enum` value for the `boardType` and deploy the sketch to the connected board
 
 ## Scripts folder
