@@ -148,11 +148,11 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
     //
     //    public ControlSlider slider_09;
 
-    GPanel panel_main;
+    private GPanel panel_main;
 
-    GDropList dropdown_whichDevice;
+    private GDropList dropdown_whichDevice;
 
-    GButton saveButton;
+    private GButton saveButton;
 
     //    GDropList button_00_action;
     //
@@ -314,15 +314,15 @@ public class InputDeviceSetupToolOld extends PApplet implements IDimensionsAware
     //
     //    GDropList slider_09_action;
 
-    int whichDevice = 0;
+    private int whichDevice = 0;
 
-    String[] list_devices = new String[20];
+    private String[] list_devices = new String[20];
 
-    int numDevices = 0;
+    private int numDevices = 0;
 
-    int numButtons = 0;
+    private int numButtons = 0;
 
-    int numSliders = 0;
+    private int numSliders = 0;
 
     //    String[] list_button_actions = new String[] { "No Action", "Fire", "Precise Aim", "Center Gun", "Auto Aim On",
     //        "Auto Aim Off", "Input Dev On/Off", "Random Sound" };

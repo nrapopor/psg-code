@@ -6,9 +6,11 @@
 package com.nrapoport.utilities.psgcode;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.nrapoport.utilities.psgcode.config.RuntimeSettings;
 import com.nrapoport.utilities.psgcode.config.Settings;
 
 import ddf.minim.AudioOutput;
@@ -44,9 +46,11 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
 
     private volatile AudioOutput out;
 
-    final Settings settings;
+    private final Settings settings;
 
-    final Map<String, Sampler> players = new LinkedHashMap<>(NUMBER_OF_SOUNDS);
+    private final RuntimeSettings runtimeSettings;
+
+    private final Map<String, Sampler> players = new LinkedHashMap<>(NUMBER_OF_SOUNDS);
     //Delay delay;
 
     /**
@@ -62,6 +66,7 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
     public Sounds(final PSGProcessingCode aParent) {
         super(aParent);
         settings = aParent.getSettings();
+        runtimeSettings = aParent.getRuntimeSettings();
         resetSettingsManagedFields(true);
         log.debug("Using Sounds {}", soundEffects);
         initMinim();
@@ -294,27 +299,44 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
         return false;
     }
 
+    //    /**
+    //     * <DL>
+    //     * <DT>Description:</DT>
+    //     * <DD>Play the sound at the passed index (1 based) , if sound effects are enabled</DD>
+    //     * <DT>Date:</DT>
+    //     * <DD>Sep 2, 2017</DD>
+    //     * </DL>
+    //     *
+    //     * @param sound
+    //     *            the 1 based index of the sound;
+    //     */
+    //    public void playSound(final int sound) {
+    //        resetSettingsManagedFields(false);
+    //        if (soundEffects) {
+    //            final Sampler sampler = get(sound);
+    //            @SuppressWarnings("unchecked")
+    //            final String soundStr = ((Map.Entry<String, Sampler>) players.entrySet().toArray()[sound - 1]).getKey();
+    //
+    //            //getSettings().getSoundFilesMap().values().toArray()[players.indexOf(sampler)].toString();
+    //            playSound(soundStr, sampler);
+    //        }
+    //    }
+
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>Play the sound at the passed index (1 based) , if sound effects are enabled</DD>
+     * <DD>play a random sound from the passed list of sound names</DD>
      * <DT>Date:</DT>
-     * <DD>Sep 2, 2017</DD>
+     * <DD>Sep 24, 2017</DD>
      * </DL>
      *
-     * @param sound
-     *            the 1 based index of the sound;
+     * @param soundList
      */
-    public void playSound(final int sound) {
-        resetSettingsManagedFields(false);
-        if (soundEffects) {
-            final Sampler sampler = get(sound);
-            @SuppressWarnings("unchecked")
-            final String soundStr = ((Map.Entry<String, Sampler>) players.entrySet().toArray()[sound - 1]).getKey();
-
-            //getSettings().getSoundFilesMap().values().toArray()[players.indexOf(sampler)].toString();
-            playSound(soundStr, sampler);
-        }
+    protected void playListRandomSound(final List<String> soundList) {
+        final int s = runtimeSettings.getRandom().nextInt(soundList.size());
+        log.debug("playing sound, {} ", s);
+        playSound(soundList.get(s));
+        log.debug("done playing sound, {} ", soundList.get(s));
     }
 
     /**
@@ -380,7 +402,22 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>Randomly play any of the first 10 sounds in the list, if sound effects are enabled</DD>
+     * <DD>Play a random sound from the departed sound list</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 24, 2017</DD>
+     * </DL>
+     */
+    public void randomDepartedSound() {
+        resetSettingsManagedFields(false);
+        if (soundEffects) {
+            playListRandomSound(getSettings().getDepartedSoundList());
+        }
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Randomly play any of the sounds from the idleRandomSoundList</DD>
      * <DT>Date:</DT>
      * <DD>Sep 2, 2017</DD>
      * </DL>
@@ -388,11 +425,7 @@ public class Sounds extends AbstractPDE implements AutoCloseable {
     public void randomIdleSound() {
         resetSettingsManagedFields(false);
         if (soundEffects) {
-            final String[] soundList = { "business", "who", "there", "nohardfeel", "isthere", "donthate", "dontblame",
-                "itsme", "hello", "comehere", "stillthere" };
-
-            final int sound = (int) Math.floor(getParent().random(0, soundList.length));
-            playSound(soundList[sound]);
+            playListRandomSound(getSettings().getIdleSoundList());
         }
     }
 

@@ -4,6 +4,9 @@
  */
 package com.nrapoport.utilities.psgcode.util;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -13,9 +16,17 @@ import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.PosixFilePermissions;
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
+
+import com.nrapoport.utilities.psgcode.devices.ConfigLine;
 
 /**
  * <DL>
@@ -147,6 +158,96 @@ public class Util {
     public static void initData() {
         createPath("data");
         copyFilesToData("src/main/resources/data");
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>loads the device config file into a map of controller name mapped to ConfigLine objects;</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 24, 2017</DD>
+     * </DL>
+     *
+     * @param configFile
+     *            the file Path to load
+     * @return a map where the config name is mapped to the configLines
+     */
+    public static Map<String, List<ConfigLine>> loadDeviceConfig(final Path configFile) {
+        final Map<String, List<ConfigLine>> results = new HashMap<>();
+        final Path jsonAbsoluteName = validateLocation(configFile);
+        String controllerName = "";
+        final List<ConfigLine> configLines = new ArrayList<>();
+        try (BufferedReader bfr = new BufferedReader(new FileReader(jsonAbsoluteName.toFile()))) {
+            final Stream<String> lines = bfr.lines();
+            final List<String> lineArray = lines.collect(Collectors.toList());
+            int idx = 0;
+            for (final String line : lineArray) {
+                if (idx++ == 0) {
+                    controllerName = line;
+                } else {
+                    configLines.add(new ConfigLine(line));
+                }
+
+            }
+            results.put(controllerName, configLines);
+        } catch (final FileNotFoundException ex) {
+            final String msg = String.format("Not Found Error reading from file '{}'", jsonAbsoluteName.toString());
+            log.error(msg, ex);
+            final RuntimeException newEx = new RuntimeException(msg, ex);
+            newEx.fillInStackTrace();
+            throw newEx;
+        } catch (final IOException ex) {
+            final String msg = String.format("Error reading from file '{}'", jsonAbsoluteName.toString());
+            log.error(msg, ex);
+            final RuntimeException newEx = new RuntimeException(msg, ex);
+            newEx.fillInStackTrace();
+            throw newEx;
+        }
+
+        return results;
+        //        if (dropdown_whichDevice.getSelectedText().equalsIgnoreCase(controllerName)) {
+        //            //deviceButtons;
+        //            for (final IDeviceHelper helper : deviceButtons) {
+        //                helper.setSelectedText(0);
+        //            }
+        //            for (final IDeviceHelper helper : deviceSliders) {
+        //                helper.setSelectedText(0);
+        //            }
+        //
+        //            for (final ConfigLine configLine : configLines) {
+        //                int selected = -1;
+        //                switch (configLine.getType()) {
+        //                    case Button:
+        //                        selected = DeviceButtonActions.getByString(configLine.getKey()).ordinal();
+        //                        deviceButtons.get(configLine.getIndex()).setSelectedText(selected);
+        //                        break;
+        //                    case Slider:
+        //                        selected = DeviceSliderActions.getByString(configLine.getKey()).ordinal();
+        //                        deviceSliders.get(configLine.getIndex()).setSelectedText(selected);
+        //                        break;
+        //
+        //                    default: //TODO implement Hat
+        //                        throw new NotImplementedException(
+        //                            "This is not implemented yet for " + configLine.getType().name());
+        //                }
+        //            }
+        //        }
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>loads the device config file into a map of controller name mapped to ConfigLine objects;</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 24, 2017</DD>
+     * </DL>
+     *
+     * @param configFile
+     *            the filename to load
+     * @return a map where the config name is mapped to the configLines
+     */
+    public static Map<String, List<ConfigLine>> loadDeviceConfig(final String configFile) {
+        return loadDeviceConfig(validateLocation(configFile));
     }
 
     /**

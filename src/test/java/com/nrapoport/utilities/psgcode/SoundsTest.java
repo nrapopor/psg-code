@@ -13,7 +13,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.nrapoport.utilities.psgcode.enums.RunType;
-import com.nrapoport.utilities.psgcode.util.Util;
 
 /**
  * <DL>
@@ -42,7 +41,7 @@ public class SoundsTest extends BasePDETestingAncestor {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         BasePDETestingAncestor.setUpBeforeClass();
-        Util.copyFilesToData("src/main/resources/data");
+        //Util.copyFilesToData("src/main/resources/data");
     }
 
     /**
@@ -128,7 +127,7 @@ public class SoundsTest extends BasePDETestingAncestor {
     }
 
     /**
-     * Test method for {@link com.nrapoport.utilities.psgcode.Sounds#playSound(int)}.
+     * Test method for {@link com.nrapoport.utilities.psgcode.Sounds#playSound(String)}.
      */
     @Test
     public void test020PlaySound() {
@@ -138,7 +137,7 @@ public class SoundsTest extends BasePDETestingAncestor {
         sounds.getSettings().setSoundEffects(true);
         assertNotNull(sounds);
         try {
-            sounds.playSound(3);
+            sounds.playSound("aquired");
             Thread.sleep(3000); // time to p[lay the sound
         } catch (final InterruptedException ex) {
             log.info("done waiting ... "); //$NON-NLS-1$
@@ -152,7 +151,7 @@ public class SoundsTest extends BasePDETestingAncestor {
     }
 
     /**
-     * Test method for {@link com.nrapoport.utilities.psgcode.Sounds#playSound(int)}.
+     * Test method for {@link com.nrapoport.utilities.psgcode.Sounds#playSound(String)}.
      */
     @Test
     public void test025PlaySoundMinimal() {
@@ -162,7 +161,7 @@ public class SoundsTest extends BasePDETestingAncestor {
         sounds.getSettings().setSoundEffects(true);
         assertNotNull(sounds);
         try {
-            sounds.playSound(3);
+            sounds.playSound("aquired");
             Thread.sleep(3000); // time to p[lay the sound
         } catch (final InterruptedException ex) {
             log.info("done waiting ... "); //$NON-NLS-1$
@@ -223,7 +222,7 @@ public class SoundsTest extends BasePDETestingAncestor {
     }
 
     /**
-     * Test method for {@link com.nrapoport.utilities.psgcode.Sounds#close()}.
+     * Test method for {@link com.nrapoport.utilities.psgcode.Sounds#playSound()}.
      */
     @Test
     public void test100PlayAllClose() {
@@ -232,16 +231,16 @@ public class SoundsTest extends BasePDETestingAncestor {
         final Sounds sounds = new Sounds(getPsgParent());
         sounds.getSettings().setSoundEffects(true);
         assertNotNull(sounds);
-        final int size = sounds.getPlayers().size();
-        for (int i = 1; i <= size; i++) {
+        //final int size = sounds.getPlayers().size();
+        for (final String sound : sounds.getPlayers().keySet()) {
             try {
-                log.info("Playing sound {}", i);
-                sounds.playSound(i);
+                log.info("Playing sound {}", sound);
+                sounds.playSound(sound);
                 Thread.sleep(3000L); // time to p[lay the sound
             } catch (final InterruptedException ex) {
                 log.info("done waiting ... "); //$NON-NLS-1$
             }
-            log.info("Done Playing sound {}", i);
+            log.info("Done Playing sound {}", sound);
         }
 
         try {
@@ -261,16 +260,15 @@ public class SoundsTest extends BasePDETestingAncestor {
         getPsgParent().getSettings().setSoundEffects(true);
         final Sounds sounds = new Sounds(getPsgParent());
         assertNotNull(sounds);
-        final int size = sounds.getPlayers().size();
-        for (int i = 1; i <= size; i++) {
+        for (final String sound : sounds.getPlayers().keySet()) {
             try {
-                log.info("Playing sound {}", i);
-                sounds.playSound(i);
+                log.info("Playing sound {}", sound);
+                sounds.playSound(sound);
                 Thread.sleep(3000L); // time to p[lay the sound
             } catch (final InterruptedException ex) {
                 log.info("done waiting ... "); //$NON-NLS-1$
             }
-            log.info("Done Playing sound {}", i);
+            log.info("Done Playing sound {}", sound);
         }
 
         try {

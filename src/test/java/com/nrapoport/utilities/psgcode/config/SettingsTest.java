@@ -15,7 +15,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.nrapoport.utilities.psgcode.BasePDETestingAncestor;
-import com.nrapoport.utilities.psgcode.config.Settings;
 
 /**
  * <DL>
@@ -95,7 +94,7 @@ public class SettingsTest extends BasePDETestingAncestor {
      */
     @Test
     public void testLoadSettingsWhenFileEmpty() {
-        final String jSONFileName = getTestsettingsdatadir() + "/test-settings.json";
+        final String jSONFileName = getDatadir() + "/test-settings.json";
         deleteJson(jSONFileName);
         createEmptyJson(jSONFileName);
         final Settings settings = new Settings(getPsgParent(), jSONFileName);
@@ -113,7 +112,7 @@ public class SettingsTest extends BasePDETestingAncestor {
         }
         final int after = settings.getUpdateCount();
         assertTrue("Settings update count mismatch", after == before + 1);
-
+        deleteJson(jSONFileName);
         //fail("Not yet implemented");
     }
 
@@ -122,7 +121,7 @@ public class SettingsTest extends BasePDETestingAncestor {
      */
     @Test
     public void testLoadSettingsWhenFileMissing() {
-        final String jSONFileName = getTestsettingsdatadir() + "/test-settings.json";
+        final String jSONFileName = getDatadir() + "/test-settings.json";
         deleteJson(jSONFileName);
         final Settings settings = new Settings(getPsgParent(), jSONFileName);
         assertNotNull(settings);
@@ -131,14 +130,12 @@ public class SettingsTest extends BasePDETestingAncestor {
             log.info("loading ... ");
             settings.loadSettings();
         } catch (final IOException ex) {
-            // TODO Auto-generated catch block
             log.error("caught IOException :", ex); //$NON-NLS-1$
             fail("Could not read settings");
-            //System.err.println("caught IOException :"+ex.toString()); //$NON-NLS-1$
-            //ex.printStackTrace(System.err);
         }
         final int after = settings.getUpdateCount();
         assertTrue("Settings update count mismatch", after == before + 1);
+        deleteJson(jSONFileName);
 
         //fail("Not yet implemented");
     }
@@ -147,9 +144,9 @@ public class SettingsTest extends BasePDETestingAncestor {
      * Test method for {@link com.nrapoport.utilities.psgcode.config.Settings#saveSettings(java.lang.String)}.
      */
     @Test
-    public void testSaveSettingsString() { //TODO Start Here extract the ConfigurationSettings object mark it exportable
-        final String jSONFileName = getTestsettingsdatadir() + "/gson-settings.json";
-        final String jSONFileName2 = getTestsettingsdatadir() + "/gson-settings-changed.json";
+    public void testSaveSettingsString() {
+        final String jSONFileName = getDatadir() + "/gson-settings.json";
+        final String jSONFileName2 = getDatadir() + "/gson-settings-changed.json";
         //final String jSONFileName = jSONFilePath + "/" + jSONFile;
         final Settings settings = new Settings(getPsgParent(), jSONFileName);
         assertNotNull(settings);
@@ -191,6 +188,9 @@ public class SettingsTest extends BasePDETestingAncestor {
         final boolean chagedArrowKeys = settings2.isUseArrowKeys();
         log.info("loaded UseArrowKeys {}", chagedArrowKeys);
         assertTrue(chagedArrowKeys == newArrowKeys);
+        deleteJson(jSONFileName);
+        deleteJson(jSONFileName2);
+
     }
 
 }

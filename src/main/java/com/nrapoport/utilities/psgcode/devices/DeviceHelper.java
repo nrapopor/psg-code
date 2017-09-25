@@ -22,7 +22,7 @@ import g4p_controls.GPanel;
 /**
  * <DL>
  * <DT>Description:</DT>
- * <DD>This class is used to hold a device element such as Button or Slider (TODO No Hat support yet)</DD>
+ * <DD>This class is used to hold a device element such as Button or Slider (TODO No Hat support yet )</DD>
  * <DT>Date:</DT>
  * <DD>Sep 10, 2017</DD>
  * </DL>
@@ -279,6 +279,15 @@ public class DeviceHelper implements IDeviceHelper {
         return "";
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Activate or initialize new IGControlHolder (at this time either a Button or Slider for the current control.
+     * if it does not exist create it</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 25, 2017</DD>
+     * </DL>
+     */
     protected void init() {
         IGControlHolder holder = null;
         int idx = index;

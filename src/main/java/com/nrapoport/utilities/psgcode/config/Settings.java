@@ -271,6 +271,21 @@ public class Settings extends AbstractPDE {
     /**
      * <DL>
      * <DT>Description:</DT>
+     * <DD>A delegate method for the getDepartedSoundList method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 24, 2017</DD>
+     * </DL>
+     *
+     * @return
+     * @see com.nrapoport.utilities.psgcode.config.ConfigurationSettings#getDepartedSoundList()
+     */
+    public List<String> getDepartedSoundList() {
+        return configuration.getDepartedSoundList();
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
      * <DD>A delegate method for the getDeviceConfig method</DD>
      * <DT>Date:</DT>
      * <DD>Sep 16, 2017</DD>
@@ -281,6 +296,21 @@ public class Settings extends AbstractPDE {
      */
     public String getDeviceConfig() {
         return configuration.getDeviceConfig();
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>A delegate method for the getDeviceTolerance method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 25, 2017</DD>
+     * </DL>
+     * 
+     * @return
+     * @see com.nrapoport.utilities.psgcode.config.ConfigurationSettings#getDeviceTolerance()
+     */
+    public float getDeviceTolerance() {
+        return configuration.getDeviceTolerance();
     }
 
     /**
@@ -430,6 +460,21 @@ public class Settings extends AbstractPDE {
      */
     public Gson getGson() {
         return gson;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>A delegate method for the getIdleSoundList method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 24, 2017</DD>
+     * </DL>
+     *
+     * @return
+     * @see com.nrapoport.utilities.psgcode.config.ConfigurationSettings#getIdleSoundList()
+     */
+    public List<String> getIdleSoundList() {
+        return configuration.getIdleSoundList();
     }
 
     /**
@@ -686,6 +731,21 @@ public class Settings extends AbstractPDE {
         return configuration.getSamplerDelay();
     }
 
+    //    /**
+    //     * <DL>
+    //     * <DT>Description:</DT>
+    //     * <DD>A delegate method for the getSoundFiles method</DD>
+    //     * <DT>Date:</DT>
+    //     * <DD>Sep 4, 2017</DD>
+    //     * </DL>
+    //     *
+    //     * @return
+    //     * @see com.nrapoport.utilities.psgcode.config.ConfigurationSettings#getSoundFiles()
+    //     */
+    //    public List<String> getSoundFiles() {
+    //        return configuration.getSoundFiles();
+    //    }
+
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -704,26 +764,11 @@ public class Settings extends AbstractPDE {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>A delegate method for the getSoundFiles method</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 4, 2017</DD>
-     * </DL>
-     *
-     * @return
-     * @see com.nrapoport.utilities.psgcode.config.ConfigurationSettings#getSoundFiles()
-     */
-    public List<String> getSoundFiles() {
-        return configuration.getSoundFiles();
-    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
      * <DD>A delegate method for the getSoundFilesMap method</DD>
      * <DT>Date:</DT>
      * <DD>Sep 18, 2017</DD>
      * </DL>
-     * 
+     *
      * @return
      * @see com.nrapoport.utilities.psgcode.config.ConfigurationSettings#getSoundFilesMap()
      */
@@ -1537,6 +1582,21 @@ public class Settings extends AbstractPDE {
     /**
      * <DL>
      * <DT>Description:</DT>
+     * <DD>A delegate method for the setDeviceTolerance method</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 25, 2017</DD>
+     * </DL>
+     * 
+     * @param aDeviceTolerance
+     * @see com.nrapoport.utilities.psgcode.config.ConfigurationSettings#setDeviceTolerance(float)
+     */
+    public void setDeviceTolerance(final float aDeviceTolerance) {
+        configuration.setDeviceTolerance(aDeviceTolerance);
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
      * <DD>A delegate method for the setDiffPixelsColor method</DD>
      * <DT>Date:</DT>
      * <DD>Sep 4, 2017</DD>
@@ -2014,6 +2074,21 @@ public class Settings extends AbstractPDE {
         configuration.setShowTargetBox(aShowTargetBox);
     }
 
+    //    /**
+    //     * <DL>
+    //     * <DT>Description:</DT>
+    //     * <DD>A delegate method for the setSoundFiles method</DD>
+    //     * <DT>Date:</DT>
+    //     * <DD>Sep 4, 2017</DD>
+    //     * </DL>
+    //     *
+    //     * @param aSoundFiles
+    //     * @see com.nrapoport.utilities.psgcode.config.ConfigurationSettings#setSoundFiles(java.util.List)
+    //     */
+    //    public void setSoundFiles(final List<String> aSoundFiles) {
+    //        configuration.setSoundFiles(aSoundFiles);
+    //    }
+
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -2042,21 +2117,6 @@ public class Settings extends AbstractPDE {
      */
     public void setSoundEffects(final boolean aSoundEffects) {
         configuration.setSoundEffects(aSoundEffects);
-    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
-     * <DD>A delegate method for the setSoundFiles method</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 4, 2017</DD>
-     * </DL>
-     *
-     * @param aSoundFiles
-     * @see com.nrapoport.utilities.psgcode.config.ConfigurationSettings#setSoundFiles(java.util.List)
-     */
-    public void setSoundFiles(final List<String> aSoundFiles) {
-        configuration.setSoundFiles(aSoundFiles);
     }
 
     /**

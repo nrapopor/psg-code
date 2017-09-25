@@ -4,6 +4,10 @@
  */
 package com.nrapoport.utilities.psgcode;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.gamecontrolplus.ControlButton;
 import org.gamecontrolplus.ControlDevice;
 import org.gamecontrolplus.ControlIO;
@@ -11,8 +15,13 @@ import org.gamecontrolplus.ControlSlider;
 
 import com.nrapoport.utilities.psgcode.config.RuntimeSettings;
 import com.nrapoport.utilities.psgcode.config.Settings;
+import com.nrapoport.utilities.psgcode.devices.ConfigLine;
 import com.nrapoport.utilities.psgcode.enums.ControlMode;
 import com.nrapoport.utilities.psgcode.enums.Controls;
+import com.nrapoport.utilities.psgcode.enums.DeviceButtonActions;
+import com.nrapoport.utilities.psgcode.enums.DeviceSliderActions;
+import com.nrapoport.utilities.psgcode.enums.RunType;
+import com.nrapoport.utilities.psgcode.util.Util;
 
 import processing.core.PApplet;
 
@@ -31,6 +40,10 @@ public class DeviceController extends AbstractPDE {
     //@SuppressWarnings("unused")
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DeviceController.class);
 
+    private static final String SLIDER_WARNING = "While it is acceptable to have multiple buttons, performing "
+        + "the same function, only one slider may be configured for each type of action. '{}' is already "
+        + "configured , ignoring the rest";
+
     private final Settings settings;
 
     private final RuntimeSettings runtimeSettings;
@@ -39,31 +52,27 @@ public class DeviceController extends AbstractPDE {
 
     private final Sounds sounds;
 
-    private ControlButton[] buttons = new ControlButton[30];
+    private List<ControlButton> fire_buttons = new ArrayList<>();
 
-    private ControlSlider[] sliders = new ControlSlider[10];
+    private List<ControlButton> preciseAim_buttons = new ArrayList<>();
 
-    private ControlButton[] fire_buttons = new ControlButton[0];
+    private List<ControlButton> centerGun_buttons = new ArrayList<>();
 
-    private ControlButton[] preciseAim_buttons = new ControlButton[0];
+    private List<ControlButton> autoOn_buttons = new ArrayList<>();
 
-    private ControlButton[] centerGun_buttons = new ControlButton[0];
+    private List<ControlButton> autoOff_buttons = new ArrayList<>();
 
-    private ControlButton[] autoOn_buttons = new ControlButton[0];
+    private List<ControlButton> inputToggle_buttons = new ArrayList<>();
 
-    private ControlButton[] autoOff_buttons = new ControlButton[0];
+    private List<ControlButton> randomSound_buttons = new ArrayList<>();
 
-    private ControlButton[] inputToggle_buttons = new ControlButton[0];
+    private ControlSlider pan_slider = null;
 
-    private ControlButton[] randomSound_buttons = new ControlButton[0];
+    private ControlSlider tilt_slider = null;
 
-    private ControlSlider[] pan_sliders = new ControlSlider[0];
+    private ControlSlider panInvert_slider = null;
 
-    private ControlSlider[] tilt_sliders = new ControlSlider[0];
-
-    private ControlSlider[] panInvert_sliders = new ControlSlider[0];
-
-    private ControlSlider[] tiltInvert_sliders = new ControlSlider[0];
+    private ControlSlider tiltInvert_slider = null;
 
     private ControlDevice inputDevice;
 
@@ -81,41 +90,30 @@ public class DeviceController extends AbstractPDE {
         super(aParent);
         settings = aParent.getSettings();
         runtimeSettings = aParent.getRuntimeSettings();
-        controlPanel = aParent.getControlPanel();
+        if (getSettings().getRunType() == RunType.Full) {
+            controlPanel = aParent.getControlPanel();
+        } else {
+            controlPanel = null;
+        }
         sounds = aParent.getSounds();
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Check input device state</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 25, 2017</DD>
+     * </DL>
+     */
     void checkInputDevice() {
         if (!getRuntimeSettings().isInputDeviceIsSetup()) {
             setupInputDevice();
         } else {
-            boolean manualModeButtonValue = false;
-            for (int i = 0; i < autoOff_buttons.length; i++) {
-                if (autoOff_buttons[i].pressed()) {
-                    manualModeButtonValue = true;
-                }
-            }
-
-            boolean autonomousModeButtonValue = false;
-            for (int i = 0; i < autoOn_buttons.length; i++) {
-                if (autoOn_buttons[i].pressed()) {
-                    autonomousModeButtonValue = true;
-                }
-            }
-
-            boolean soundEffectButtonValue = false;
-            for (int i = 0; i < randomSound_buttons.length; i++) {
-                if (randomSound_buttons[i].pressed()) {
-                    soundEffectButtonValue = true;
-                }
-            }
-
-            boolean activeButtonValue = false;
-            for (int i = 0; i < inputToggle_buttons.length; i++) {
-                if (inputToggle_buttons[i].pressed()) {
-                    activeButtonValue = true;
-                }
-            }
+            final boolean manualModeButtonValue = pressed(autoOff_buttons);
+            final boolean autonomousModeButtonValue = pressed(autoOn_buttons);
+            boolean soundEffectButtonValue = pressed(randomSound_buttons);
+            boolean activeButtonValue = pressed(inputToggle_buttons);
 
             if (manualModeButtonValue) { // go to manual mode if appropriate control is pressed
                 getSettings().setControlMode(ControlMode.Manual);
@@ -128,24 +126,26 @@ public class DeviceController extends AbstractPDE {
             if (soundEffectButtonValue) { // play a random sound effect if appropriate control is pressed
                 getSounds().randomIdleSound();
                 while (soundEffectButtonValue) {
-                    soundEffectButtonValue = false;
-                    for (int i = 0; i < randomSound_buttons.length; i++) {
-                        if (randomSound_buttons[i].pressed()) {
-                            soundEffectButtonValue = true;
-                        }
-                    }
+                    soundEffectButtonValue = pressed(randomSound_buttons); //TODO this does nothing ... validate
+                    //
+                    //                    soundEffectButtonValue = false;
+                    //                    for (int i = 0; i < randomSound_buttons.length; i++) {
+                    //                        if (randomSound_buttons[i].pressed()) {
+                    //                            soundEffectButtonValue = true;
+                    //                        }
+                    //                    }
                 }
             }
             if (activeButtonValue) {
                 getSettings().flipControls();
                 //useInputDevice = !useInputDevice;
                 while (activeButtonValue) {
-                    activeButtonValue = false;
-                    for (int i = 0; i < inputToggle_buttons.length; i++) {
-                        if (inputToggle_buttons[i].pressed()) {
-                            activeButtonValue = true;
-                        }
-                    }
+                    activeButtonValue = pressed(inputToggle_buttons); //TODO this does nothing ... validate
+                    //                    for (int i = 0; i < inputToggle_buttons.length; i++) {
+                    //                        if (inputToggle_buttons[i].pressed()) {
+                    //                            activeButtonValue = true;
+                    //                        }
+                    //                    }
                 }
             }
         }
@@ -186,7 +186,7 @@ public class DeviceController extends AbstractPDE {
      * <DT>Date:</DT>
      * <DD>Sep 16, 2017</DD>
      * </DL>
-     * 
+     *
      * @return
      */
     public RuntimeSettings getRuntimeSettings() {
@@ -200,7 +200,7 @@ public class DeviceController extends AbstractPDE {
      * <DT>Date:</DT>
      * <DD>Sep 16, 2017</DD>
      * </DL>
-     * 
+     *
      * @return
      */
     public Settings getSettings() {
@@ -221,84 +221,205 @@ public class DeviceController extends AbstractPDE {
         return sounds;
     }
 
-    void setupInputDevice() {
-        if (!getRuntimeSettings().isInputDeviceIsSetup()) {
-
-            String[] loadData = new String[49];
-            loadData = loadStrings("data/Input Device Setup Tool/settings_inputDevice.txt");
-
-            final ControlIO controlIO = getRuntimeSettings().getControlIO();
-
-            //final boolean error = false;
-            try {
-                inputDevice = controlIO.getDevice(loadData[2]);
-                // println("Device loaded successfully!");
-                log.info("Device loaded successfully!");
-            } catch (final Exception e) {
-                //println("ERROR: Specified input device is not connected!");
-                log.error("ERROR: Specified input device is not connected!");
-                getSettings().setControls(Controls.Mouse);
-                //useInputDevice = false;
-                getControlPanel().updateCheckboxUseInputDevice(false);//checkbox_useInputDevice.setSelected(useInputDevice);
-                //            configJoystick();
-                return;
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Test if any button in the list has been pressed</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 24, 2017</DD>
+     * </DL>
+     *
+     * @param buttonList
+     * @return
+     */
+    protected boolean pressed(final List<ControlButton> buttonList) {
+        for (final ControlButton controlButton : buttonList) {
+            if (controlButton.pressed()) {
+                return true;
             }
+        }
+        return false;
+    }
 
-            inputDevice.setTolerance(0.025f);
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Process the passed ConfigLine as a button</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 25, 2017</DD>
+     * </DL>
+     *
+     * @param configLine
+     *            the config line representing a button
+     */
+    protected void processButton(final ConfigLine configLine) {
+        final DeviceButtonActions key = DeviceButtonActions.getByString(configLine.getKey());
+        switch (key) {
+            case AutoAimOff:
+                autoOff_buttons.add(inputDevice.getButton(configLine.getIndex()));
+                break;
 
-            println("Device Selected = " + inputDevice.getName());
+            case AutoAimOn:
+                autoOn_buttons.add(inputDevice.getButton(configLine.getIndex()));
+                break;
 
-            final int numButtons = inputDevice.getNumberOfButtons();
-            for (int i = 0; i < numButtons; i++) {
-                if (i < buttons.length) {
-                    buttons[i] = inputDevice.getButton(i);
-                }
-            }
-            // println("numButtons = " + numButtons);
+            case CenterGun:
+                centerGun_buttons.add(inputDevice.getButton(configLine.getIndex()));
+                break;
 
-            final int numSliders = inputDevice.getNumberOfSliders();
-            for (int i = 0; i < numSliders; i++) {
-                if (i < sliders.length) {
-                    sliders[i] = inputDevice.getSlider(i);
-                }
-            }
-            // println("numSliders = " + numSliders);
+            case Fire:
+                fire_buttons.add(inputDevice.getButton(configLine.getIndex()));
+                break;
 
-            for (int i = 0; i <= 29; i++) {
+            case InputDevToggle:
+                inputToggle_buttons.add(inputDevice.getButton(configLine.getIndex()));
+                break;
 
-                if (loadData[i + 6].equals("Fire")) {
-                    fire_buttons = (ControlButton[]) PApplet.append(fire_buttons, buttons[i]);
-                } else if (loadData[i + 6].equals("Precise Aim")) {
-                    preciseAim_buttons = (ControlButton[]) PApplet.append(preciseAim_buttons, buttons[i]);
-                } else if (loadData[i + 6].equals("Center Gun")) {
-                    centerGun_buttons = (ControlButton[]) PApplet.append(centerGun_buttons, buttons[i]);
-                } else if (loadData[i + 6].equals("Auto Aim On")) {
-                    autoOn_buttons = (ControlButton[]) PApplet.append(autoOn_buttons, buttons[i]);
-                } else if (loadData[i + 6].equals("Auto Aim Off")) {
-                    autoOff_buttons = (ControlButton[]) PApplet.append(autoOff_buttons, buttons[i]);
-                } else if (loadData[i + 6].equals("Input Dev On/Off")) {
-                    inputToggle_buttons = (ControlButton[]) PApplet.append(inputToggle_buttons, buttons[i]);
-                } else if (loadData[i + 6].equals("Random Sound")) {
-                    randomSound_buttons = (ControlButton[]) PApplet.append(randomSound_buttons, buttons[i]);
-                }
-            }
+            case RandomSound:
+                randomSound_buttons.add(inputDevice.getButton(configLine.getIndex()));
+                break;
 
-            for (int i = 0; i <= 9; i++) {
-                if (loadData[i + 39].equals("Pan")) {
-                    pan_sliders = (ControlSlider[]) PApplet.append(pan_sliders, sliders[i]);
-                } else if (loadData[i + 39].equals("Tilt")) {
-                    tilt_sliders = (ControlSlider[]) PApplet.append(tilt_sliders, sliders[i]);
-                } else if (loadData[i + 39].equals("Pan (Invert)")) {
-                    panInvert_sliders = (ControlSlider[]) PApplet.append(panInvert_sliders, sliders[i]);
-                } else if (loadData[i + 39].equals("Tilt (Invert)")) {
-                    tiltInvert_sliders = (ControlSlider[]) PApplet.append(tiltInvert_sliders, sliders[i]);
-                }
-            }
+            case PreciseAim:
+                preciseAim_buttons.add(inputDevice.getButton(configLine.getIndex()));
+                break;
 
-            getRuntimeSettings().setInputDeviceIsSetup(true);
+            default: //NoAction
+                break;
         }
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Process the passed ConfigLine as a slider</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 25, 2017</DD>
+     * </DL>
+     *
+     * @param configLine
+     *            a ConfigLine representing a Slider
+     */
+    protected void processSlider(final ConfigLine configLine) {
+        final DeviceSliderActions sKey = DeviceSliderActions.getByString(configLine.getKey());
+        switch (sKey) {
+            case Pan:
+                if (pan_slider != null) {
+                    log.warn(SLIDER_WARNING, sKey.altName());
+                    break;
+                }
+                pan_slider = inputDevice.getSlider(configLine.getIndex());
+                break;
+
+            case Tilt:
+                if (tilt_slider != null) {
+                    log.warn(SLIDER_WARNING, sKey.altName());
+                    break;
+                }
+                tilt_slider = inputDevice.getSlider(configLine.getIndex());
+
+                break;
+
+            case InvertPan:
+                if (panInvert_slider != null) {
+                    log.warn(SLIDER_WARNING, sKey.altName());
+                    break;
+                }
+                panInvert_slider = inputDevice.getSlider(configLine.getIndex());
+                break;
+
+            case InvertTilt:
+                if (tiltInvert_slider != null) {
+                    log.warn(SLIDER_WARNING, sKey.altName());
+                    break;
+                }
+                tiltInvert_slider = inputDevice.getSlider(configLine.getIndex());
+                break;
+
+            default: //NoAction
+                break;
+        }
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Setup configured device</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 24, 2017</DD>
+     * </DL>
+     */
+    public void setupInputDevice() {
+        final ControlIO controlIO = getRuntimeSettings().getControlIO();
+
+        final Map<String, List<ConfigLine>> configFile = Util.loadDeviceConfig(getSettings().getDeviceConfig());
+        final Map.Entry<String, List<ConfigLine>> entry = configFile.entrySet().iterator().next();
+        final String controllerName = entry.getKey();
+        final List<ConfigLine> configLines = entry.getValue();
+
+        inputDevice = controlIO.getDevice(controllerName);
+
+        if (inputDevice == null) {
+            log.error("ERROR: Specified input device is not connected!");
+            getSettings().setControls(Controls.Mouse);
+            if (getSettings().getRunType() == RunType.Full) {
+                getControlPanel().updateCheckboxUseInputDevice(false);
+            }
+            return;
+        }
+        log.info("Device Selected = '{}'", inputDevice.getName());
+        inputDevice.setTolerance(getSettings().getDeviceTolerance());
+        for (final ConfigLine configLine : configLines) {
+            switch (configLine.getType()) {
+                case Button:
+                    processButton(configLine);
+                    break;
+
+                case Slider:
+                    processSlider(configLine);
+                    break;
+
+                default: //TODO Implement Hat
+                    break;
+            }
+        }
+        getRuntimeSettings().setInputDeviceIsSetup(true);
+
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>return slider value if slider exists or 0</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 25, 2017</DD>
+     * </DL>
+     *
+     * @param slider
+     *            slider to use
+     * @return
+     *         <DL>
+     *         <DT><code>slider.getValue()</code></DT>
+     *         <DD>if slider is not null</DD>
+     *         <DT><code>0</code></DT>
+     *         <DD>otherwise</DD>
+     *         </DL>
+     */
+    protected float sliderValue(final ControlSlider slider) {
+        if (slider != null) {
+            return pan_slider.getValue();
+        }
+        return 0f;
+
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>update targeting and position based on the state of the Input Device</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 25, 2017</DD>
+     * </DL>
+     */
     void updateInputDevice() {
         if (!getRuntimeSettings().isInputDeviceIsSetup()) {
             setupInputDevice();
@@ -312,42 +433,14 @@ public class DeviceController extends AbstractPDE {
             //            final float xMax = getSettings().getxMax();
             //            final float yMax = getSettings().getyMax();
 
-            float xMotionValue = 0;
-            for (int i = 0; i < pan_sliders.length; i++) {
-                xMotionValue = xMotionValue + pan_sliders[i].getValue();
-            }
-            for (int i = 0; i < panInvert_sliders.length; i++) {
-                xMotionValue = xMotionValue - panInvert_sliders[i].getValue();
-            }
+            float xMotionValue = 0 + sliderValue(pan_slider);
+            xMotionValue -= sliderValue(panInvert_slider);
+            float yMotionValue = 0 + sliderValue(tilt_slider);
+            yMotionValue -= sliderValue(tiltInvert_slider);
 
-            float yMotionValue = 0;
-            for (int i = 0; i < tilt_sliders.length; i++) {
-                yMotionValue = yMotionValue + tilt_sliders[i].getValue();
-            }
-            for (int i = 0; i < tiltInvert_sliders.length; i++) {
-                yMotionValue = yMotionValue - tiltInvert_sliders[i].getValue();
-            }
-
-            boolean triggerButtonValue = false;
-            for (int i = 0; i < fire_buttons.length; i++) {
-                if (fire_buttons[i].pressed()) {
-                    triggerButtonValue = true;
-                }
-            }
-
-            boolean centerButtonValue = false;
-            for (int i = 0; i < centerGun_buttons.length; i++) {
-                if (centerGun_buttons[i].pressed()) {
-                    centerButtonValue = true;
-                }
-            }
-
-            boolean precisionButtonValue = false;
-            for (int i = 0; i < preciseAim_buttons.length; i++) {
-                if (preciseAim_buttons[i].pressed()) {
-                    precisionButtonValue = true;
-                }
-            }
+            final boolean triggerButtonValue = pressed(fire_buttons);
+            final boolean centerButtonValue = pressed(centerGun_buttons);
+            final boolean precisionButtonValue = pressed(preciseAim_buttons);
 
             float aimSensitivityX =
                 PApplet.map(PApplet.pow(PApplet.abs(xMotionValue), 2f), 0.0f, 1.0f, 1.0f, camWidth / 10); // set the sensitivity coeficcient for horizontal axis. Based on a quadratic correlation.
@@ -361,10 +454,10 @@ public class DeviceController extends AbstractPDE {
 
             float xPosition = getRuntimeSettings().getxPosition();
             float yPosition = getRuntimeSettings().getyPosition();
-            xPosition += aimSensitivityX * xMotionValue; // update the position of the crosshairs
+            xPosition += aimSensitivityX * xMotionValue; // update the position of the cross-hairs
             yPosition += aimSensitivityY * yMotionValue;
 
-            xPosition = PApplet.constrain(xPosition, 0, camWidth); // don't let the crosshairs leave the camera view
+            xPosition = PApplet.constrain(xPosition, 0, camWidth); // don't let the cross-hairs leave the camera view
             yPosition = PApplet.constrain(yPosition, 0, camHeight);
 
             if (centerButtonValue) { // center the crosshairs if appropriate control is pressed

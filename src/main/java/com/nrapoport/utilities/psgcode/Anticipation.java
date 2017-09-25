@@ -28,39 +28,39 @@ public class Anticipation extends AbstractPDE {
 
     private final RuntimeSettings runtimeSettings;
 
-    int nbDot = 10; // number of dot for anticipation minimum 2
+    private int nbDot = 10; // number of dot for anticipation minimum 2
 
-    int antSens = 10; // sensitivity of anticipation
+    private int antSens = 10; // sensitivity of anticipation
 
-    float propX = 0.67f; // proportionality of anticipation
+    private float propX = 0.67f; // proportionality of anticipation
 
-    float propY = 0.11f; // 1 is Hight / more is Less
+    private float propY = 0.11f; // 1 is Hight / more is Less
 
-    int[] oldPossibleX;// = new int[nbDot + 1]; // 0 is actual position
+    private int[] oldPossibleX;// = new int[nbDot + 1]; // 0 is actual position
 
     //boolean leadTarget = true;
 
-    int[] oldPossibleY;// = new int[nbDot + 1];
+    private int[] oldPossibleY;// = new int[nbDot + 1];
 
-    int[] accX; //= new int[nbDot - 1];
+    private int[] accX; //= new int[nbDot - 1];
 
-    int[] accY; //= new int[nbDot - 1];
+    private int[] accY; //= new int[nbDot - 1];
 
-    int[] travelX; //= new int[nbDot - 1];
+    private int[] travelX; //= new int[nbDot - 1];
 
-    int[] travelY;// = new int[nbDot - 1];
+    private int[] travelY;// = new int[nbDot - 1];
 
-    float antX = 0;
+    private float antX = 0;
 
-    float antY = 0;
+    private float antY = 0;
 
-    int prevTargetX;// = targetX;
+    //private int prevTargetX;// = targetX;
 
-    int prevTargetY;// = targetY;
+    // private int prevTargetY;// = targetY;
 
-    int camWidth;
+    private int camWidth;
 
-    int camHeight;
+    private int camHeight;
 
     /**
      * <DL>
@@ -269,8 +269,8 @@ public class Anticipation extends AbstractPDE {
         accY = new int[nbDot - 1];
         //travelX = new int[nbDot - 1];
         //travelY = new int[nbDot - 1];
-        prevTargetX = getRuntimeSettings().getTargetX();
-        prevTargetY = getRuntimeSettings().getTargetY();
+        //prevTargetX = getRuntimeSettings().getTargetX();
+        //prevTargetY = getRuntimeSettings().getTargetY();
     }
 
 }

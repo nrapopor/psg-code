@@ -80,35 +80,35 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
     private Anticipation anticipation;
 
     //JMyron camInput;
-    GLCapture camInput;
+    private GLCapture camInput;
 
-    int[] deltaBackground;
+    private int[] deltaBackground;
 
-    int[] rawImage;
+    private int[] rawImage;
 
-    int[] rawBackground;
+    private int[] rawBackground;
 
-    int[] lastBackground;
+    private int[] lastBackground;
 
-    int[] currFrame;
+    private int[] currFrame;
 
-    int[] screenPixels;
+    private int[] screenPixels;
 
-    BlobDetection target;
+    private BlobDetection target;
 
-    Blob blob;
+    private Blob blob;
 
-    Blob biggestBlob;
+    private Blob biggestBlob;
 
-    int[][] fireRestrictedZones = new int[30][4];
+    private int[][] fireRestrictedZones = new int[30][4];
 
-    int restrictedZone = 1;
+    private int restrictedZone = 1;
 
-    int idleBeginTime = 0;
+    private int idleBeginTime = 0;
 
-    float oldX;// = getSettings().getCamWidth() / 2; // smoothing (contributed by Adam S.)
+    private float oldX;// = getSettings().getCamWidth() / 2; // smoothing (contributed by Adam S.)
 
-    float oldY;// = getSettings().getCamHeight() / 2; // smoothing
+    private float oldY;// = getSettings().getCamHeight() / 2; // smoothing
 
     private int lastTime = millis();
 
@@ -135,10 +135,10 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
      *
      * @return
      */
-    private boolean autonomousMode() {
+    protected boolean autonomousMode() {
 
         if (getRuntimeSettings().isInputDeviceIsSetup()) {
-            getDeviceController().checkInputDevice(); //TODO start here device controller
+            getDeviceController().checkInputDevice();
         }
         final int camWidth = getSettings().getCamWidth();
         final int camHeight = getSettings().getCamHeight();
@@ -371,7 +371,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
             final int textSize = Math.round(currWidth / msgSize);
             textSize(textSize);
             fill(255);
-            text(msg, 0, currHeight / 2 - textSize / 2);
+            text(msg, (currWidth - msgSize) / 2, currHeight / 2 - textSize / 2);
             return;
         }
 
@@ -499,9 +499,12 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
 
         if (getRuntimeSettings().hasTargetDepartedScreen()) {
             //final int[] soundList = { 1, 2, 9, 12, 13, 20 };
-            final String[] soundList = { "business", "who", "nohardfeel", "donthate", "dontblame", "stillthere" };
-            final int s = Math.round(random(0, 6));
-            getSounds().playSound(soundList[s]);
+            //final String[] soundList = { "business", "who", "nohardfeel", "donthate", "dontblame", "stillthere" };
+            final List<String> soundList = getSettings().getDepartedSoundList();
+            final int s = getRuntimeSettings().getRandom().nextInt(soundList.size());
+            log.debug("playing sound, {} ", s);
+            getSounds().playSound(soundList.get(s));
+            log.debug("done playing sound, {} ", soundList.get(s));
             //            if (s == 0) {
             //                playSound(1);
             //            }
@@ -791,7 +794,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
      *
      * @return
      */
-    public boolean manualMode() {
+    protected boolean manualMode() {
         //  cursor(1);
         if (!updateCamera(false)) {
             return false;
@@ -1045,8 +1048,8 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
         //          }
 
         // Find Serial Port that the arduino is on
-        // The arduino is sending out a 'T' every 100 millisecs. Contributed by Don K.
-        long millisStart;
+        // The arduino is sending out a 'T' every 100 milliseconds. Contributed by Don K.
+        //long millisStart;
         int i = 0;
         int len = Serial.list().length; //get number of ports available
         final List<String> ports = new ArrayList<>(len);
@@ -1067,21 +1070,23 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
         }
         String currentPort = "0";
         Serial arduinoPort = null;
-        for (i = len - 1; i > -1; i++) {
+        for (i = len - 1; i > -1; i--) { //going backwards in the expectation that the Arduino port will be last
             currentPort = ports.get(i);
             log.info("Testing port {}", currentPort);
             arduinoPort = new Serial(this, currentPort, 4800); // Open 1st port in list
-            millisStart = millis();
-            while (millis() - millisStart < 2000) {
-                ; //wait for USB port reset (Guessed at 3 secs)
-            }
-            // can't use delay() call in setup()
+            delay(2000);
+            //            millisStart = millis();
+            //            while (millis() - millisStart < 2000) {
+            //                ; //wait for USB port reset (Guessed at 3 secs)
+            //            }
+            // can't use delay() call in setup() //ahhh but we are not in setup anymore
             arduinoPort.clear(); // empty buffer(incase of trash)
             arduinoPort.bufferUntil('T'); //buffer until there is a 'T'
-            millisStart = millis();
-            while (millis() - millisStart < 100) {
-                ; //collect some chars
-            }
+            delay(100);
+            //            millisStart = millis();
+            //            while (millis() - millisStart < 100) {
+            //                ; //collect some chars
+            //            }
             if (arduinoPort.available() > 0) //if we have a character
             {
                 final char c = arduinoPort.readChar(); //get the character
@@ -1102,10 +1107,11 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
             log.info("Arduino found on port used {} ", currentPort);
             getRuntimeSettings().setSerPortUsed(currentPort);
             getRuntimeSettings().setArduinoPort(arduinoPort); // I clean up in the setter
-            millisStart = millis();
-            while (millis() - millisStart < 5000) { //TODO Why not just Thread.sleep() here? why are we waiting 5 seconds? this will cause processing to fail!
-                ;
-            }
+            delay(5000); //TODO Why is there a 5 second pause here?
+            //millisStart = millis();
+            //while (millis() - millisStart < 5000) {
+            //  ;
+            //}
         }
         getRuntimeSettings().setConnecting(false);
     }
@@ -1129,7 +1135,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
         //   size(camWidth, camHeight);                  // some users have reported a faster framerate when the code utilizes OpenGL. To try this, comment out this line and uncomment the line below.
         //  size(camWidth, camHeight, OPENGL);
         //sounds.
-        getSounds().playSound(18);
+        getSounds().playSound("deploying"); //18
 
         //        minim = new Minim(this);
         //        loadSounds();

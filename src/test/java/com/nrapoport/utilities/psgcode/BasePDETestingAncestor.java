@@ -104,7 +104,7 @@ public class BasePDETestingAncestor {
     // @SuppressWarnings("unused")
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(BasePDETestingAncestor.class);
 
-    private final static String testSettingsdataDir = "target/data";
+    //private final static String testSettingsdataDir = "target/test-data";
 
     private final static String dataDir = "data";
 
@@ -216,20 +216,6 @@ public class BasePDETestingAncestor {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>Getter for the datadir property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 4, 2017</DD>
-     * </DL>
-     *
-     * @return the value of datadir field
-     */
-    protected static String getTestsettingsdatadir() {
-        return testSettingsdataDir;
-    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
      * <DD>Set Up Before Class</DD>
      * <DT>Date:</DT>
      * <DD>Sep 2, 2017</DD>
@@ -239,11 +225,11 @@ public class BasePDETestingAncestor {
      */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        Util.createPath(getTestsettingsdatadir());
-        Util.createPath(getDatadir());
+        //Util.createPath(getTestsettingsdatadir());
+        Util.initData();
     }
 
-    protected PSGProcessingCode psgParent;
+    private PSGProcessingCode psgParent;
 
     /**
      * <DL>

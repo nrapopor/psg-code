@@ -67,11 +67,11 @@ public class ControlPanel extends AbstractPDE implements ISettingsAware, IRuntim
     // @SuppressWarnings("unused")
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ControlPanel.class);
 
-    final Settings settings;
+    private final Settings settings;
 
-    final RuntimeSettings runtimeSettings;
+    private final RuntimeSettings runtimeSettings;
 
-    final Sounds sounds;
+    private final Sounds sounds;
 
     //final JMyron camInput;
     private GLCapture camInput;

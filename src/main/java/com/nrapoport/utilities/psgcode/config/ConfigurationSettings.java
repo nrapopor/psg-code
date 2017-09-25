@@ -54,6 +54,7 @@ public class ConfigurationSettings {
         "yMax=calibration default: 180.0;", //$NON-NLS-1$
         "minBlobArea=minimum target size (pixels) default: 30;", //$NON-NLS-1$
         "tolerance=sensitivity to motion default: 100;", //$NON-NLS-1$
+        "deviceTolerance=Sensitivity to motion for the device sliders. default: 0.025f;", //$NON-NLS-1$
         "runWithoutArduino=If Arduino board is not available default: false;", //$NON-NLS-1$
         "rendererType=The type of render to use (this is a Processing display option). One of P2D, P3D, OPENGL, FX2D, PDF, SVG, DXF default: P2D;", //$NON-NLS-1$
         "smoothingFactor=smoothing factor, default: 0.8f;", //$NON-NLS-1$
@@ -74,7 +75,9 @@ public class ConfigurationSettings {
         "soundInterval=simple counter limit that will determine how often to play a random sound (if enabled) default: 1000;", //$NON-NLS-1$
         "numberOfVoices=The number of voices passed to the Sampler (see Minim documentation) , default: 21;", //$NON-NLS-1$
         "samplerDelay=Time (in milliseconds) to wait to unpatch a Sampler (see Minim documentation), default: 2500;", //$NON-NLS-1$
-        "soundFiles=list of sound files that will play sounds for both random and as a response to activity if sounds are enabled, order is important;" //$NON-NLS-1$
+        "soundFilesMap=A map of sound files to names that will be used to play sounds for both random and as a response to activity if sounds are enabled;", //$NON-NLS-1$
+        "idleSoundList=A list of sound names to be used for idle sounds. They are played randomly;", //$NON-NLS-1$
+        "departedSoundList=A list of sound names to be used for target departed sounds. They are played randomly;" //$NON-NLS-1$
     ));
 
     private final @Expose Map<String, String> comments = comments_default.stream().map(s -> s.split("="))
@@ -104,6 +107,8 @@ public class ConfigurationSettings {
 
     private @Expose int tolerance = 100; //   sensitivity to motion
 
+    private @Expose float deviceTolerance = 0.025f;
+
     private @Expose boolean runWithoutArduino = false;
 
     private @Expose Renderers rendererType = Renderers.P2D;
@@ -115,6 +120,10 @@ public class ConfigurationSettings {
     private @Expose boolean useSafeColor = false;
 
     private @Expose boolean showDifferentPixels = false;
+
+    private @Expose boolean showTargetBox = true;
+
+    private @Expose boolean showCameraView = true;
 
     //    private @Expose boolean printFrameRate = false; // set to true to print the framerate at the bottom of the IDE window
     //
@@ -130,10 +139,6 @@ public class ConfigurationSettings {
     //   End custom values
     //   <===============================================================================================>
 
-    private @Expose boolean showTargetBox = true;
-
-    private @Expose boolean showCameraView = true;
-
     //private @Expose boolean firingMode = true; // true = semi,        false = auto
     private @Expose FiringMode firingMode = FiringMode.SemiAuto;
 
@@ -142,11 +147,11 @@ public class ConfigurationSettings {
     //private @Expose boolean controlMode = false; // true = autonomous,  false = manual
     private @Expose ControlMode controlMode = ControlMode.Manual;
 
-    //private @Expose int effect = 0; // Effect
-
     private @Expose boolean soundEffects = false; // set to true to enable sound effects by default
 
     private @Expose boolean scanWhenIdle = true;
+
+    //private @Expose int effect = 0; // Effect
 
     private @Expose boolean trackingMotion = true;
 
@@ -175,7 +180,7 @@ public class ConfigurationSettings {
 
     private @Expose Controls controls = Controls.Mouse;
 
-    boolean leadTarget = true;
+    private boolean leadTarget = true;
 
     private @Expose int nbDot = 10; // nomber of dot for anticipation minimum 2
 
@@ -193,31 +198,7 @@ public class ConfigurationSettings {
 
     private @Expose long samplerDelay = 2500;
 
-    private @Expose List<String> soundFiles = new ArrayList<>(Arrays.asList( //
-        "data/your business is appreciated.wav", //$NON-NLS-1$  0
-        "data/who's there.wav", //$NON-NLS-1$                   1
-        "data/there you are.wav", //$NON-NLS-1$                 2
-        "data/there you are(2).wav", //$NON-NLS-1$              3
-        "data/target lost.wav", //$NON-NLS-1$                   4
-        "data/target aquired.wav", //$NON-NLS-1$                5
-        "data/sleep mode activated.wav", //$NON-NLS-1$          6
-        "data/sentry mode activated.wav", //$NON-NLS-1$         7
-        "data/no hard feelings.wav", //$NON-NLS-1$              8
-        "data/is anyone there.wav", //$NON-NLS-1$               9
-        "data/i see you.wav", //$NON-NLS-1$                     10
-        "data/i dont hate you.wav", //$NON-NLS-1$               11
-        "data/i dont blame you.wav", //$NON-NLS-1$              12
-        "data/hey its me.wav", //$NON-NLS-1$                    13
-        "data/hello.wav", //$NON-NLS-1$                         14
-        "data/gotcha.wav", //$NON-NLS-1$                        15
-        "data/dispensing product.wav", //$NON-NLS-1$            16
-        "data/deploying.wav", //$NON-NLS-1$                     17
-        "data/could you come over here.wav", //$NON-NLS-1$      18
-        "data/are you still there.wav", //$NON-NLS-1$           19
-        "data/activated.wav" //$NON-NLS-1$                      20
-    ));
-
-    private List<List<String>> soundFilesMapEntries = new ArrayList<>(Arrays.asList( //
+    private final List<List<String>> soundFilesMapEntries = new ArrayList<>(Arrays.asList( //
         Arrays.asList("business", "data/your business is appreciated.wav"), //$NON-NLS-1$ //$NON-NLS-2$ 0
         Arrays.asList("who", "data/who's there.wav"), //$NON-NLS-1$ //$NON-NLS-2$                       1
         Arrays.asList("there", "data/there you are.wav"), //$NON-NLS-1$ //$NON-NLS-2$                   2
@@ -247,6 +228,53 @@ public class ConfigurationSettings {
         (u, v) -> {
             throw new IllegalStateException(String.format("Duplicate key '%s$1' for '%s$2'", u, v));
         }, LinkedHashMap::new //I want to keep the order
+    ));
+
+    //    private List<String> soundFiles = new ArrayList<>(Arrays.asList( //
+    //        "data/your business is appreciated.wav", //$NON-NLS-1$  0
+    //        "data/who's there.wav", //$NON-NLS-1$                   1
+    //        "data/there you are.wav", //$NON-NLS-1$                 2
+    //        "data/there you are(2).wav", //$NON-NLS-1$              3
+    //        "data/target lost.wav", //$NON-NLS-1$                   4
+    //        "data/target aquired.wav", //$NON-NLS-1$                5
+    //        "data/sleep mode activated.wav", //$NON-NLS-1$          6
+    //        "data/sentry mode activated.wav", //$NON-NLS-1$         7
+    //        "data/no hard feelings.wav", //$NON-NLS-1$              8
+    //        "data/is anyone there.wav", //$NON-NLS-1$               9
+    //        "data/i see you.wav", //$NON-NLS-1$                     10
+    //        "data/i dont hate you.wav", //$NON-NLS-1$               11
+    //        "data/i dont blame you.wav", //$NON-NLS-1$              12
+    //        "data/hey its me.wav", //$NON-NLS-1$                    13
+    //        "data/hello.wav", //$NON-NLS-1$                         14
+    //        "data/gotcha.wav", //$NON-NLS-1$                        15
+    //        "data/dispensing product.wav", //$NON-NLS-1$            16
+    //        "data/deploying.wav", //$NON-NLS-1$                     17
+    //        "data/could you come over here.wav", //$NON-NLS-1$      18
+    //        "data/are you still there.wav", //$NON-NLS-1$           19
+    //        "data/activated.wav" //$NON-NLS-1$                      20
+    //    ));
+
+    private @Expose List<String> idleSoundList = new ArrayList<>(Arrays.asList( //
+        "business", //$NON-NLS-1$       0
+        "who", //$NON-NLS-1$            1
+        "there", //$NON-NLS-1$          2
+        "nohardfeel", //$NON-NLS-1$     3
+        "isthere", //$NON-NLS-1$        4
+        "donthate", //$NON-NLS-1$       5
+        "dontblame", //$NON-NLS-1$      6
+        "itsme", //$NON-NLS-1$          7
+        "hello", //$NON-NLS-1$          8
+        "comehere", //$NON-NLS-1$       9
+        "stillthere" //$NON-NLS-1$      10
+    ));
+
+    private @Expose List<String> departedSoundList = new ArrayList<>(Arrays.asList( //
+        "business", //$NON-NLS-1$       0
+        "who", //$NON-NLS-1$            1
+        "nohardfeel", //$NON-NLS-1$     2
+        "donthate", //$NON-NLS-1$       3
+        "dontblame", //$NON-NLS-1$      4
+        "stillthere" //$NON-NLS-1$      5
     ));
 
     private @Expose String website = "http://psg.rudolphlabs.com/";
@@ -418,21 +446,19 @@ public class ConfigurationSettings {
         return customizable;
     }
 
-    //    private @Expose int trackColorRed = 255;
-
-    //    private @Expose int trackColorGreen = 255;
-
-    //    private @Expose int trackColorBlue = 255;
-
-    //    private @Expose int safeColorMinSize = 500;
-
-    //    private @Expose int safeColorTolerance = 100;
-
-    //    private @Expose int safeColorRed = 0;
-
-    //   private @Expose int safeColorGreen = 255;
-
-    //    private @Expose int safeColorBlue = 0;
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the departedSoundList property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 24, 2017</DD>
+     * </DL>
+     *
+     * @return the value of departedSoundList field
+     */
+    public List<String> getDepartedSoundList() {
+        return departedSoundList;
+    }
 
     /**
      * <DL>
@@ -447,6 +473,20 @@ public class ConfigurationSettings {
      */
     public String getDeviceConfig() {
         return customizable.getDeviceConfig();
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the deviceTolerance property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 25, 2017</DD>
+     * </DL>
+     *
+     * @return the value of deviceTolerance field
+     */
+    public float getDeviceTolerance() {
+        return deviceTolerance;
     }
 
     /**
@@ -479,8 +519,6 @@ public class ConfigurationSettings {
         return customizable.getDiffPixelsColorArray();
     }
 
-    //private @Expose boolean useInputDevice = false; // use a joystick or game Controller as input (in manual mode) now it's controls enum
-
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -494,6 +532,22 @@ public class ConfigurationSettings {
     public int getDisplayX() {
         return getCamWidth() / 2;
     }
+
+    //    private @Expose int trackColorRed = 255;
+
+    //    private @Expose int trackColorGreen = 255;
+
+    //    private @Expose int trackColorBlue = 255;
+
+    //    private @Expose int safeColorMinSize = 500;
+
+    //    private @Expose int safeColorTolerance = 100;
+
+    //    private @Expose int safeColorRed = 0;
+
+    //   private @Expose int safeColorGreen = 255;
+
+    //    private @Expose int safeColorBlue = 0;
 
     /**
      * <DL>
@@ -537,6 +591,8 @@ public class ConfigurationSettings {
         return getEffect().getId();
     }
 
+    //private @Expose boolean useInputDevice = false; // use a joystick or game Controller as input (in manual mode) now it's controls enum
+
     /**
      * <DL>
      * <DT>Description:</DT>
@@ -579,7 +635,19 @@ public class ConfigurationSettings {
         return firingMode.getId();
     }
 
-    //private int soundTimer = 0;
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the idleSoundList property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 24, 2017</DD>
+     * </DL>
+     *
+     * @return the value of idleSoundList field
+     */
+    public List<String> getIdleSoundList() {
+        return idleSoundList;
+    }
 
     /**
      * <DL>
@@ -621,6 +689,50 @@ public class ConfigurationSettings {
      */
     public int getNbDot() {
         return nbDot;
+    }
+
+    //private int soundTimer = 0;
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the numberOfVoices property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 6, 2017</DD>
+     * </DL>
+     *
+     * @return the value of numberOfVoices field
+     */
+    public int getNumberOfVoices() {
+        return numberOfVoices;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the propX property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 4, 2017</DD>
+     * </DL>
+     *
+     * @return the value of propX field
+     */
+    public float getPropX() {
+        return propX;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the propY property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 4, 2017</DD>
+     * </DL>
+     *
+     * @return the value of propY field
+     */
+    public float getPropY() {
+        return propY;
     }
 
     //    /**
@@ -694,48 +806,6 @@ public class ConfigurationSettings {
     //        soundFiles = aSoundFiles;
     //        website = aWebsite;
     //    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
-     * <DD>Getter for the numberOfVoices property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 6, 2017</DD>
-     * </DL>
-     *
-     * @return the value of numberOfVoices field
-     */
-    public int getNumberOfVoices() {
-        return numberOfVoices;
-    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
-     * <DD>Getter for the propX property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 4, 2017</DD>
-     * </DL>
-     *
-     * @return the value of propX field
-     */
-    public float getPropX() {
-        return propX;
-    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
-     * <DD>Getter for the propY property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 4, 2017</DD>
-     * </DL>
-     *
-     * @return the value of propY field
-     */
-    public float getPropY() {
-        return propY;
-    }
 
     /**
      * <DL>
@@ -896,20 +966,6 @@ public class ConfigurationSettings {
     /**
      * <DL>
      * <DT>Description:</DT>
-     * <DD>Getter for the soundFiles property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 4, 2017</DD>
-     * </DL>
-     *
-     * @return the value of soundFiles field
-     */
-    public List<String> getSoundFiles() {
-        return new ArrayList<>(soundFiles);
-    }
-
-    /**
-     * <DL>
-     * <DT>Description:</DT>
      * <DD>Getter for the soundFilesMap property</DD>
      * <DT>Date:</DT>
      * <DD>Sep 18, 2017</DD>
@@ -948,6 +1004,20 @@ public class ConfigurationSettings {
     public int getTolerance() {
         return tolerance;
     }
+
+    //    /**
+    //     * <DL>
+    //     * <DT>Description:</DT>
+    //     * <DD>Getter for the soundFiles property</DD>
+    //     * <DT>Date:</DT>
+    //     * <DD>Sep 4, 2017</DD>
+    //     * </DL>
+    //     *
+    //     * @return the value of soundFiles field
+    //     */
+    //    public List<String> getSoundFiles() {
+    //        return new ArrayList<>(soundFiles);
+    //    }
 
     /**
      * <DL>
@@ -1464,6 +1534,21 @@ public class ConfigurationSettings {
     /**
      * <DL>
      * <DT>Description:</DT>
+     * <DD>Setter for the departedSoundList property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 24, 2017</DD>
+     * </DL>
+     *
+     * @param aDepartedSoundList
+     *            new value for the departedSoundList property
+     */
+    public void setDepartedSoundList(final List<String> aDepartedSoundList) {
+        departedSoundList = aDepartedSoundList;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
      * <DD>A delegate method for the setDeviceConfig method</DD>
      * <DT>Date:</DT>
      * <DD>Sep 16, 2017</DD>
@@ -1474,6 +1559,21 @@ public class ConfigurationSettings {
      */
     public void setDeviceConfig(final String aDeviceConfig) {
         customizable.setDeviceConfig(aDeviceConfig);
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Setter for the deviceTolerance property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 25, 2017</DD>
+     * </DL>
+     *
+     * @param aDeviceTolerance
+     *            new value for the deviceTolerance property
+     */
+    public void setDeviceTolerance(final float aDeviceTolerance) {
+        deviceTolerance = aDeviceTolerance;
     }
 
     /**
@@ -1534,6 +1634,21 @@ public class ConfigurationSettings {
      */
     public void setFiringMode(final FiringMode aFiringMode) {
         firingMode = aFiringMode;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Setter for the idleSoundList property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 24, 2017</DD>
+     * </DL>
+     *
+     * @param aIdleSoundList
+     *            new value for the idleSoundList property
+     */
+    public void setIdleSoundList(final List<String> aIdleSoundList) {
+        idleSoundList = aIdleSoundList;
     }
 
     /**
@@ -1956,20 +2071,20 @@ public class ConfigurationSettings {
         soundEffects = aSoundEffects;
     }
 
-    /**
-     * <DL>
-     * <DT>Description:</DT>
-     * <DD>Setter for the soundFiles property</DD>
-     * <DT>Date:</DT>
-     * <DD>Sep 4, 2017</DD>
-     * </DL>
-     *
-     * @param aSoundFiles
-     *            new value for the soundFiles property
-     */
-    public void setSoundFiles(final List<String> aSoundFiles) {
-        soundFiles = aSoundFiles;
-    }
+    //    /**
+    //     * <DL>
+    //     * <DT>Description:</DT>
+    //     * <DD>Setter for the soundFiles property</DD>
+    //     * <DT>Date:</DT>
+    //     * <DD>Sep 4, 2017</DD>
+    //     * </DL>
+    //     *
+    //     * @param aSoundFiles
+    //     *            new value for the soundFiles property
+    //     */
+    //    public void setSoundFiles(final List<String> aSoundFiles) {
+    //        soundFiles = aSoundFiles;
+    //    }
 
     /**
      * <DL>

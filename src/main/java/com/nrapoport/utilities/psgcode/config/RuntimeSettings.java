@@ -4,6 +4,8 @@
  */
 package com.nrapoport.utilities.psgcode.config;
 
+import java.util.Random;
+
 import org.gamecontrolplus.ControlIO;
 
 import com.nrapoport.utilities.psgcode.PSGProcessingCode;
@@ -68,6 +70,8 @@ public class RuntimeSettings implements ISettingsAware {
     private boolean scan = false;
 
     private volatile ControlIO controlIO; // more stuff for using a joystick or game Controller for input
+
+    private volatile Random random;
 
     /**
      * <DL>
@@ -228,6 +232,20 @@ public class RuntimeSettings implements ISettingsAware {
      */
     public int getPrevTargetY() {
         return prevTargetY;
+    }
+
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Getter for the random property</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 24, 2017</DD>
+     * </DL>
+     * 
+     * @return the value of random field
+     */
+    public Random getRandom() {
+        return random;
     }
 
     /**
@@ -461,6 +479,7 @@ public class RuntimeSettings implements ISettingsAware {
         yPosition = getSettings().getCamHeight() / 2;
         possibleX = getSettings().getCamWidth() / 2;
         possibleY = getSettings().getCamHeight() / 2;
+        random = new Random(getSettings().getParent().millis());
     }
 
     //private int possibleX = camWidth / 2;

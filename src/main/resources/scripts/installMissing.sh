@@ -12,7 +12,7 @@ PLATFORM=`uname -p`
 if [[ "${PLATFORM}" == "x86_64" ]]; then
 	## This will make it work on the 64-bit systems
 	ln -vs /usr/lib/jni/libjinput.so ../lib/libjinput-linux64.so
-	ln -vs /usr/lib/jni/libgluegen-rt.so ../lib/
+	##ln -vs /usr/lib/jni/libgluegen2-rt.so ../lib/
 else
 	ln -vs /usr/lib/jni/libjinput.so ../lib/libjinput-linux.so
 fi

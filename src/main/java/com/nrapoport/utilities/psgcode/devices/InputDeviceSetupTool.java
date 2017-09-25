@@ -4,12 +4,7 @@
  */
 package com.nrapoport.utilities.psgcode.devices;
 
-// import static org.junit.Assert.*;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
@@ -19,8 +14,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.gamecontrolplus.ControlDevice;
@@ -184,6 +177,19 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
     public InputDeviceSetupTool() {
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Calculate DropList length based on the longest text it is to display</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 25, 2017</DD>
+     * </DL>
+     *
+     * @param current
+     * @param newStrLen
+     * @param min
+     * @return
+     */
     protected float calcDropDownLength(final float current, final float newStrLen, final float min) {
         //25 chars per 200 width
         final float perChar = 200 / 25;
@@ -280,6 +286,18 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
         drawBorders(panelMain);
     }
 
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>Create a DropList of all the <code>.cfg</code> config files in the data folder</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 25, 2017</DD>
+     * </DL>
+     *
+     * @param xOffset
+     *            X position for DropList
+     * @return the populated DropList
+     */
     protected GDropList createConfigsDropDown(final float xOffset) {
         //        ControlDevice gpad = controlIO.getMatchedDevice("gamepad_eyes");
         //        if (gpad == null) {
@@ -586,7 +604,23 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
         println("textfield1 - GTextField >> GEvent." + event + " @ " + millis());
     } //_CODE_:textfield1:857853:
 
-    GPanel makeBorder(final PApplet window, final float x, final float y, final float pWidth, final float pHeight) {
+    /**
+     * <DL>
+     * <DT>Description:</DT>
+     * <DD>create a border panel (dark background) width of parent and a height of about 3</DD>
+     * <DT>Date:</DT>
+     * <DD>Sep 25, 2017</DD>
+     * </DL>
+     *
+     * @param window
+     * @param x
+     * @param y
+     * @param pWidth
+     * @param pHeight
+     * @return
+     */
+    protected GPanel makeBorder(final PApplet window, final float x, final float y, final float pWidth,
+        final float pHeight) {
         final GPanel border = new GPanel(window, x, y, pWidth, pHeight, "");
         border.setCollapsible(false);
         border.setDraggable(false);
@@ -681,34 +715,39 @@ public class InputDeviceSetupTool extends PApplet implements IDimensionsAware, I
      */
     private void populateController(final Path aPath) {
 
-        final Path jsonAbsoluteName = aPath.toAbsolutePath();
-        String controllerName = "";
-        final List<ConfigLine> configLines = new ArrayList<>();
-        try (BufferedReader bfr = new BufferedReader(new FileReader(jsonAbsoluteName.toFile()))) {
-            final Stream<String> lines = bfr.lines();
-            final List<String> lineArray = lines.collect(Collectors.toList());
-            int idx = 0;
-            for (final String line : lineArray) {
-                if (idx++ == 0) {
-                    controllerName = line;
-                } else {
-                    configLines.add(new ConfigLine(line));
-                }
+        final Map<String, List<ConfigLine>> configFile = Util.loadDeviceConfig(aPath);
+        final Map.Entry<String, List<ConfigLine>> entry = configFile.entrySet().iterator().next();
+        final String controllerName = entry.getKey();
+        final List<ConfigLine> configLines = entry.getValue();
 
-            }
-        } catch (final FileNotFoundException ex) {
-            final String msg = String.format("Not Found Error reading from file '{}'", jsonAbsoluteName.toString());
-            log.error(msg, ex);
-            final RuntimeException newEx = new RuntimeException(msg, ex);
-            newEx.fillInStackTrace();
-            throw newEx;
-        } catch (final IOException ex) {
-            final String msg = String.format("Error reading from file '{}'", jsonAbsoluteName.toString());
-            log.error(msg, ex);
-            final RuntimeException newEx = new RuntimeException(msg, ex);
-            newEx.fillInStackTrace();
-            throw newEx;
-        }
+        //        final Path jsonAbsoluteName = aPath.toAbsolutePath();
+        //        String controllerName = "";
+        //        final List<ConfigLine> configLines = new ArrayList<>();
+        //        try (BufferedReader bfr = new BufferedReader(new FileReader(jsonAbsoluteName.toFile()))) {
+        //            final Stream<String> lines = bfr.lines();
+        //            final List<String> lineArray = lines.collect(Collectors.toList());
+        //            int idx = 0;
+        //            for (final String line : lineArray) {
+        //                if (idx++ == 0) {
+        //                    controllerName = line;
+        //                } else {
+        //                    configLines.add(new ConfigLine(line));
+        //                }
+        //
+        //            }
+        //        } catch (final FileNotFoundException ex) {
+        //            final String msg = String.format("Not Found Error reading from file '{}'", jsonAbsoluteName.toString());
+        //            log.error(msg, ex);
+        //            final RuntimeException newEx = new RuntimeException(msg, ex);
+        //            newEx.fillInStackTrace();
+        //            throw newEx;
+        //        } catch (final IOException ex) {
+        //            final String msg = String.format("Error reading from file '{}'", jsonAbsoluteName.toString());
+        //            log.error(msg, ex);
+        //            final RuntimeException newEx = new RuntimeException(msg, ex);
+        //            newEx.fillInStackTrace();
+        //            throw newEx;
+        //        }
         if (dropdown_whichDevice.getSelectedText().equalsIgnoreCase(controllerName)) {
             //deviceButtons;
             for (final IDeviceHelper helper : deviceButtons) {
