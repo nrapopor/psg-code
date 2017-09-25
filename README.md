@@ -104,6 +104,7 @@ substituting the current maven version (like `3.5.0`) for `3.3.9`. Just in case 
 ### Get the Code
 
 1.  Checkout and build the code
+    
     ````sh
     [ ! -d ~/projects ] && mkdir ~/projects
     cd ~/projects
