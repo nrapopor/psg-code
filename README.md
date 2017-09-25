@@ -14,8 +14,8 @@
 	- [Controller](#controller)
 	- [Default Settings](#default-settings)
 - 	[How to use](#how-to-use)
-    - [Detail Notes](#detail-notes)
 - 	[Notes on this Project](#notes-on-this-project)
+    - [Detail Notes](#detail-notes)
 - 	[Author and Legal information](#author-and-legal-information)
 	- [Author](#author)
 	- [Copyright](#copyright)
@@ -276,14 +276,15 @@ Select your controller from the device list and map the buttons and the sliders 
   	````   
 
 
-### Detail Notes
-1.	This project is intended to run on RPi 3 leveraging the `armv7l` os build, meaning 32-bit ARM and tested under ARM port of Ubuntu MATE for Raspberry Pi 3.
-1.	TODO add additional notes here 
-
 
 ## Notes on this Project
 This project was created in middle of 2017 and all the references to maven and Java versions reflect that fact and will
 probably get old very quickly
+
+
+### Detail Notes
+1.	This project is intended to run on RPi 3 leveraging the `armv7l` os build, meaning 32-bit ARM and tested under ARM port of Ubuntu MATE for Raspberry Pi 3.
+1.	TODO add additional notes here 
 
 ## Author and Legal information
 

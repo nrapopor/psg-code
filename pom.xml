@@ -246,6 +246,13 @@
 			<groupId>org.jogamp.gluegen</groupId>
 			<artifactId>gluegen-rt</artifactId>
 			<version>${jogl-all.version}</version>
+			<classifier>natives-linux-amd64</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.jogamp.gluegen</groupId>
+			<artifactId>gluegen-rt</artifactId>
+			<version>${jogl-all.version}</version>
+			<classifier>natives-linux-armv6hf</classifier>
 		</dependency>
 	</dependencies>
 </project>
