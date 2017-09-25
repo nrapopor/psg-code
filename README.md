@@ -243,20 +243,24 @@ Here is the [description](src/main/resources/scripts/README.md "src/main/resourc
 ### Controller
 1.	Connect your game controller to the RPi PORT port and run the `InputDeviceSetupTool` to create the device configuration `.cfg` file. 
 Select your controller from the device list and map the buttons and the sliders on your controller to actions.
+
     ````sh
     cd ~/projects/psg-code
     src/main/resources/scripts/launchDeviceTool.sh
     ````     
+
     **Note:**
     >This will have the side effect of creating the `data` directory for the project, creating the default configuration file,
     >and initializing the `deviceConfig` property to the device config file name  
 
 ### Default Settings
 1.	Run the following command to create the default configuration file. (this is only needed if the Controller step was skipped)
+
 	````sh
 	cd ~/projects/psg-code
 	src/main/resources/scripts/launchSettings.sh
 	````   
+
 	**Note:** 
 	>Read the instructions on the [PSG Site](http://psg.rudolphlabs.com/make-your-own/using-the-software "http://psg.rudolphlabs.com/make-your-own/using-the-software") 
 	>on the various features of the software. They are still valid just the configuration settings are now in JSON so hopefully a little easier to read. I've
@@ -264,6 +268,7 @@ Select your controller from the device list and map the buttons and the sliders 
 
 ## How to use
 1.	Run the following command to launch. 
+
   	````sh
   	cd ~/projects/psg-code
   	src/main/resources/scripts/launchPSG.sh
