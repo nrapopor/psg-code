@@ -6,12 +6,25 @@ export VERSION=$3
 export FILE=$4
 export PACKAGING=jar
 export CLASSIFIER=
-[[ "$5" = "sources" ]]       && export CLASSIFIER=-Dclassifier=$5
-[[ "$5" = "javadoc" ]]       && export CLASSIFIER=-Dclassifier=$5
-[[ "$5" = "tests" ]]         && export CLASSIFIER=-Dclassifier=$5
-[[ "$5" = "tests-javadoc" ]] && export CLASSIFIER=-Dclassifier=$5
-[[ "$5" = "pom" ]]           && export PACKAGING=$5
-[[ "$6" = "pom" ]]           && export PACKAGING=$6
+if [[ ! "$5" == "" ]]; then
+	if [[ ! "$5" == "pom" ]] && [[ ! "$5" == "jar" ]];then
+		export CLASSIFIER=-Dclassifier=$5
+	else
+		export PACKAGING=$5
+	fi
+fi 
+if [[ ! "$6" == "" ]]; then
+	export PACKAGING=$6
+fi
+
+##[[ "$5" = "sources" ]]       && export CLASSIFIER=-Dclassifier=$5
+##[[ "$5" = "javadoc" ]]       && export CLASSIFIER=-Dclassifier=$5
+##[[ "$5" = "tests" ]]         && export CLASSIFIER=-Dclassifier=$5
+##[[ "$5" = "tests-javadoc" ]] && export CLASSIFIER=-Dclassifier=$5
+##[[ "$5" = "pom" ]]           && export PACKAGING=$5
+##[[ "$6" = "pom" ]]           && export PACKAGING=$6
+##[[ "$6" != "" ]]             && export PACKAGING=$6
+##[[ "$5" != "" ]]             && export CLASSIFIER=-Dclassifier=$5
 
 mvn deploy:deploy-file -Durl=$REPO_URL \
     -DrepositoryId=$REPO_ID \

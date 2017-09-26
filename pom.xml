@@ -32,6 +32,75 @@
 	</properties>
 	<profiles>
 		<profile>
+			<id>armv7l</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<property>
+					<name>sysType</name>
+					<value>armv7l</value>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.jogamp.jogl.processing</groupId>
+					<artifactId>jogl-all</artifactId>
+					<version>${jogl-all.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.jogamp.gluegen</groupId>
+					<artifactId>gluegen-rt</artifactId>
+					<version>${jogl-all.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.jogamp.jogl.processing</groupId>
+					<artifactId>jogl-all</artifactId>
+					<version>${jogl-all.version}</version>
+					<classifier>natives-linux-armv6hf</classifier>
+				</dependency>
+				<dependency>
+					<groupId>org.jogamp.gluegen</groupId>
+					<artifactId>gluegen-rt</artifactId>
+					<version>${jogl-all.version}</version>
+					<classifier>natives-linux-armv6hf</classifier>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>x86_64</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<property>
+					<name>sysType</name>
+					<value>x86_64</value>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.jogamp.jogl</groupId>
+					<artifactId>jogl-all</artifactId>
+					<version>${jogl-all.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.jogamp.gluegen</groupId>
+					<artifactId>gluegen-rt</artifactId>
+					<version>${jogl-all.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.jogamp.jogl</groupId>
+					<artifactId>jogl-all</artifactId>
+					<version>${jogl-all.version}</version>
+					<classifier>natives-linux-amd64</classifier>
+				</dependency>
+				<dependency>
+					<groupId>org.jogamp.gluegen</groupId>
+					<artifactId>gluegen-rt</artifactId>
+					<version>${jogl-all.version}</version>
+					<classifier>natives-linux-amd64</classifier>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
 			<id>PSG</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
@@ -42,7 +111,6 @@
 			</activation>
 			<properties>
 				<main.class>com.nrapoport.utilities.psgcode.PSGProcessingCode</main.class>
-				<library.path></library.path>
 			</properties>
 		</profile>
 		<profile>
@@ -237,22 +305,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>org.jogamp.jogl</groupId>
-			<artifactId>jogl-all</artifactId>
-			<version>${jogl-all.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jogamp.gluegen</groupId>
-			<artifactId>gluegen-rt</artifactId>
-			<version>${jogl-all.version}</version>
-			<classifier>natives-linux-amd64</classifier>
-		</dependency>
-		<dependency>
-			<groupId>org.jogamp.gluegen</groupId>
-			<artifactId>gluegen-rt</artifactId>
-			<version>${jogl-all.version}</version>
-			<classifier>natives-linux-armv6hf</classifier>
-		</dependency>
+
 	</dependencies>
 </project>

@@ -10,10 +10,10 @@ PLATFORM=`uname -p`
 if [[ "${PLATFORM}" == "x86_64" ]]; then
 	EXTRA_LIB_PATH="/usr/lib/x86_64-linux-gnu:/home/ubuntu/sketchbook/libraries/glvideo/library/linux64"
 else
-	EXTRA_LIB_PATH="/usr/lib/usr/lib/arm-linux-gnueabihf:/home/ubuntu/sketchbook/libraries/glvideo/library/linux-armv6hf"
+	EXTRA_LIB_PATH="/home/ubuntu/sketchbook/libraries/glvideo/library/linux-armv6hf"
 fi
-LIB_PATH="src/main/resources/lib:/usr/lib/jni:${EXTRA_LIB_PATH}"
+LIB_PATH="${EXTRA_LIB_PATH}:src/main/resources/lib"
 	
 #-Djogamp.debug.JNILibLoader=true
-
-mvn exec:exec -DexecType=PSG -Dlibrary.path=-Djava.library.path=${LIB_PATH}
+echo LIB_PATH=${LIB_PATH}
+mvn -e exec:exec -DexecType=PSG -DsysType=${PLATFORM} -Dlibrary.path=-Djava.library.path=${LIB_PATH}
