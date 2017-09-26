@@ -4,6 +4,7 @@
  */
 package com.nrapoport.utilities.psgcode;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import blobDetection.Blob;
 import blobDetection.BlobDetection;
 // import JMyron.JMyron;
 import gohai.glvideo.GLCapture;
+import gohai.glvideo.GLVideo;
 import processing.core.PApplet;
 import processing.serial.Serial;
 
@@ -1136,6 +1138,13 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
         //  size(camWidth, camHeight, OPENGL);
         //sounds.
         getSounds().playSound("deploying"); //18
+
+        final String jar = GLVideo.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        log.debug("String jar = {}", jar);
+        final String nativeLib = jar.substring(0, jar.lastIndexOf(File.separatorChar));
+        log.debug("String nativeLib = {}", nativeLib);
+        final File symlink = new File(nativeLib + "/linux-armv6hf/libGLESv2.so");
+        log.debug("File symlink = {}", symlink);
 
         //        minim = new Minim(this);
         //        loadSounds();
