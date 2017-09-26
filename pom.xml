@@ -29,6 +29,7 @@
 		<gamecontrolplus.version>1.2.1</gamecontrolplus.version>
 		<minim.version>2.2.2</minim.version>
 		<jogl-all.version>2.3.2</jogl-all.version>
+		<vm.args>-Xms512m</vm.args>
 	</properties>
 	<profiles>
 		<profile>
@@ -185,6 +186,7 @@
 				<configuration>
 					<executable>java</executable>
 					<arguments>
+						<argument>${vm.args}</argument>
 						<argument>${library.path}</argument>
 						<argument>-classpath</argument>
 						<!-- automatically creates the classpath using all project dependencies, 

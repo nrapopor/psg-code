@@ -5,4 +5,4 @@ if [[ "${EXECDIR}" == "." ]]; then
 	cd ../../../../	
 fi	
 . src/main/resources/scripts/setenv.sh
-mvn -X exec:exec -DexecType=device
+mvn -e exec:exec -DexecType=device

@@ -18,6 +18,12 @@ else
 	./mvnInstallFile.sh org.jogamp.jogl.processing 		jogl-all     2.3.2  /usr/local/lib/processing/core/library/jogl-all-natives-linux-armv6hf.jar natives-linux-armv6hf
 	./mvnInstallFile.sh org.jogamp.gluegen.processing 	gluegen-rt   2.3.2  /usr/local/lib/processing/core/library/gluegen-rt.jar
 	./mvnInstallFile.sh org.jogamp.gluegen.processing 	gluegen-rt   2.3.2  /usr/local/lib/processing/core/library/gluegen-rt-natives-linux-armv6hf.jar natives-linux-armv6hf
+	if [ ! -d /home/ubuntu/.m2/repository/gohai/glvideo/glvideo/1.2.3/ ]; then
+		mkdir -p /home/ubuntu/.m2/repository/gohai/glvideo/glvideo/1.2.3/
+	fi
+	if [ ! -L /home/ubuntu/.m2/repository/gohai/glvideo/glvideo/1.2.3/linux-armv6hf ]; then
+		ln -s /home/ubuntu/sketchbook/libraries/glvideo/library/linux-armv6hf/ /home/ubuntu/.m2/repository/gohai/glvideo/glvideo/1.2.3/
+	fi
 	ln -vs /usr/lib/jni/libjinput.so ../lib/libjinput-linux.so
 fi
 
