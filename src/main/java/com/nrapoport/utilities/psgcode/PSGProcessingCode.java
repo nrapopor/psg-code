@@ -356,7 +356,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
             getRuntimeSettings().setDisplayX(camWidth / 2);
             getRuntimeSettings().setDisplayY(camHeight);
         }
-        lastBackground = rawBackground;
+        //lastBackground = rawBackground;
         return true;
     }
 
@@ -698,12 +698,13 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
                 final String msg = String.format(msgFmt, "SPACE", "Toggle Manual and Autonomous modes") //$NON-NLS-1$ //$NON-NLS-2$
                     + String.format(msgFmt, "a", "set min X") //$NON-NLS-1$ //$NON-NLS-2$
                     + String.format(msgFmt, "b", "Reset retina image to curre3nt background") //$NON-NLS-1$ //$NON-NLS-2$
-                    + String.format(msgFmt, "d", "set min X") //$NON-NLS-1$ //$NON-NLS-2$
+                    + String.format(msgFmt, "d", "set max X") //$NON-NLS-1$ //$NON-NLS-2$
                     + String.format(msgFmt, "h", "print key help") //$NON-NLS-1$ //$NON-NLS-2$
                     + String.format(msgFmt, "H", "print current state") //$NON-NLS-1$ //$NON-NLS-2$
                     + String.format(msgFmt, "p", "Play random sound") //$NON-NLS-1$ //$NON-NLS-2$
                     + String.format(msgFmt, "r", "reset calibration to defaults") //$NON-NLS-1$ //$NON-NLS-2$
-                    + String.format(msgFmt, "s", "set min y") + String.format(msgFmt, "w", "set max y") //$NON-NLS-1$ //$NON-NLS-2$
+                    + String.format(msgFmt, "s", "set min Y") //$NON-NLS-1$ //$NON-NLS-2$
+                    + String.format(msgFmt, "w", "set max Y") //$NON-NLS-1$ //$NON-NLS-2$
                     + String.format(msgFmt, "SHIFT", "Toggle the use of arrow keys for aiming"); //$NON-NLS-1$ //$NON-NLS-2$
                 log.info("\nAvalable Keys : \n{}", msg);
                 getSettings().setxMax(targetX);
@@ -920,7 +921,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
             getRuntimeSettings().setTargetY(Math.round(constrain((camHeight - displayY) / yRatio + yMin, 0, 180))); //
 
         }
-        lastBackground = rawBackground;
+        //lastBackground = rawBackground;
         return true;
     }
 
