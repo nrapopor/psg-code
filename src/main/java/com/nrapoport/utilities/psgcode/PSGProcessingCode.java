@@ -1085,6 +1085,11 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
             arduinoPort.clear(); // empty buffer(incase of trash)
             arduinoPort.bufferUntil('T'); //buffer until there is a 'T'
             delay(100);
+            //try {
+            //        Thread.sleep(100);
+            //} catch (InterruptedException ex) {
+            //    // nothing
+            //}
             //            millisStart = millis();
             //            while (millis() - millisStart < 100) {
             //                ; //collect some chars
@@ -1099,7 +1104,7 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
             } else {
                 arduinoPort.stop(); //if no 'T', stop port
             }
-            if (i == len - 1) {
+            if (i == 0) {
                 getSettings().setRunWithoutArduino(true);
                 log.info(
                     "no Arduino detected, (I found some ports... did you load the sketch?) Will run without Arduino. Cheers");
@@ -1110,6 +1115,11 @@ public class PSGProcessingCode extends PApplet implements ISettingsAware, IRunti
             getRuntimeSettings().setSerPortUsed(currentPort);
             getRuntimeSettings().setArduinoPort(arduinoPort); // I clean up in the setter
             delay(5000); //TODO Why is there a 5 second pause here?
+            //try {
+            //        Thread.sleep(5000);
+            //} catch (InterruptedException ex) {
+            //    // nothing
+            //}
             //millisStart = millis();
             //while (millis() - millisStart < 5000) {
             //  ;
